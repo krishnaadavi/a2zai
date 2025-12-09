@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Newspaper, Clock, ExternalLink, Loader2 } from 'lucide-react';
+import { Newspaper, Clock, ExternalLink, Loader2, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 
 interface AINewsItem {
@@ -17,19 +17,44 @@ export default function NewsPage() {
     const [news, setNews] = useState<AINewsItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [debugInfo, setDebugInfo] = useState<string>('');
 
     useEffect(() => {
         async function fetchNews() {
             try {
-                const res = await fetch('/api/news?limit=20', { cache: 'no-store' });
+                // Use relative URL - browser will handle the full URL
+                const apiUrl = '/api/news?limit=20';
+                setDebugInfo(`Fetching from: ${window.location.origin}${apiUrl}`);
+
+                const res = await fetch(apiUrl, {
+                    cache: 'no-store',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
+
+                setDebugInfo(prev => prev + ` | Status: ${res.status}`);
+
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+
                 const data = await res.json();
-                if (data.success) {
+                setDebugInfo(prev => prev + ` | Items: ${data.data?.length || 0}`);
+
+                if (data.success && data.data) {
                     setNews(data.data);
+                    // Check if it's mock data
+                    if (data.data[0]?.url?.includes('example.com')) {
+                        setDebugInfo(prev => prev + ' | WARNING: Mock data detected!');
+                    }
                 } else {
-                    setError('Failed to load news');
+                    setError('API returned unsuccessful response');
                 }
             } catch (err) {
-                setError('Failed to load news');
+                const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+                setError(`Failed to load news: ${errorMsg}`);
+                setDebugInfo(prev => prev + ` | ERROR: ${errorMsg}`);
             } finally {
                 setLoading(false);
             }
@@ -59,8 +84,15 @@ export default function NewsPage() {
                         model releases, and industry updates.
                     </p>
 
+                    {/* Debug Info - remove in production */}
+                    {debugInfo && (
+                        <div className="mt-4 p-2 bg-gray-800 rounded text-xs text-gray-400 font-mono">
+                            Debug: {debugInfo}
+                        </div>
+                    )}
+
                     {/* Category Pills */}
-                    {!loading && (
+                    {!loading && news.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-6">
                             {Object.entries(categories).map(([category, count]) => (
                                 <span
@@ -85,7 +117,9 @@ export default function NewsPage() {
                         </div>
                     ) : error ? (
                         <div className="text-center py-20">
+                            <AlertTriangle className="h-12 w-12 text-red-400 mx-auto mb-4" />
                             <p className="text-red-400">{error}</p>
+                            <p className="text-gray-500 text-sm mt-2">Debug: {debugInfo}</p>
                         </div>
                     ) : (
                         <>
