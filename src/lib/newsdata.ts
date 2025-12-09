@@ -76,28 +76,35 @@ export async function fetchAINews(limit: number = 10): Promise<AINewsItem[]> {
     const apiKey = process.env.NEWSDATA_API_KEY;
 
     if (!apiKey) {
-        console.warn('NEWSDATA_API_KEY not set, returning mock data');
+        console.warn('[newsdata] NEWSDATA_API_KEY not set, returning mock data');
         return getMockNews();
     }
+
+    console.log(`[newsdata] API key found, fetching ${limit} articles...`);
 
     try {
         // Search for AI-related news
         const query = encodeURIComponent('artificial intelligence OR machine learning OR LLM OR GPT OR AI');
         const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=${query}&language=en&category=technology,science&size=${limit}`;
 
+        // IMPORTANT: No caching - always fetch fresh data
         const response = await fetch(url, {
-            next: { revalidate: 3600 }, // Cache for 1 hour
+            cache: 'no-store', // Disable all caching
         });
 
+        console.log(`[newsdata] API response status: ${response.status}`);
+
         if (!response.ok) {
-            console.error('NewsData API error:', response.status);
+            console.error(`[newsdata] API HTTP error: ${response.status} ${response.statusText}`);
             return getMockNews();
         }
 
         const data: NewsDataResponse = await response.json();
 
+        console.log(`[newsdata] API status: ${data.status}, results: ${data.results?.length || 0}`);
+
         if (data.status !== 'success' || !data.results) {
-            console.error('NewsData API returned error status');
+            console.error('[newsdata] API returned non-success status:', data);
             return getMockNews();
         }
 
@@ -113,13 +120,14 @@ export async function fetchAINews(limit: number = 10): Promise<AINewsItem[]> {
             imageUrl: article.image_url || undefined,
         }));
     } catch (error) {
-        console.error('Error fetching AI news:', error);
+        console.error('[newsdata] Fetch error:', error);
         return getMockNews();
     }
 }
 
 // Mock data for development / fallback
 function getMockNews(): AINewsItem[] {
+    console.warn('[newsdata] Returning mock data');
     return [
         {
             id: '1',
