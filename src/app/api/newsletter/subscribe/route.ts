@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { Resend } from 'resend';
 import { generateWelcomeEmailHtml } from '@/lib/email-templates';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 // Test email exception for template testing
 const TEST_EMAIL = 'krishna.adavi@gmail.com';
@@ -63,14 +63,17 @@ export async function POST(request: Request) {
         try {
             const html = generateWelcomeEmailHtml(dailyDigest, weeklyDigest);
 
-            await resend.emails.send({
-                from: 'AI on AI <hello@aionai.dev>',
-                to: email,
-                subject: '🧠 Welcome to AI on AI!',
-                html,
-            });
-
-            console.log(`Welcome email sent to ${email}`);
+            if (resend) {
+                await resend.emails.send({
+                    from: 'AI on AI <hello@aionai.dev>',
+                    to: email,
+                    subject: '🧠 Welcome to AI on AI!',
+                    html,
+                });
+                console.log(`Welcome email sent to ${email}`);
+            } else {
+                console.log(`[Dry run] Would send welcome email to ${email}`);
+            }
         } catch (emailError) {
             console.error('Failed to send welcome email:', emailError);
             // Don't fail the subscription if email fails

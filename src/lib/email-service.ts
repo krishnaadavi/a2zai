@@ -5,7 +5,7 @@ import {
     generateDailyDigestSubject
 } from '@/lib/email-templates';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 interface Story {
     title: string;
@@ -62,8 +62,14 @@ export async function sendDailyDigestToSubscribers() {
     for (let i = 0; i < subscribers.length; i += batchSize) {
         const batch = subscribers.slice(i, i + batchSize);
 
-        const emailPromises = batch.map(async (subscriber) => {
+        const emailPromises = batch.map(async (subscriber: { email: string }) => {
             const html = generateDailyDigestHtml(stories, models, subscriber.email);
+
+            if (!resend) {
+                console.log(`[Dry run] Would send email to ${subscriber.email}`);
+                sentCount++;
+                return;
+            }
 
             try {
                 await resend.emails.send({
