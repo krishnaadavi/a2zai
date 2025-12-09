@@ -73,7 +73,7 @@ export async function sendDailyDigestToSubscribers() {
 
             try {
                 await resend.emails.send({
-                    from: 'AI on AI <digest@aionai.dev>',
+                    from: 'A2Z AI <digest@a2zai.ai>',
                     to: subscriber.email,
                     subject,
                     html,

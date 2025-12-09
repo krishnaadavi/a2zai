@@ -52,7 +52,7 @@ export default function AppHeader() {
                         <div className="bg-gradient-to-br from-purple-500 to-cyan-500 p-1.5 rounded-lg">
                             <Brain className="h-5 w-5 text-white" />
                         </div>
-                        <span className="font-bold text-lg text-white hidden sm:block">AI on AI</span>
+                        <span className="font-bold text-lg text-white hidden sm:block">A2Z AI</span>
                     </Link>
 
                     {/* Desktop Nav */}
@@ -64,8 +64,8 @@ export default function AppHeader() {
                                     key={link.href}
                                     href={link.href}
                                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                                            ? 'bg-purple-600 text-white'
-                                            : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                                        ? 'bg-purple-600 text-white'
+                                        : 'text-gray-300 hover:text-white hover:bg-gray-800'
                                         }`}
                                 >
                                     <link.icon className="h-4 w-4" />
@@ -98,7 +98,7 @@ export default function AppHeader() {
                                 <div className="bg-gradient-to-br from-purple-500 to-cyan-500 p-1.5 rounded-lg">
                                     <Brain className="h-5 w-5 text-white" />
                                 </div>
-                                <span className="font-bold text-lg text-white">AI on AI</span>
+                                <span className="font-bold text-lg text-white">A2Z AI</span>
                             </Link>
                             <button
                                 onClick={() => setMobileMenuOpen(false)}
@@ -115,8 +115,8 @@ export default function AppHeader() {
                                         key={link.href}
                                         href={link.href}
                                         className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
-                                                ? 'bg-purple-600 text-white'
-                                                : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                                            ? 'bg-purple-600 text-white'
+                                            : 'text-gray-300 hover:text-white hover:bg-gray-800'
                                             }`}
                                     >
                                         <link.icon className="h-5 w-5" />

@@ -29,10 +29,10 @@ export default function Footer() {
                             <div className="bg-gradient-to-br from-purple-500 to-cyan-500 p-1.5 rounded-lg">
                                 <Brain className="h-5 w-5 text-white" />
                             </div>
-                            <span className="font-bold text-xl">AI on AI</span>
+                            <span className="font-bold text-xl">A2Z AI</span>
                         </Link>
                         <p className="text-gray-500 text-sm max-w-md mb-4">
-                            Stay AI-current in 5 minutes a day. Byte-sized AI news, model updates, and learning resources.
+                            Your A-to-Z guide to AI. Stay current in 5 minutes a day.
                         </p>
                         {/* Social Links */}
                         <div className="flex gap-4">
@@ -46,7 +46,7 @@ export default function Footer() {
                                 <Twitter className="h-5 w-5" />
                             </a>
                             <a
-                                href="mailto:hello@aionai.dev"
+                                href="mailto:hello@a2zai.ai"
                                 className="text-gray-500 hover:text-purple-400 transition-colors"
                                 aria-label="Email us"
                             >
@@ -94,7 +94,7 @@ export default function Footer() {
                 <div className="border-t border-gray-800 mt-8 pt-8">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-gray-600 text-sm">
-                            © {currentYear} AI on AI. All rights reserved.
+                            © {currentYear} A2Z AI. All rights reserved.
                         </p>
                         <p className="text-gray-600 text-xs text-center md:text-right">
                             Curated AI news, research, and insights.

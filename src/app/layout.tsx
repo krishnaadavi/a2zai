@@ -7,34 +7,34 @@ import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AI on AI | Stay AI-current in 5 minutes",
-  description: "Byte-sized AI news, model updates, and learning resources. Stay current with the latest in artificial intelligence, machine learning, and LLMs.",
-  keywords: "AI news, artificial intelligence, machine learning, LLM, GPT, Claude, Gemini, AI models, AI research",
-  authors: [{ name: "AI on AI" }],
-  creator: "AI on AI",
-  metadataBase: new URL('https://aionai.dev'),
+  title: "A2Z AI | Your A-to-Z Guide to AI",
+  description: "Your A-to-Z guide to AI. Byte-sized AI news, model updates, and learning resources. Stay current with artificial intelligence in 5 minutes a day.",
+  keywords: "AI news, artificial intelligence, machine learning, LLM, GPT, Claude, Gemini, AI models, AI research, A2Z AI",
+  authors: [{ name: "A2Z AI" }],
+  creator: "A2Z AI",
+  metadataBase: new URL('https://a2zai.ai'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://aionai.dev',
-    siteName: 'AI on AI',
-    title: 'AI on AI | Stay AI-current in 5 minutes',
-    description: 'Byte-sized AI news, model updates, and learning resources.',
+    url: 'https://a2zai.ai',
+    siteName: 'A2Z AI',
+    title: 'A2Z AI | Your A-to-Z Guide to AI',
+    description: 'Your A-to-Z guide to AI. Stay current in 5 minutes a day.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'AI on AI - Your daily AI briefing',
+        alt: 'A2Z AI - Your daily AI briefing',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI on AI | Stay AI-current in 5 minutes',
-    description: 'Byte-sized AI news, model updates, and learning resources.',
+    title: 'A2Z AI | Your A-to-Z Guide to AI',
+    description: 'Your A-to-Z guide to AI. Stay current in 5 minutes a day.',
     images: ['/og-image.png'],
-    creator: '@aionai',
+    creator: '@a2zai',
   },
 };
 

@@ -65,9 +65,9 @@ export async function POST(request: Request) {
 
             if (resend) {
                 await resend.emails.send({
-                    from: 'AI on AI <hello@aionai.dev>',
+                    from: 'A2Z AI <hello@a2zai.ai>',
                     to: email,
-                    subject: '🧠 Welcome to AI on AI!',
+                    subject: '🧠 Welcome to A2Z AI!',
                     html,
                 });
                 console.log(`Welcome email sent to ${email}`);

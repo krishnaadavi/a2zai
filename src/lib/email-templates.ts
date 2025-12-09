@@ -1,4 +1,4 @@
-// AI on AI - Email Templates
+// A2Z AI - Email Templates
 // Adapted from MomentumTrader
 
 const STYLES = `
@@ -18,51 +18,51 @@ const STYLES = `
 `;
 
 interface Story {
-    title: string;
-    source: string;
-    category: string;
-    readTime: string;
-    url?: string;
+  title: string;
+  source: string;
+  category: string;
+  readTime: string;
+  url?: string;
 }
 
 interface Model {
-    name: string;
-    provider: string;
-    trend: string;
+  name: string;
+  provider: string;
+  trend: string;
 }
 
 export function generateDailyDigestHtml(
-    stories: Story[],
-    models: Model[],
-    email?: string
+  stories: Story[],
+  models: Model[],
+  email?: string
 ): string {
-    const storiesHtml = stories
-        .slice(0, 5)
-        .map((story, idx) => `
+  const storiesHtml = stories
+    .slice(0, 5)
+    .map((story, idx) => `
       <div class="story-card">
         <span class="category-tag">${story.category}</span>
         <h3 class="story-title">${idx + 1}. ${story.title}</h3>
         <p class="story-meta">${story.source} • ${story.readTime} read</p>
       </div>
     `)
-        .join('');
+    .join('');
 
-    const modelsHtml = models
-        .slice(0, 3)
-        .map(model => `
+  const modelsHtml = models
+    .slice(0, 3)
+    .map(model => `
       <div style="display: inline-block; background-color: #334155; border-radius: 8px; padding: 12px 16px; margin: 4px;">
         <strong style="color: white;">${model.name}</strong>
         <span style="color: #94a3b8; font-size: 12px;"> ${model.provider}</span>
         <span style="color: #22c55e; font-size: 12px; margin-left: 8px;">${model.trend}</span>
       </div>
     `)
-        .join('');
+    .join('');
 
-    const unsubscribeUrl = email
-        ? `https://aionai.dev/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}`
-        : 'https://aionai.dev/api/newsletter/unsubscribe';
+  const unsubscribeUrl = email
+    ? `https://a2zai.ai/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}`
+    : 'https://a2zai.ai/api/newsletter/unsubscribe';
 
-    return `
+  return `
     <!DOCTYPE html>
     <html>
       <head>
@@ -73,12 +73,12 @@ export function generateDailyDigestHtml(
       <body>
         <div class="container">
           <div class="header">
-            <h1>🧠 AI on AI Daily</h1>
+            <h1>🧠 A2Z AI Daily</h1>
             <p>Your 5-minute AI briefing</p>
           </div>
           
           <div style="text-align: center; padding: 10px; background: #0f172a; border-bottom: 1px solid #334155;">
-            <a href="https://aionai.dev/updates" style="color: #7c3aed; font-size: 12px; text-decoration: none;">📱 Open in browser for full experience →</a>
+            <a href="https://a2zai.ai/updates" style="color: #7c3aed; font-size: 12px; text-decoration: none;">📱 Open in browser for full experience →</a>
           </div>
           
           <div class="content">
@@ -91,14 +91,14 @@ export function generateDailyDigestHtml(
             </div>
             
             <div style="text-align: center; margin-top: 32px;">
-              <a href="https://aionai.dev" class="cta-button">Explore More →</a>
+              <a href="https://a2zai.ai" class="cta-button">Explore More →</a>
             </div>
           </div>
           
           <div class="footer">
-            <p>You're receiving this because you subscribed to AI on AI daily digest.</p>
-            <p><a href="${unsubscribeUrl}">Unsubscribe</a> | <a href="https://aionai.dev">Visit Website</a></p>
-            <p>© ${new Date().getFullYear()} AI on AI. All rights reserved.</p>
+            <p>You're receiving this because you subscribed to A2Z AI daily digest.</p>
+            <p><a href="${unsubscribeUrl}">Unsubscribe</a> | <a href="https://a2zai.ai">Visit Website</a></p>
+            <p>© ${new Date().getFullYear()} A2Z AI. All rights reserved.</p>
           </div>
         </div>
       </body>
@@ -107,7 +107,7 @@ export function generateDailyDigestHtml(
 }
 
 export function generateWelcomeEmailHtml(dailyDigest: boolean, weeklyDigest: boolean): string {
-    return `
+  return `
     <!DOCTYPE html>
     <html>
       <head>
@@ -118,12 +118,12 @@ export function generateWelcomeEmailHtml(dailyDigest: boolean, weeklyDigest: boo
       <body>
         <div class="container">
           <div class="header">
-            <h1>🎉 Welcome to AI on AI!</h1>
+            <h1>🎉 Welcome to A2Z AI!</h1>
             <p>Your subscription is confirmed</p>
           </div>
           
           <div style="text-align: center; padding: 10px; background: #0f172a; border-bottom: 1px solid #334155;">
-            <a href="https://aionai.dev" style="color: #7c3aed; font-size: 12px; text-decoration: none;">📱 Open in browser for full experience →</a>
+            <a href="https://a2zai.ai" style="color: #7c3aed; font-size: 12px; text-decoration: none;">📱 Open in browser for full experience →</a>
           </div>
           
           <div class="content">
@@ -160,12 +160,12 @@ export function generateWelcomeEmailHtml(dailyDigest: boolean, weeklyDigest: boo
             </div>
             
             <div style="text-align: center; margin-top: 32px;">
-              <a href="https://aionai.dev" class="cta-button">Explore AI on AI →</a>
+              <a href="https://a2zai.ai" class="cta-button">Explore A2Z AI →</a>
             </div>
           </div>
           
           <div class="footer">
-            <p>© ${new Date().getFullYear()} AI on AI. All rights reserved.</p>
+            <p>© ${new Date().getFullYear()} A2Z AI. All rights reserved.</p>
           </div>
         </div>
       </body>
@@ -174,13 +174,13 @@ export function generateWelcomeEmailHtml(dailyDigest: boolean, weeklyDigest: boo
 }
 
 export function generateDailyDigestSubject(topStory?: string): string {
-    const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-    if (topStory) {
-        // Truncate at 50 chars
-        const truncated = topStory.length > 50 ? topStory.substring(0, 47) + '...' : topStory;
-        return `🧠 ${truncated} | AI Daily ${today}`;
-    }
+  if (topStory) {
+    // Truncate at 50 chars
+    const truncated = topStory.length > 50 ? topStory.substring(0, 47) + '...' : topStory;
+    return `🧠 ${truncated} | AI Daily ${today}`;
+  }
 
-    return `🧠 Your AI Briefing | ${today}`;
+  return `🧠 Your AI Briefing | ${today}`;
 }

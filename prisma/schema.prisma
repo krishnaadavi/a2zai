@@ -1,4 +1,4 @@
-// AI on AI - Prisma Schema
+// A2Z AI - Prisma Schema
 // Adapted from MomentumTrader
 
 generator client {
@@ -64,7 +64,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// AI on AI Models
+// A2Z AI Models
 
 // Newsletter subscribers
 model NewsletterSubscriber {
