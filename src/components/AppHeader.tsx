@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Brain, Zap, BookOpen, Newspaper, Sparkles, Menu, X } from 'lucide-react';
+import { Brain, Zap, BookOpen, Newspaper, Sparkles, Menu, X, Building2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export default function AppHeader() {
@@ -28,9 +28,10 @@ export default function AppHeader() {
 
     const navLinks = [
         { href: '/', label: 'AI Pulse', icon: Zap },
+        { href: '/news', label: 'News', icon: Newspaper },
         { href: '/models', label: 'Models', icon: Brain },
         { href: '/research', label: 'Research', icon: BookOpen },
-        { href: '/news', label: 'News', icon: Newspaper },
+        { href: '/companies', label: 'Companies', icon: Building2 },
     ];
 
     return (

@@ -9,9 +9,10 @@ export default function Footer() {
     const footerLinks = {
         explore: [
             { label: 'AI Pulse', href: '/' },
+            { label: 'News', href: '/news' },
             { label: 'Models', href: '/models' },
             { label: 'Research', href: '/research' },
-            { label: 'News', href: '/news' },
+            { label: 'Companies', href: '/companies' },
         ],
         resources: [
             { label: 'Newsletter', href: '#' },
