@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     description: 'Track AI industry leaders: NVIDIA, Meta, Google, OpenAI, Anthropic, Microsoft and more.',
 };
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export default async function CompaniesPage() {
     const [stocks, companyNews] = await Promise.all([

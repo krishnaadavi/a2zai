@@ -9,7 +9,9 @@ export const metadata: Metadata = {
     description: 'Latest artificial intelligence news from top sources. Stay current with AI developments, model releases, and industry updates.',
 };
 
-export const revalidate = 1800; // Revalidate every 30 minutes
+// Force dynamic rendering - no caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function NewsPage() {
     const news = await fetchAINews(20);

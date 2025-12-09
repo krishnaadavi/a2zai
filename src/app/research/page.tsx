@@ -7,7 +7,8 @@ export const metadata: Metadata = {
     description: 'Latest AI and machine learning research papers from arXiv. Stay up to date with cutting-edge research.',
 };
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export default async function ResearchPage() {
     const papers = await fetchLatestPapers(15);

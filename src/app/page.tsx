@@ -10,7 +10,9 @@ import CompanyTicker from '@/components/CompanyTicker';
 import CompanySpotlight from '@/components/CompanySpotlight';
 import AIStockPulse from '@/components/AIStockPulse';
 
-export const revalidate = 3600; // Revalidate every hour
+// Force dynamic rendering - always fetch fresh data
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function Home() {
   // Fetch all data server-side

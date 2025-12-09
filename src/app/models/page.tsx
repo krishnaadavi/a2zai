@@ -7,7 +7,8 @@ export const metadata: Metadata = {
     description: 'Discover trending AI models from HuggingFace. Browse LLMs, image models, and more.',
 };
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export default async function ModelsPage() {
     const models = await fetchTrendingModels(20);
