@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import CommentSection from '@/components/CommentSection';
 import { ShareButtons } from '@/components/ShareButton';
+import ReadTracker from '@/components/ReadTracker';
 
 export const dynamic = 'force-dynamic';
 
@@ -56,6 +57,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gray-950">
+      <ReadTracker articleId={term.slug} articleType="glossary" />
       {/* Header */}
       <section className="bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 py-12 px-4">
         <div className="max-w-3xl mx-auto">
