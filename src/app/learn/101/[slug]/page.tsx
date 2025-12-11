@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import CommentSection from '@/components/CommentSection';
+import { ShareButtons } from '@/components/ShareButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -100,9 +101,15 @@ export default async function ExplainerPage({ params }: Props) {
               {explainer.subtitle && (
                 <p className="text-gray-300 text-lg mt-2">{explainer.subtitle}</p>
               )}
-              <div className="flex items-center gap-2 mt-4 text-sm text-gray-500">
-                <Clock className="h-4 w-4" />
-                <span>{explainer.readTime} min read</span>
+              <div className="flex items-center gap-4 mt-4">
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Clock className="h-4 w-4" />
+                  <span>{explainer.readTime} min read</span>
+                </div>
+                <ShareButtons
+                  url={`https://a2zai.ai/learn/101/${explainer.slug}`}
+                  title={`${explainer.title} | AI 101 | A2Z AI`}
+                />
               </div>
             </div>
           </div>

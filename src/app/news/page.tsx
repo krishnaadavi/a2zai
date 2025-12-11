@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Newspaper, Clock, ExternalLink, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import NewsFilters from '@/components/NewsFilters';
 import { NewsGridSkeleton } from '@/components/Skeleton';
 import ErrorState, { EmptyFilterState } from '@/components/ErrorState';
@@ -238,9 +239,13 @@ export default function NewsPage() {
                   >
                     {/* Category */}
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-xs font-medium">
+                      <Link
+                        href={`/news/category/${encodeURIComponent(item.category)}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-xs font-medium hover:bg-purple-500/30 transition-colors"
+                      >
                         {item.category}
-                      </span>
+                      </Link>
                     </div>
 
                     {/* Title */}
