@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { BookOpen, Search, ArrowLeft } from 'lucide-react';
+import { BookOpen, Search, ArrowLeft, X } from 'lucide-react';
 import Link from 'next/link';
+import { GlossaryCardSkeleton } from '@/components/Skeleton';
+import ErrorState from '@/components/ErrorState';
 
 type GlossaryTerm = {
   slug: string;
@@ -22,24 +24,31 @@ const CATEGORIES = [
 export default function GlossaryPage() {
   const [terms, setTerms] = useState<GlossaryTerm[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchTerms() {
-      try {
-        const res = await fetch('/api/glossary');
-        const data = await res.json();
-        if (data.success) {
-          setTerms(data.data);
-        }
-      } catch (error) {
-        console.error('Failed to fetch glossary:', error);
-      } finally {
-        setLoading(false);
+  const fetchTerms = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/glossary');
+      const data = await res.json();
+      if (data.success) {
+        setTerms(data.data);
+      } else {
+        setError('Failed to load glossary');
       }
+    } catch (err) {
+      setError('Failed to load glossary');
+      console.error('Failed to fetch glossary:', err);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
     fetchTerms();
   }, []);
 
@@ -116,8 +125,16 @@ export default function GlossaryPage() {
               placeholder="Search terms..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-gray-900 border border-gray-800 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full pl-12 pr-10 py-3 rounded-xl bg-gray-900 border border-gray-800 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
             />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            )}
           </div>
 
           {/* Category Filters */}
@@ -174,13 +191,16 @@ export default function GlossaryPage() {
         <div className="max-w-4xl mx-auto">
           {loading ? (
             <div className="space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="animate-pulse p-4 rounded-xl bg-gray-900">
-                  <div className="h-5 w-48 bg-gray-800 rounded mb-2" />
-                  <div className="h-4 w-full bg-gray-800 rounded" />
-                </div>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <GlossaryCardSkeleton key={i} />
               ))}
             </div>
+          ) : error ? (
+            <ErrorState
+              title="Failed to load glossary"
+              message={error}
+              onRetry={fetchTerms}
+            />
           ) : filteredTerms.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-400">No terms found matching your criteria.</p>
