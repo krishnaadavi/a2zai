@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   authors: [{ name: "A2Z AI" }],
   creator: "A2Z AI",
   metadataBase: new URL('https://a2zai.ai'),
+  alternates: {
+    types: {
+      'application/rss+xml': '/feed.xml',
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',

@@ -448,4 +448,870 @@ Run multiple attention operations in parallel, each learning different relations
     relatedTerms: ['large-language-model', 'transformer', 'text-classification'],
     examples: 'Google Translate, Grammarly, and ChatGPT all use NLP.',
   },
+  {
+    slug: 'multimodal',
+    term: 'Multimodal AI',
+    shortDef: 'AI systems that can process and understand multiple types of data like text, images, and audio.',
+    fullDef: `Multimodal AI refers to artificial intelligence systems that can process, understand, and generate content across multiple modalities (data types) simultaneously.
+
+**Modalities Include:**
+- Text (natural language)
+- Images (photos, diagrams)
+- Audio (speech, music)
+- Video (combined visual + audio)
+- Code (programming languages)
+
+**Key Capabilities:**
+- Image understanding and description
+- Visual question answering
+- Text-to-image generation
+- Speech recognition and synthesis
+
+**Examples of Multimodal Models:**
+- GPT-4V (vision + text)
+- Gemini (text, image, audio, video)
+- Claude 3 (text + vision)
+- DALL-E 3 (text to image)`,
+    category: 'concepts',
+    relatedTerms: ['gpt', 'computer-vision', 'large-language-model'],
+    examples: 'Uploading a photo to GPT-4 and asking it to describe what\'s happening.',
+  },
+  {
+    slug: 'api',
+    term: 'API (Application Programming Interface)',
+    shortDef: 'A way for software applications to communicate and share data with each other.',
+    fullDef: `An API is a set of protocols and tools that allows different software applications to communicate with each other.
+
+**In AI Context:**
+- OpenAI API: Access GPT models programmatically
+- Anthropic API: Access Claude models
+- Hugging Face API: Access open-source models
+
+**Key Concepts:**
+- **Endpoints**: URLs where you send requests
+- **API Keys**: Authentication tokens
+- **Rate Limits**: Request restrictions
+- **Pricing**: Often per token or per request
+
+**Why APIs Matter:**
+- Build AI into your applications
+- No need to host models yourself
+- Pay-per-use pricing
+- Access to latest models`,
+    category: 'concepts',
+    relatedTerms: ['inference', 'token', 'rate-limit'],
+    examples: 'Building a chatbot by calling the OpenAI API from your website.',
+  },
+  {
+    slug: 'prompt-engineering',
+    term: 'Prompt Engineering',
+    shortDef: 'The practice of designing effective prompts to get better outputs from AI models.',
+    fullDef: `Prompt engineering is the art and science of crafting inputs to AI models to achieve desired outputs.
+
+**Key Techniques:**
+- **Zero-shot**: Direct question without examples
+- **Few-shot**: Providing examples in the prompt
+- **Chain-of-Thought**: Asking model to explain reasoning
+- **Role-playing**: "You are an expert in..."
+- **Structured Output**: Requesting specific formats
+
+**Best Practices:**
+- Be specific and detailed
+- Provide context and constraints
+- Use clear formatting
+- Iterate and refine
+- Test with edge cases
+
+**Advanced Techniques:**
+- Self-consistency (multiple reasoning paths)
+- Tree-of-Thought (branching reasoning)
+- ReAct (reasoning + acting)`,
+    category: 'techniques',
+    relatedTerms: ['prompt', 'few-shot-learning', 'chain-of-thought'],
+    examples: 'Adding "Let\'s think step by step" to improve math problem solving.',
+  },
+  {
+    slug: 'zero-shot',
+    term: 'Zero-Shot Learning',
+    shortDef: 'AI performing tasks without any specific examples, using only general knowledge.',
+    fullDef: `Zero-shot learning refers to a model's ability to perform tasks it wasn't explicitly trained for, without being given examples.
+
+**How It Works:**
+- Model uses general knowledge from pre-training
+- Task is described in natural language
+- No task-specific examples provided
+
+**Example Prompt:**
+"Classify this review as positive or negative: 'Great product, highly recommend!'"
+(No examples of classifications given)
+
+**Contrast with:**
+- **One-shot**: One example provided
+- **Few-shot**: A few examples provided
+- **Fine-tuning**: Many examples + training
+
+**Why It Matters:**
+- Faster deployment (no training needed)
+- More flexible (any task)
+- Lower cost (no labeled data)`,
+    category: 'techniques',
+    relatedTerms: ['few-shot-learning', 'prompt-engineering', 'transfer-learning'],
+    examples: 'Asking GPT-4 to translate to a language it wasn\'t specifically trained on.',
+  },
+  {
+    slug: 'few-shot-learning',
+    term: 'Few-Shot Learning',
+    shortDef: 'Teaching AI to perform tasks by providing just a few examples in the prompt.',
+    fullDef: `Few-shot learning is providing a small number of examples to help the model understand the desired task and output format.
+
+**Structure:**
+1. Task description
+2. Example 1: Input → Output
+3. Example 2: Input → Output
+4. Example 3: Input → Output
+5. Actual query
+
+**Benefits:**
+- Better accuracy than zero-shot
+- No model fine-tuning needed
+- Quick to implement
+- Easy to iterate
+
+**Best Practices:**
+- Use diverse, representative examples
+- Keep formatting consistent
+- 3-5 examples often sufficient
+- Order can matter (put best examples last)`,
+    category: 'techniques',
+    relatedTerms: ['zero-shot', 'prompt-engineering', 'in-context-learning'],
+    examples: 'Showing 3 examples of email subject lines before asking the model to write one.',
+  },
+  {
+    slug: 'chain-of-thought',
+    term: 'Chain-of-Thought (CoT)',
+    shortDef: 'Prompting technique that asks AI to show step-by-step reasoning.',
+    fullDef: `Chain-of-Thought prompting encourages models to break down complex problems into intermediate reasoning steps.
+
+**Simple Trigger:**
+Adding "Let's think step by step" to prompts
+
+**Why It Works:**
+- Forces explicit reasoning
+- Reduces errors in multi-step problems
+- Makes reasoning transparent
+- Improves mathematical and logical tasks
+
+**Variations:**
+- **Zero-shot CoT**: Just add "think step by step"
+- **Few-shot CoT**: Provide examples with reasoning
+- **Self-consistency**: Generate multiple reasoning paths
+- **Tree-of-Thought**: Branch and evaluate paths
+
+**When to Use:**
+- Math problems
+- Logic puzzles
+- Complex reasoning
+- Multi-step instructions`,
+    category: 'techniques',
+    relatedTerms: ['prompt-engineering', 'reasoning', 'zero-shot'],
+    examples: 'Solving "If John has 3 apples and gives away 1, how many..." with step-by-step reasoning.',
+  },
+  {
+    slug: 'temperature',
+    term: 'Temperature',
+    shortDef: 'A parameter controlling randomness and creativity in AI model outputs.',
+    fullDef: `Temperature is a hyperparameter that controls how random or deterministic a model's outputs are.
+
+**Scale (typically 0-2):**
+- **0**: Deterministic, always picks most likely token
+- **0.5-0.7**: Balanced creativity and consistency
+- **1.0**: Default, moderate randomness
+- **1.5-2.0**: High creativity, more unexpected outputs
+
+**When to Use Low Temperature (0-0.3):**
+- Factual Q&A
+- Code generation
+- Data extraction
+- Consistent outputs needed
+
+**When to Use High Temperature (0.8-1.5):**
+- Creative writing
+- Brainstorming
+- Story generation
+- Diverse ideas wanted
+
+**Related Parameter:**
+- **Top-p (nucleus sampling)**: Alternative way to control randomness`,
+    category: 'concepts',
+    relatedTerms: ['inference', 'top-p', 'sampling'],
+    examples: 'Setting temperature=0 for code generation, temperature=1.2 for creative stories.',
+  },
+  {
+    slug: 'rlhf',
+    term: 'RLHF (Reinforcement Learning from Human Feedback)',
+    shortDef: 'Training method using human preferences to make AI more helpful and safe.',
+    fullDef: `RLHF is a training technique that uses human feedback to fine-tune AI models to be more aligned with human preferences.
+
+**Process:**
+1. **Supervised Fine-tuning**: Train on human demonstrations
+2. **Reward Model**: Train a model to predict human preferences
+3. **RL Optimization**: Use reward model to guide further training
+
+**Why RLHF Matters:**
+- Makes models more helpful
+- Reduces harmful outputs
+- Improves instruction following
+- Aligns AI with human values
+
+**Used By:**
+- ChatGPT/GPT-4
+- Claude
+- Gemini
+- Most modern chatbots
+
+**Limitations:**
+- Expensive (requires human labelers)
+- Can reduce model capabilities
+- Subjective preferences vary`,
+    category: 'techniques',
+    relatedTerms: ['fine-tuning', 'alignment', 'reward-model'],
+    examples: 'Training ChatGPT to be helpful by having humans rate response quality.',
+  },
+  {
+    slug: 'diffusion-model',
+    term: 'Diffusion Model',
+    shortDef: 'AI models that generate images by gradually removing noise from random data.',
+    fullDef: `Diffusion models generate data by learning to reverse a gradual noising process.
+
+**How It Works:**
+1. **Forward Process**: Gradually add noise to images until they become pure noise
+2. **Reverse Process**: Learn to gradually remove noise to generate images
+3. **Conditioning**: Guide generation with text prompts
+
+**Key Models:**
+- DALL-E 2/3 (OpenAI)
+- Stable Diffusion (Stability AI)
+- Midjourney
+- Imagen (Google)
+
+**Why Diffusion Dominates Image Generation:**
+- High quality outputs
+- Diverse generations
+- Controllable via prompts
+- Stable training process
+
+**Applications:**
+- Text-to-image generation
+- Image editing
+- Video generation
+- 3D model generation`,
+    category: 'techniques',
+    relatedTerms: ['stable-diffusion', 'dall-e', 'image-generation'],
+    examples: 'Midjourney creating art from a text description using diffusion.',
+  },
+  {
+    slug: 'stable-diffusion',
+    term: 'Stable Diffusion',
+    shortDef: 'Popular open-source image generation model using diffusion techniques.',
+    fullDef: `Stable Diffusion is an open-source text-to-image AI model that generates detailed images from text descriptions.
+
+**Key Features:**
+- Open source and free to use
+- Runs on consumer GPUs
+- Highly customizable
+- Large community and ecosystem
+
+**Versions:**
+- SD 1.5: Original popular version
+- SD 2.0/2.1: Improved quality
+- SDXL: Higher resolution, better quality
+- SD 3: Latest with improved text rendering
+
+**Ecosystem:**
+- ControlNet: Precise image control
+- LoRA: Lightweight fine-tuning
+- Textual Inversion: Custom concepts
+- Community models and checkpoints
+
+**Use Cases:**
+- Art creation
+- Product visualization
+- Concept art
+- Image editing`,
+    category: 'models',
+    relatedTerms: ['diffusion-model', 'image-generation', 'lora'],
+    examples: 'Running Stable Diffusion locally to generate artwork without API costs.',
+  },
+  {
+    slug: 'lora',
+    term: 'LoRA (Low-Rank Adaptation)',
+    shortDef: 'Efficient fine-tuning technique that trains small adapter modules instead of full models.',
+    fullDef: `LoRA is a parameter-efficient fine-tuning method that adds small trainable layers to a frozen pre-trained model.
+
+**How It Works:**
+- Freeze original model weights
+- Add small "adapter" matrices at specific layers
+- Only train the adapters (much smaller)
+- Merge adapters with base model for inference
+
+**Benefits:**
+- **Efficient**: 10,000x fewer trainable parameters
+- **Fast**: Hours instead of days to fine-tune
+- **Cheap**: Can run on consumer hardware
+- **Modular**: Swap different LoRAs easily
+
+**Common Uses:**
+- Custom Stable Diffusion styles
+- Domain-specific LLM adaptation
+- Character/concept training
+- Language adaptation
+
+**Related Techniques:**
+- QLoRA: Quantized LoRA for even less memory
+- DoRA: Weight-decomposed LoRA`,
+    category: 'techniques',
+    relatedTerms: ['fine-tuning', 'stable-diffusion', 'adapter'],
+    examples: 'Training a LoRA on anime images to generate anime-style art with Stable Diffusion.',
+  },
+  {
+    slug: 'quantization',
+    term: 'Quantization',
+    shortDef: 'Reducing model precision to decrease size and increase speed while maintaining quality.',
+    fullDef: `Quantization reduces the numerical precision of model weights to make models smaller and faster.
+
+**Precision Levels:**
+- **FP32**: Full precision (32-bit floating point)
+- **FP16**: Half precision (16-bit)
+- **INT8**: 8-bit integers
+- **INT4**: 4-bit integers
+
+**Benefits:**
+- **Smaller Models**: 4-bit is 8x smaller than 32-bit
+- **Faster Inference**: Less memory bandwidth needed
+- **Lower Costs**: Run larger models on smaller hardware
+- **Edge Deployment**: Run on phones/laptops
+
+**Methods:**
+- Post-training quantization (PTQ)
+- Quantization-aware training (QAT)
+- GPTQ, AWQ (for LLMs)
+
+**Trade-offs:**
+- Some quality loss (usually minimal)
+- May affect edge cases
+- Calibration data needed`,
+    category: 'techniques',
+    relatedTerms: ['inference', 'optimization', 'deployment'],
+    examples: 'Running a 70B model on a gaming GPU by quantizing it to 4-bit.',
+  },
+  {
+    slug: 'vector-database',
+    term: 'Vector Database',
+    shortDef: 'Databases optimized for storing and searching high-dimensional vectors like embeddings.',
+    fullDef: `Vector databases are specialized databases designed to store, index, and query high-dimensional vector data efficiently.
+
+**Key Operations:**
+- **Storage**: Save embedding vectors with metadata
+- **Similarity Search**: Find nearest neighbors
+- **Filtering**: Combine vector search with metadata filters
+- **CRUD**: Create, read, update, delete vectors
+
+**Popular Vector Databases:**
+- Pinecone (managed, serverless)
+- Weaviate (open-source)
+- Milvus (open-source, scalable)
+- Chroma (lightweight, local)
+- pgvector (PostgreSQL extension)
+
+**Use Cases:**
+- RAG systems
+- Semantic search
+- Recommendation systems
+- Image similarity
+- Anomaly detection
+
+**Key Concepts:**
+- Approximate Nearest Neighbor (ANN)
+- Indexing algorithms (HNSW, IVF)
+- Distance metrics (cosine, euclidean)`,
+    category: 'concepts',
+    relatedTerms: ['embeddings', 'rag', 'semantic-search'],
+    examples: 'Storing document embeddings in Pinecone for a RAG-powered chatbot.',
+  },
+  {
+    slug: 'agent',
+    term: 'AI Agent',
+    shortDef: 'AI systems that can autonomously perform tasks by planning and using tools.',
+    fullDef: `AI Agents are systems that use LLMs to reason, plan, and take actions to accomplish goals autonomously.
+
+**Key Capabilities:**
+- **Reasoning**: Think through problems
+- **Planning**: Break tasks into steps
+- **Tool Use**: Call APIs, search web, run code
+- **Memory**: Remember context across interactions
+
+**Common Architectures:**
+- ReAct (Reason + Act)
+- Plan-and-Execute
+- Multi-agent collaboration
+
+**Tools Agents Might Use:**
+- Web search
+- Code execution
+- Database queries
+- API calls
+- File operations
+
+**Frameworks:**
+- LangChain Agents
+- AutoGPT
+- CrewAI
+- OpenAI Assistants
+
+**Challenges:**
+- Reliability and error handling
+- Cost management
+- Security considerations`,
+    category: 'concepts',
+    relatedTerms: ['tool-use', 'reasoning', 'langchain'],
+    examples: 'An agent that researches a topic, writes an article, and posts it to a blog.',
+  },
+  {
+    slug: 'openai',
+    term: 'OpenAI',
+    shortDef: 'AI research company that created GPT, ChatGPT, DALL-E, and other leading AI systems.',
+    fullDef: `OpenAI is an artificial intelligence research company founded in 2015, known for creating some of the most advanced AI systems.
+
+**Key Products:**
+- **ChatGPT**: Conversational AI (100M+ users)
+- **GPT-4**: Advanced language model
+- **DALL-E**: Image generation
+- **Whisper**: Speech recognition
+- **Codex**: Code generation (powers GitHub Copilot)
+
+**History:**
+- 2015: Founded as non-profit
+- 2019: Transitioned to capped-profit
+- 2020: Released GPT-3
+- 2022: Launched ChatGPT
+- 2023: Released GPT-4
+
+**Business Model:**
+- API access (pay per token)
+- ChatGPT Plus subscription
+- Enterprise offerings
+
+**Competitors:**
+- Anthropic (Claude)
+- Google (Gemini)
+- Meta (Llama)
+- Mistral`,
+    category: 'companies',
+    relatedTerms: ['gpt', 'chatgpt', 'dall-e'],
+    examples: 'ChatGPT became the fastest-growing app in history, reaching 100M users in 2 months.',
+  },
+  {
+    slug: 'anthropic',
+    term: 'Anthropic',
+    shortDef: 'AI safety company that created Claude, focused on building safe and beneficial AI.',
+    fullDef: `Anthropic is an AI safety company founded in 2021 by former OpenAI researchers, focused on developing safe, beneficial AI.
+
+**Key Product - Claude:**
+- Claude 3 Opus: Most capable model
+- Claude 3 Sonnet: Balanced performance/cost
+- Claude 3 Haiku: Fast and efficient
+- Claude 3.5 Sonnet: Latest, best at coding
+
+**Key Differentiators:**
+- **Constitutional AI**: Training method for safety
+- **Long context**: Up to 200K tokens
+- **Honest and harmless**: Focus on safety
+- **Strong at analysis**: Particularly good at reasoning
+
+**Founders:**
+- Dario Amodei (CEO, ex-OpenAI)
+- Daniela Amodei (President)
+
+**Funding:**
+- $7.6B+ raised
+- Amazon invested $4B
+- Google invested $2B`,
+    category: 'companies',
+    relatedTerms: ['claude', 'openai', 'ai-safety'],
+    examples: 'Claude is known for being particularly good at coding and analysis tasks.',
+  },
+  {
+    slug: 'claude',
+    term: 'Claude',
+    shortDef: 'Anthropic\'s AI assistant, known for helpfulness, harmlessness, and honesty.',
+    fullDef: `Claude is a family of AI assistants developed by Anthropic, designed to be helpful, harmless, and honest.
+
+**Model Family:**
+- **Claude 3 Opus**: Most intelligent, best for complex tasks
+- **Claude 3 Sonnet**: Balance of intelligence and speed
+- **Claude 3 Haiku**: Fastest, most cost-effective
+- **Claude 3.5 Sonnet**: Latest, excellent at coding
+
+**Strengths:**
+- Very long context window (200K tokens)
+- Strong coding abilities
+- Thoughtful, nuanced responses
+- Good at following complex instructions
+- Document analysis
+
+**Access:**
+- claude.ai (free and Pro tiers)
+- API access
+- Amazon Bedrock
+- Google Cloud Vertex
+
+**Unique Features:**
+- Artifacts: Create and render code/documents
+- Projects: Organize conversations
+- Constitutional AI training`,
+    category: 'models',
+    relatedTerms: ['anthropic', 'large-language-model', 'chatgpt'],
+    examples: 'Using Claude to analyze a 100-page document in a single prompt.',
+  },
+  {
+    slug: 'llama',
+    term: 'Llama',
+    shortDef: 'Meta\'s open-source large language model family, enabling community AI development.',
+    fullDef: `Llama (Large Language Model Meta AI) is Meta's family of open-source language models.
+
+**Versions:**
+- **Llama 1** (2023): 7B to 65B parameters
+- **Llama 2** (2023): Improved, commercially usable
+- **Llama 3** (2024): State-of-the-art open model
+  - 8B, 70B, 405B parameter versions
+  - Competitive with GPT-4
+
+**Why Llama Matters:**
+- **Open Source**: Weights publicly available
+- **Commercial Use**: Allowed with license
+- **Community**: Huge ecosystem of fine-tunes
+- **Local Running**: Run on your hardware
+
+**Ecosystem:**
+- Ollama: Easy local deployment
+- Text-generation-webui
+- LM Studio
+- Thousands of fine-tuned variants
+
+**Impact:**
+- Democratized LLM access
+- Enabled on-device AI
+- Spawned many derivative models`,
+    category: 'models',
+    relatedTerms: ['meta', 'open-source', 'large-language-model'],
+    examples: 'Running Llama 3 8B locally on a laptop for private AI interactions.',
+  },
+  {
+    slug: 'mistral',
+    term: 'Mistral',
+    shortDef: 'French AI company creating efficient, high-quality open-source language models.',
+    fullDef: `Mistral AI is a French startup creating efficient, open-source language models that punch above their weight.
+
+**Key Models:**
+- **Mistral 7B**: Outperforms Llama 2 13B
+- **Mixtral 8x7B**: Mixture of Experts model
+- **Mistral Large**: Competitive with GPT-4
+- **Codestral**: Specialized for code
+
+**Why Mistral Stands Out:**
+- Excellent efficiency (small but powerful)
+- Strong coding capabilities
+- Open-weight models
+- European AI company
+- Mixture of Experts architecture
+
+**Technical Innovations:**
+- Sliding Window Attention
+- Grouped Query Attention
+- Sparse Mixture of Experts
+
+**Funding:**
+- $415M Series A (2023)
+- Valued at $2B+
+- Backed by Andreessen Horowitz`,
+    category: 'companies',
+    relatedTerms: ['llama', 'open-source', 'mixture-of-experts'],
+    examples: 'Mistral 7B matching larger models while being fast enough to run locally.',
+  },
+  {
+    slug: 'gemini',
+    term: 'Gemini',
+    shortDef: 'Google\'s most capable AI model family, natively multimodal from the ground up.',
+    fullDef: `Gemini is Google DeepMind's most advanced AI model family, designed to be multimodal from the start.
+
+**Model Tiers:**
+- **Gemini Ultra**: Most capable, complex tasks
+- **Gemini Pro**: Best for most tasks
+- **Gemini Nano**: On-device, mobile
+- **Gemini 1.5**: Massive context window (1M+ tokens)
+
+**Key Features:**
+- **Native Multimodal**: Understands text, images, audio, video
+- **Massive Context**: Up to 2M tokens (Gemini 1.5)
+- **Strong Reasoning**: Competitive with GPT-4
+- **Code Generation**: Powers code assistance
+
+**Access Points:**
+- Google AI Studio
+- Vertex AI
+- Gemini app (formerly Bard)
+- Android devices (Nano)
+
+**Applications:**
+- Search integration
+- Workspace features
+- Android AI features
+- Developer API`,
+    category: 'models',
+    relatedTerms: ['google', 'multimodal', 'large-language-model'],
+    examples: 'Gemini 1.5 Pro can analyze hour-long videos in a single prompt.',
+  },
+  {
+    slug: 'hugging-face',
+    term: 'Hugging Face',
+    shortDef: 'Platform and community hub for sharing machine learning models, datasets, and applications.',
+    fullDef: `Hugging Face is the central hub for the machine learning community, providing tools, models, and collaboration infrastructure.
+
+**Key Offerings:**
+- **Model Hub**: 500K+ pre-trained models
+- **Datasets**: 100K+ datasets
+- **Spaces**: Host ML demos
+- **Transformers Library**: Python library for models
+- **Inference API**: Deploy models easily
+
+**Why Developers Love It:**
+- One-line model loading
+- Standardized interfaces
+- Community contributions
+- Free tier available
+- Version control for models
+
+**Popular Libraries:**
+- transformers: Load any model
+- datasets: Load any dataset
+- diffusers: Image generation
+- accelerate: Training optimization
+- tokenizers: Fast tokenization
+
+**Business Model:**
+- Free open-source tools
+- Enterprise hub
+- Inference endpoints
+- Expert support`,
+    category: 'companies',
+    relatedTerms: ['open-source', 'transformers', 'model-hub'],
+    examples: 'Loading BERT with one line: model = AutoModel.from_pretrained("bert-base-uncased")',
+  },
+  {
+    slug: 'benchmark',
+    term: 'Benchmark',
+    shortDef: 'Standardized tests used to measure and compare AI model performance.',
+    fullDef: `Benchmarks are standardized evaluation datasets and metrics used to measure AI model capabilities.
+
+**Popular LLM Benchmarks:**
+- **MMLU**: Massive Multitask Language Understanding
+- **HumanEval**: Code generation
+- **HellaSwag**: Commonsense reasoning
+- **TruthfulQA**: Truthfulness
+- **GSM8K**: Grade school math
+- **MATH**: Advanced mathematics
+
+**Why Benchmarks Matter:**
+- Compare models objectively
+- Track progress over time
+- Identify strengths/weaknesses
+- Guide model selection
+
+**Limitations:**
+- Gaming/overfitting possible
+- May not reflect real-world use
+- Quickly become saturated
+- Don't capture everything
+
+**Leaderboards:**
+- Open LLM Leaderboard (Hugging Face)
+- Chatbot Arena (LMSYS)
+- HELM (Stanford)`,
+    category: 'concepts',
+    relatedTerms: ['evaluation', 'mmlu', 'performance'],
+    examples: 'GPT-4 scoring 86.4% on MMLU vs Claude 3 Opus at 86.8%.',
+  },
+  {
+    slug: 'open-source-ai',
+    term: 'Open Source AI',
+    shortDef: 'AI models and tools with publicly available code, weights, and training details.',
+    fullDef: `Open Source AI refers to AI models and systems where the code, model weights, and often training details are publicly available.
+
+**Spectrum of Openness:**
+- **Fully Open**: Code, weights, data, training (rare)
+- **Open Weights**: Model weights available
+- **Open Code**: Training code available
+- **Open API**: Free API access only
+
+**Benefits:**
+- Transparency and auditability
+- Community improvements
+- Local/private deployment
+- Lower costs
+- Customization freedom
+
+**Leading Open Models:**
+- Llama 3 (Meta)
+- Mistral/Mixtral
+- Falcon (TII)
+- Gemma (Google)
+- Phi (Microsoft)
+
+**Debates:**
+- Safety concerns with open weights
+- Compute barriers to true openness
+- Licensing restrictions
+- Definition of "open source" for AI`,
+    category: 'concepts',
+    relatedTerms: ['llama', 'mistral', 'hugging-face'],
+    examples: 'Running Llama 3 on your own servers for complete data privacy.',
+  },
+  {
+    slug: 'chatgpt',
+    term: 'ChatGPT',
+    shortDef: 'OpenAI\'s conversational AI interface, the most widely used AI chatbot globally.',
+    fullDef: `ChatGPT is OpenAI's conversational AI product that brought large language models to mainstream users.
+
+**History:**
+- Nov 2022: Launched, fastest-growing app ever
+- 100M users in 2 months
+- Sparked global AI interest
+
+**Versions:**
+- **ChatGPT (Free)**: GPT-3.5, basic features
+- **ChatGPT Plus ($20/mo)**: GPT-4, advanced features
+- **ChatGPT Team**: For small teams
+- **ChatGPT Enterprise**: For organizations
+
+**Features:**
+- Conversational interface
+- Code interpreter (run Python)
+- DALL-E integration
+- Web browsing
+- Custom GPTs
+- Voice mode
+- Vision (image input)
+
+**Impact:**
+- Made AI accessible to everyone
+- Sparked AI arms race
+- Changed how people work
+- Raised AI awareness globally`,
+    category: 'models',
+    relatedTerms: ['openai', 'gpt', 'large-language-model'],
+    examples: 'ChatGPT helping write emails, explain code, or brainstorm ideas.',
+  },
+  {
+    slug: 'synthetic-data',
+    term: 'Synthetic Data',
+    shortDef: 'Artificially generated data used to train AI models when real data is scarce or sensitive.',
+    fullDef: `Synthetic data is artificially generated data that mimics the statistical properties of real data.
+
+**Why Use Synthetic Data:**
+- **Privacy**: No real user data exposed
+- **Scarcity**: Generate rare scenarios
+- **Cost**: Cheaper than collecting real data
+- **Control**: Create specific edge cases
+- **Balance**: Fix class imbalances
+
+**Generation Methods:**
+- Rule-based generation
+- Statistical models
+- Generative AI (LLMs, GANs)
+- Simulation environments
+
+**Applications:**
+- Training autonomous vehicles
+- Healthcare AI (patient privacy)
+- Financial fraud detection
+- Robotics simulation
+- LLM training data
+
+**Challenges:**
+- May not capture real-world complexity
+- Can introduce biases
+- Validation is difficult
+- Domain gap issues`,
+    category: 'techniques',
+    relatedTerms: ['training', 'data-augmentation', 'privacy'],
+    examples: 'Using GPT-4 to generate training conversations for a customer service bot.',
+  },
+  {
+    slug: 'alignment',
+    term: 'AI Alignment',
+    shortDef: 'Ensuring AI systems behave in accordance with human values and intentions.',
+    fullDef: `AI Alignment is the field focused on ensuring AI systems do what humans actually want them to do.
+
+**Key Challenges:**
+- **Specification**: Precisely defining goals
+- **Robustness**: Maintaining alignment under distribution shift
+- **Assurance**: Verifying alignment
+- **Scalable Oversight**: Supervising superhuman AI
+
+**Current Techniques:**
+- RLHF (Reinforcement Learning from Human Feedback)
+- Constitutional AI
+- Red teaming
+- Interpretability research
+
+**Alignment Problems:**
+- **Reward Hacking**: Gaming the objective
+- **Goal Misgeneralization**: Wrong goals learned
+- **Deceptive Alignment**: Appearing aligned but not
+- **Mesa-Optimization**: Unintended inner goals
+
+**Why It Matters:**
+- Prevent harmful AI behavior
+- Build trustworthy AI systems
+- Ensure AI benefits humanity
+- Critical for advanced AI safety`,
+    category: 'concepts',
+    relatedTerms: ['rlhf', 'ai-safety', 'constitutional-ai'],
+    examples: 'Training ChatGPT to refuse harmful requests while remaining helpful.',
+  },
+  {
+    slug: 'scaling-laws',
+    term: 'Scaling Laws',
+    shortDef: 'Empirical relationships showing how AI performance improves with more data, compute, and parameters.',
+    fullDef: `Scaling laws describe predictable relationships between model size, training data, compute, and performance.
+
+**Key Findings:**
+- Performance improves predictably with scale
+- Compute-optimal: Balance model size and data
+- Power law relationships
+
+**Chinchilla Scaling Laws:**
+- Previous models were undertrained
+- Optimal: Train longer on more data
+- 20 tokens per parameter recommended
+
+**Implications:**
+- Larger models = better performance
+- More data = better performance
+- More compute = better performance
+- Returns are predictable
+
+**Emergent Abilities:**
+- Some capabilities appear suddenly at scale
+- Examples: arithmetic, multi-step reasoning
+- Debated whether truly "emergent"
+
+**Limitations:**
+- Eventually hit diminishing returns
+- Doesn't capture all capabilities
+- May not hold for all tasks`,
+    category: 'concepts',
+    relatedTerms: ['parameters', 'training', 'compute'],
+    examples: 'GPT-4 being better than GPT-3 primarily due to larger scale.',
+  },
 ];
