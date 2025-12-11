@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
+import CommentSection from '@/components/CommentSection';
 
 export const dynamic = 'force-dynamic';
 
@@ -154,6 +155,9 @@ export default async function ExplainerPage({ params }: Props) {
               </Link>
             )}
           </div>
+
+          {/* Comments */}
+          <CommentSection articleId={explainer.slug} articleType="explainer" />
 
           {/* Course outline */}
           <div className="mt-12 p-6 rounded-xl bg-gray-900 border border-gray-800">

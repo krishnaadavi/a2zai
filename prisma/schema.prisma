@@ -55,6 +55,7 @@ model User {
   savedArticles    SavedArticle[]
   topicPreferences TopicPreference[]
   readHistory      ReadHistory[]
+  comments         Comment[]
 }
 
 model VerificationToken {
@@ -171,4 +172,25 @@ model Explainer {
   @@index([category])
   @@index([difficulty])
   @@index([order])
+}
+
+// Comments on articles
+model Comment {
+  id          String    @id @default(cuid())
+  userId      String
+  articleId   String    // External article ID (news, glossary, explainer)
+  articleType String    // 'news', 'glossary', 'explainer'
+  content     String    @db.Text
+  parentId    String?   // For nested replies
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([articleId, articleType])
+  @@index([userId])
+  @@index([parentId])
+  @@index([createdAt])
 }

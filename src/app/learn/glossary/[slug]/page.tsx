@@ -2,6 +2,7 @@ import { ArrowLeft, BookOpen, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import CommentSection from '@/components/CommentSection';
 
 export const dynamic = 'force-dynamic';
 
@@ -170,6 +171,9 @@ export default async function GlossaryTermPage({ params }: Props) {
               </div>
             </div>
           )}
+
+          {/* Comments */}
+          <CommentSection articleId={term.slug} articleType="glossary" />
 
           {/* Navigation */}
           <div className="flex justify-between items-center mt-8 pt-8 border-t border-gray-800">
