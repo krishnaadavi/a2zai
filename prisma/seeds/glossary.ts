@@ -1314,4 +1314,1853 @@ Adding "Let's think step by step" to prompts
     relatedTerms: ['parameters', 'training', 'compute'],
     examples: 'GPT-4 being better than GPT-3 primarily due to larger scale.',
   },
+  // === ADDITIONAL TERMS TO REACH 100+ ===
+  {
+    slug: 'bert',
+    term: 'BERT',
+    shortDef: 'Bidirectional Encoder Representations from Transformers - Google\'s influential language model.',
+    fullDef: `BERT is a transformer-based model from Google that revolutionized NLP by introducing bidirectional pre-training.
+
+**Key Innovation:**
+- Reads text bidirectionally (both left-to-right and right-to-left)
+- Unlike GPT which only reads left-to-right
+- Better understanding of context
+
+**Training Objectives:**
+- **Masked Language Modeling (MLM)**: Predict masked words
+- **Next Sentence Prediction (NSP)**: Predict if sentences follow each other
+
+**Impact:**
+- Released 2018, transformed NLP
+- Powers Google Search improvements
+- Spawned many variants (RoBERTa, ALBERT, DistilBERT)
+
+**Use Cases:**
+- Text classification
+- Named entity recognition
+- Question answering
+- Sentiment analysis`,
+    category: 'models',
+    relatedTerms: ['transformer', 'encoder', 'google'],
+    examples: 'Google Search uses BERT to better understand search queries.',
+  },
+  {
+    slug: 'gans',
+    term: 'GANs (Generative Adversarial Networks)',
+    shortDef: 'AI architecture using two competing networks to generate realistic content.',
+    fullDef: `GANs consist of two neural networks competing against each other to generate increasingly realistic outputs.
+
+**Architecture:**
+- **Generator**: Creates fake samples
+- **Discriminator**: Tries to distinguish real from fake
+- They train together, improving each other
+
+**How It Works:**
+1. Generator creates fake image
+2. Discriminator guesses if it's real or fake
+3. Both networks update based on results
+4. Generator gets better at fooling discriminator
+
+**Applications:**
+- Image generation (before diffusion dominated)
+- Face generation (StyleGAN)
+- Image-to-image translation
+- Super resolution
+
+**Limitations:**
+- Training instability
+- Mode collapse
+- Now largely superseded by diffusion models`,
+    category: 'techniques',
+    relatedTerms: ['diffusion-model', 'image-generation', 'neural-network'],
+    examples: 'StyleGAN generating photorealistic faces of people who don\'t exist.',
+  },
+  {
+    slug: 'reinforcement-learning',
+    term: 'Reinforcement Learning (RL)',
+    shortDef: 'Training AI through trial and error with rewards and penalties.',
+    fullDef: `Reinforcement Learning trains agents to make decisions by rewarding desired behaviors and penalizing undesired ones.
+
+**Key Components:**
+- **Agent**: The learner/decision maker
+- **Environment**: What the agent interacts with
+- **State**: Current situation
+- **Action**: What the agent can do
+- **Reward**: Feedback signal
+
+**How It Differs:**
+- Supervised Learning: Learn from labeled examples
+- Unsupervised Learning: Find patterns in data
+- Reinforcement Learning: Learn from experience
+
+**Famous Examples:**
+- AlphaGo: Beat world Go champion
+- OpenAI Five: Beat Dota 2 pros
+- Robot locomotion
+
+**In LLMs:**
+- RLHF uses RL to align models with human preferences`,
+    category: 'techniques',
+    relatedTerms: ['rlhf', 'training', 'agent'],
+    examples: 'Training a robot to walk by rewarding forward movement.',
+  },
+  {
+    slug: 'transfer-learning',
+    term: 'Transfer Learning',
+    shortDef: 'Using knowledge learned on one task to improve performance on a different task.',
+    fullDef: `Transfer learning applies knowledge from a pre-trained model to a new, related task.
+
+**Why It Works:**
+- Models learn general features first
+- These features transfer to related tasks
+- Reduces need for task-specific data
+
+**Process:**
+1. Pre-train on large dataset (e.g., ImageNet, internet text)
+2. Fine-tune on smaller, specific dataset
+3. Achieve better results than training from scratch
+
+**Benefits:**
+- Less training data needed
+- Faster training
+- Better performance
+- Lower compute costs
+
+**Examples:**
+- ImageNet pre-trained models for medical imaging
+- GPT pre-training enabling diverse tasks
+- BERT fine-tuned for sentiment analysis`,
+    category: 'techniques',
+    relatedTerms: ['fine-tuning', 'pre-training', 'zero-shot'],
+    examples: 'Using a model trained on general images to classify specific medical scans.',
+  },
+  {
+    slug: 'overfitting',
+    term: 'Overfitting',
+    shortDef: 'When a model learns training data too well and fails to generalize to new data.',
+    fullDef: `Overfitting occurs when a model memorizes training data instead of learning general patterns.
+
+**Signs of Overfitting:**
+- High accuracy on training data
+- Poor accuracy on test/validation data
+- Model is too complex for the data
+
+**Causes:**
+- Too many parameters
+- Too little training data
+- Training too long
+- Model too complex
+
+**Prevention Techniques:**
+- **Regularization**: L1, L2 penalties
+- **Dropout**: Randomly disable neurons
+- **Early Stopping**: Stop before overfitting
+- **Data Augmentation**: Create more training data
+- **Cross-Validation**: Test on multiple splits
+
+**Opposite Problem:**
+- Underfitting: Model too simple to learn patterns`,
+    category: 'concepts',
+    relatedTerms: ['training', 'regularization', 'generalization'],
+    examples: 'A model that perfectly predicts training examples but fails on new data.',
+  },
+  {
+    slug: 'backpropagation',
+    term: 'Backpropagation',
+    shortDef: 'Algorithm for training neural networks by propagating errors backward through layers.',
+    fullDef: `Backpropagation is the fundamental algorithm for training neural networks by computing how each weight contributes to the error.
+
+**Process:**
+1. **Forward Pass**: Input flows through network, produces output
+2. **Loss Calculation**: Compare output to expected result
+3. **Backward Pass**: Calculate gradient of loss for each weight
+4. **Update**: Adjust weights to reduce loss
+
+**Key Concepts:**
+- **Chain Rule**: Calculates gradients layer by layer
+- **Gradient Descent**: Uses gradients to update weights
+- **Learning Rate**: Controls size of weight updates
+
+**Why It Works:**
+- Efficiently computes gradients for all weights
+- Enables training of deep networks
+- Foundation of modern deep learning
+
+**Challenges:**
+- Vanishing gradients in deep networks
+- Exploding gradients
+- Local minima`,
+    category: 'techniques',
+    relatedTerms: ['training', 'neural-network', 'gradient-descent'],
+    examples: 'Every neural network training uses backpropagation to learn.',
+  },
+  {
+    slug: 'activation-function',
+    term: 'Activation Function',
+    shortDef: 'Mathematical functions that determine if a neuron should fire based on input.',
+    fullDef: `Activation functions introduce non-linearity into neural networks, enabling them to learn complex patterns.
+
+**Common Activation Functions:**
+- **ReLU**: max(0, x) - Most popular, simple
+- **Sigmoid**: 1/(1+e^-x) - Output 0-1
+- **Tanh**: Hyperbolic tangent - Output -1 to 1
+- **Softmax**: For multi-class classification
+- **GELU**: Used in transformers
+
+**Why Non-Linearity Matters:**
+- Without it, deep networks = one linear layer
+- Enables learning complex patterns
+- Different functions for different use cases
+
+**Choosing Activation:**
+- Hidden layers: Usually ReLU or GELU
+- Output (classification): Softmax
+- Output (binary): Sigmoid
+- Output (regression): None (linear)`,
+    category: 'concepts',
+    relatedTerms: ['neural-network', 'relu', 'deep-learning'],
+    examples: 'ReLU turning negative values to zero while keeping positive values.',
+  },
+  {
+    slug: 'loss-function',
+    term: 'Loss Function',
+    shortDef: 'Mathematical function measuring how wrong a model\'s predictions are.',
+    fullDef: `Loss functions quantify the difference between predicted and actual values, guiding model training.
+
+**Common Loss Functions:**
+- **MSE (Mean Squared Error)**: For regression
+- **Cross-Entropy**: For classification
+- **Binary Cross-Entropy**: For binary classification
+- **Huber Loss**: Robust to outliers
+
+**Properties of Good Loss Functions:**
+- Differentiable (for gradient descent)
+- Minimum at correct prediction
+- Appropriate for the task
+
+**In LLM Training:**
+- Cross-entropy loss on next token prediction
+- Minimizing perplexity
+- RLHF reward modeling
+
+**Relationship to Metrics:**
+- Loss: Used during training
+- Metrics (accuracy, F1): Used for evaluation`,
+    category: 'concepts',
+    relatedTerms: ['training', 'backpropagation', 'optimization'],
+    examples: 'Cross-entropy loss measuring how far probability predictions are from true labels.',
+  },
+  {
+    slug: 'gradient-descent',
+    term: 'Gradient Descent',
+    shortDef: 'Optimization algorithm that iteratively adjusts parameters to minimize loss.',
+    fullDef: `Gradient descent is the core optimization algorithm for training machine learning models.
+
+**How It Works:**
+1. Calculate loss for current parameters
+2. Compute gradient (direction of steepest increase)
+3. Move parameters in opposite direction
+4. Repeat until convergence
+
+**Variants:**
+- **Batch GD**: Use all data each step
+- **Stochastic GD (SGD)**: Use one sample
+- **Mini-batch GD**: Use small batches (most common)
+
+**Advanced Optimizers:**
+- **Adam**: Adaptive learning rates, momentum
+- **AdamW**: Adam with weight decay
+- **SGD with Momentum**: Accelerates convergence
+
+**Challenges:**
+- Learning rate selection
+- Local minima
+- Saddle points
+- Slow convergence`,
+    category: 'techniques',
+    relatedTerms: ['backpropagation', 'training', 'optimizer'],
+    examples: 'Adam optimizer adjusting millions of parameters to minimize prediction error.',
+  },
+  {
+    slug: 'batch-size',
+    term: 'Batch Size',
+    shortDef: 'Number of training examples processed together before updating model weights.',
+    fullDef: `Batch size determines how many samples are processed before each parameter update during training.
+
+**Trade-offs:**
+- **Large Batch**: Stable gradients, faster (parallel), more memory
+- **Small Batch**: Noisy gradients, regularization effect, less memory
+
+**Common Sizes:**
+- 16, 32, 64, 128, 256 typical
+- LLM training: Often 1000s (accumulated)
+- Limited by GPU memory
+
+**Gradient Accumulation:**
+- Simulate larger batches with limited memory
+- Accumulate gradients over multiple forward passes
+- Update weights after N steps
+
+**Impact on Training:**
+- Affects learning dynamics
+- May need to adjust learning rate
+- Larger batches often need higher learning rate`,
+    category: 'concepts',
+    relatedTerms: ['training', 'gradient-descent', 'epoch'],
+    examples: 'Training with batch size 32 means processing 32 images before updating weights.',
+  },
+  {
+    slug: 'epoch',
+    term: 'Epoch',
+    shortDef: 'One complete pass through the entire training dataset.',
+    fullDef: `An epoch represents one full cycle through all training data during model training.
+
+**Training Process:**
+- Multiple epochs typically needed
+- Each epoch: Model sees all examples once
+- Parameters updated many times per epoch
+
+**How Many Epochs?**
+- Depends on dataset size and complexity
+- Too few: Underfitting
+- Too many: Overfitting
+- Use validation loss to decide
+
+**Typical Ranges:**
+- Image classification: 50-200 epochs
+- LLM pre-training: 1-2 epochs (data is huge)
+- Fine-tuning: 3-10 epochs
+
+**Early Stopping:**
+- Monitor validation loss
+- Stop when it starts increasing
+- Prevents overfitting`,
+    category: 'concepts',
+    relatedTerms: ['training', 'batch-size', 'overfitting'],
+    examples: 'Training for 100 epochs means the model sees each training image 100 times.',
+  },
+  {
+    slug: 'learning-rate',
+    term: 'Learning Rate',
+    shortDef: 'Hyperparameter controlling how much model weights change with each update.',
+    fullDef: `Learning rate determines the step size when updating model parameters during training.
+
+**Impact:**
+- **Too High**: Overshoots optimal values, unstable
+- **Too Low**: Very slow convergence
+- **Just Right**: Smooth, efficient training
+
+**Typical Values:**
+- 1e-3 to 1e-5 common
+- Transformers often use 1e-4 to 1e-5
+- Fine-tuning uses smaller rates
+
+**Scheduling:**
+- **Constant**: Same throughout
+- **Step Decay**: Reduce at intervals
+- **Cosine Annealing**: Smooth decrease
+- **Warmup**: Start low, increase, then decrease
+
+**Finding Good Rate:**
+- Learning rate finder
+- Grid search
+- Start with common defaults`,
+    category: 'concepts',
+    relatedTerms: ['training', 'gradient-descent', 'optimizer'],
+    examples: 'Using learning rate 0.001 with cosine decay schedule for training.',
+  },
+  {
+    slug: 'dropout',
+    term: 'Dropout',
+    shortDef: 'Regularization technique that randomly disables neurons during training.',
+    fullDef: `Dropout prevents overfitting by randomly setting neuron outputs to zero during training.
+
+**How It Works:**
+- During training: Randomly zero out neurons (e.g., 20%)
+- During inference: Use all neurons, scale outputs
+- Forces network to not rely on specific neurons
+
+**Benefits:**
+- Reduces overfitting
+- Acts like training ensemble of networks
+- Simple to implement
+
+**Typical Dropout Rates:**
+- 0.1-0.5 depending on layer
+- Higher for fully connected layers
+- Lower for convolutional layers
+
+**In Transformers:**
+- Applied after attention
+- Applied in feed-forward layers
+- Typically 0.1 dropout rate`,
+    category: 'techniques',
+    relatedTerms: ['regularization', 'overfitting', 'training'],
+    examples: 'Using 0.2 dropout to randomly disable 20% of neurons during each training step.',
+  },
+  {
+    slug: 'normalization',
+    term: 'Normalization',
+    shortDef: 'Techniques to standardize inputs or activations for more stable training.',
+    fullDef: `Normalization techniques standardize data or layer outputs to improve training stability and speed.
+
+**Types:**
+- **Batch Normalization**: Normalize across batch
+- **Layer Normalization**: Normalize across features (used in transformers)
+- **Instance Normalization**: Per-sample normalization
+- **Group Normalization**: Normalize groups of channels
+
+**Benefits:**
+- Faster training convergence
+- Allows higher learning rates
+- Reduces internal covariate shift
+- Acts as regularization
+
+**In Transformers:**
+- Layer normalization is standard
+- Pre-norm vs post-norm architectures
+- RMSNorm (simplified) gaining popularity
+
+**Data Normalization:**
+- Scale inputs to similar ranges
+- Zero mean, unit variance common`,
+    category: 'techniques',
+    relatedTerms: ['training', 'transformer', 'batch-size'],
+    examples: 'Layer normalization after each transformer attention block.',
+  },
+  {
+    slug: 'tokenizer',
+    term: 'Tokenizer',
+    shortDef: 'Component that converts text into tokens that language models can process.',
+    fullDef: `Tokenizers break text into smaller units (tokens) that language models can understand and process.
+
+**Tokenization Methods:**
+- **Word-level**: Each word is a token
+- **Character-level**: Each character is a token
+- **Subword**: Balance between word and character (most common)
+
+**Popular Subword Methods:**
+- **BPE (Byte Pair Encoding)**: Used by GPT
+- **WordPiece**: Used by BERT
+- **SentencePiece**: Language-agnostic
+- **Unigram**: Probabilistic approach
+
+**Vocabulary Size:**
+- GPT-4: ~100K tokens
+- Llama: 32K tokens
+- Trade-off: Larger vocab = shorter sequences but more parameters
+
+**Special Tokens:**
+- [CLS], [SEP]: BERT special tokens
+- <|endoftext|>: GPT end token
+- [PAD]: Padding token`,
+    category: 'concepts',
+    relatedTerms: ['token', 'large-language-model', 'vocabulary'],
+    examples: 'BPE tokenizer splitting "unhappiness" into ["un", "happiness"].',
+  },
+  {
+    slug: 'perplexity',
+    term: 'Perplexity',
+    shortDef: 'Metric measuring how well a language model predicts text - lower is better.',
+    fullDef: `Perplexity measures how "surprised" a language model is by text, indicating prediction quality.
+
+**Intuition:**
+- Lower perplexity = better predictions
+- Perplexity of 10 = model as confused as choosing from 10 options
+- Good models have low perplexity on test data
+
+**Calculation:**
+- Exponential of cross-entropy loss
+- Geometric mean of inverse probabilities
+- PPL = exp(loss)
+
+**Typical Values:**
+- State-of-the-art LLMs: 3-10 on standard benchmarks
+- Random guessing: Vocabulary size
+- Perfect prediction: 1
+
+**Limitations:**
+- Doesn't measure coherence
+- Doesn't measure factuality
+- Dataset-dependent
+- Not comparable across different tokenizers`,
+    category: 'concepts',
+    relatedTerms: ['loss-function', 'evaluation', 'large-language-model'],
+    examples: 'GPT-4 achieving perplexity of 8.5 on WikiText-103 benchmark.',
+  },
+  {
+    slug: 'positional-encoding',
+    term: 'Positional Encoding',
+    shortDef: 'Technique to give transformers information about token positions in a sequence.',
+    fullDef: `Positional encoding adds position information to transformers, which otherwise have no notion of order.
+
+**Why Needed:**
+- Attention treats all positions equally
+- "The cat sat on mat" vs "Mat on sat cat the"
+- Position information is crucial for understanding
+
+**Types:**
+- **Sinusoidal**: Original transformer, fixed patterns
+- **Learned**: Train position embeddings
+- **Relative**: Encode relative distances (T5, Transformer-XL)
+- **RoPE**: Rotary Position Embedding (Llama)
+- **ALiBi**: Attention with Linear Biases
+
+**RoPE (Popular in Modern LLMs):**
+- Encodes position in attention computation
+- Better extrapolation to longer sequences
+- Used in Llama, Mistral, many others
+
+**Context Length:**
+- Position encoding limits context length
+- Some methods extrapolate better than others`,
+    category: 'techniques',
+    relatedTerms: ['transformer', 'attention', 'context-window'],
+    examples: 'RoPE allowing Llama to handle sequences longer than seen during training.',
+  },
+  {
+    slug: 'mixture-of-experts',
+    term: 'Mixture of Experts (MoE)',
+    shortDef: 'Architecture using multiple specialized networks and routing inputs to relevant experts.',
+    fullDef: `Mixture of Experts uses multiple "expert" networks and a router to select which experts process each input.
+
+**Architecture:**
+- Multiple expert networks (e.g., 8, 16, or more)
+- Router network decides which experts to use
+- Only activate subset of experts per input
+
+**Benefits:**
+- Scale parameters without scaling compute
+- Mixtral 8x7B: 47B params, ~13B active per token
+- More efficient than dense models
+
+**Key Components:**
+- **Experts**: Specialized feed-forward networks
+- **Router**: Decides expert assignment
+- **Top-k Selection**: Use k experts per token (often k=2)
+
+**Challenges:**
+- Load balancing across experts
+- Communication overhead
+- Training stability
+
+**Examples:**
+- Mixtral 8x7B, 8x22B
+- GPT-4 rumored to use MoE
+- Switch Transformer`,
+    category: 'techniques',
+    relatedTerms: ['mistral', 'transformer', 'scaling-laws'],
+    examples: 'Mixtral activating only 2 of 8 experts per token for efficiency.',
+  },
+  {
+    slug: 'knowledge-distillation',
+    term: 'Knowledge Distillation',
+    shortDef: 'Training smaller models to mimic larger models\' behavior.',
+    fullDef: `Knowledge distillation transfers knowledge from a large "teacher" model to a smaller "student" model.
+
+**Process:**
+1. Train large teacher model
+2. Teacher generates soft predictions
+3. Student learns to match teacher outputs
+4. Student becomes smaller approximation
+
+**Why It Works:**
+- Soft labels contain more information than hard labels
+- Teacher's uncertainty is informative
+- Dark knowledge transfer
+
+**Types:**
+- **Response Distillation**: Match output probabilities
+- **Feature Distillation**: Match intermediate representations
+- **Relation Distillation**: Match relationships between examples
+
+**Applications:**
+- Deploy smaller models on edge devices
+- Reduce inference costs
+- Model compression
+
+**Examples:**
+- DistilBERT: 60% smaller, 97% performance
+- Many LLM distillations available`,
+    category: 'techniques',
+    relatedTerms: ['fine-tuning', 'quantization', 'deployment'],
+    examples: 'DistilBERT learning from BERT to be 40% smaller while keeping most capability.',
+  },
+  {
+    slug: 'vision-transformer',
+    term: 'Vision Transformer (ViT)',
+    shortDef: 'Applying transformer architecture to image recognition by treating image patches as tokens.',
+    fullDef: `Vision Transformers apply the transformer architecture to images by treating image patches as sequences.
+
+**How It Works:**
+1. Split image into patches (e.g., 16x16)
+2. Flatten patches to vectors
+3. Add position embeddings
+4. Process through transformer encoder
+5. Use [CLS] token for classification
+
+**Benefits:**
+- Scales better than CNNs at large scale
+- Better global understanding
+- Transfer learning works well
+
+**Variants:**
+- **DeiT**: Data-efficient training
+- **Swin Transformer**: Hierarchical windows
+- **BEiT**: BERT-style pre-training for vision
+
+**Impact:**
+- Changed computer vision landscape
+- Foundation for multimodal models
+- CLIP combines ViT with text encoder`,
+    category: 'models',
+    relatedTerms: ['transformer', 'computer-vision', 'clip'],
+    examples: 'ViT-Large achieving state-of-the-art on ImageNet classification.',
+  },
+  {
+    slug: 'clip',
+    term: 'CLIP',
+    shortDef: 'OpenAI model connecting images and text in shared embedding space.',
+    fullDef: `CLIP (Contrastive Language-Image Pre-training) learns to connect images and text through contrastive learning.
+
+**Training:**
+- Learn from image-text pairs from internet
+- No manual labeling needed
+- 400M image-text pairs
+
+**How It Works:**
+- Image encoder (ViT or ResNet)
+- Text encoder (Transformer)
+- Train to maximize similarity of matching pairs
+- Minimize similarity of non-matching pairs
+
+**Capabilities:**
+- Zero-shot image classification
+- Image-text similarity
+- Powers DALL-E and Stable Diffusion
+- Image search with natural language
+
+**Impact:**
+- Foundation for text-to-image models
+- Enabled zero-shot visual recognition
+- Key component in multimodal AI`,
+    category: 'models',
+    relatedTerms: ['vision-transformer', 'embeddings', 'stable-diffusion'],
+    examples: 'Using CLIP to find images matching the description "a cat wearing a hat".',
+  },
+  {
+    slug: 'whisper',
+    term: 'Whisper',
+    shortDef: 'OpenAI\'s speech recognition model trained on 680,000 hours of audio.',
+    fullDef: `Whisper is OpenAI's automatic speech recognition (ASR) model trained on massive multilingual data.
+
+**Capabilities:**
+- Speech-to-text transcription
+- Translation to English
+- Language detection
+- Timestamp generation
+
+**Model Sizes:**
+- Tiny: 39M parameters
+- Base: 74M
+- Small: 244M
+- Medium: 769M
+- Large: 1.55B
+
+**Training Data:**
+- 680,000 hours of audio
+- Multilingual (99 languages)
+- Diverse: YouTube, podcasts, audiobooks
+
+**Features:**
+- Robust to noise, accents
+- Handles multiple languages
+- Open source and free
+- Local deployment possible`,
+    category: 'models',
+    relatedTerms: ['openai', 'speech-recognition', 'multimodal'],
+    examples: 'Using Whisper to transcribe podcasts with speaker timestamps.',
+  },
+  {
+    slug: 'dall-e',
+    term: 'DALL-E',
+    shortDef: 'OpenAI\'s text-to-image model that generates images from text descriptions.',
+    fullDef: `DALL-E is OpenAI's image generation model that creates images from natural language descriptions.
+
+**Versions:**
+- **DALL-E** (2021): Discrete VAE approach
+- **DALL-E 2** (2022): CLIP + diffusion
+- **DALL-E 3** (2023): Better prompt understanding, integrated with ChatGPT
+
+**DALL-E 3 Features:**
+- Much better prompt following
+- Integrated into ChatGPT
+- Can generate text in images
+- Safety mitigations built-in
+
+**Access:**
+- ChatGPT Plus/Enterprise
+- API access
+- Bing Image Creator (free)
+
+**Limitations:**
+- Usage limits
+- Content policy restrictions
+- No real people without consent
+- Copyright considerations`,
+    category: 'models',
+    relatedTerms: ['openai', 'diffusion-model', 'image-generation'],
+    examples: 'DALL-E 3 creating a "watercolor painting of a robot reading a book in a library".',
+  },
+  {
+    slug: 'midjourney',
+    term: 'Midjourney',
+    shortDef: 'Popular AI art generator known for aesthetic, stylized image generation.',
+    fullDef: `Midjourney is an AI image generation service known for producing highly aesthetic, artistic images.
+
+**Access:**
+- Discord bot interface
+- Web interface (newer)
+- Subscription required
+
+**Versions:**
+- V1-V4: Progressive improvements
+- V5: Photorealism breakthrough
+- V6: Better prompt understanding, text rendering
+
+**Strengths:**
+- Aesthetic quality
+- Artistic styles
+- Community and sharing
+- Fast generation
+
+**Pricing:**
+- Basic: $10/month
+- Standard: $30/month
+- Pro: $60/month
+- Mega: $120/month
+
+**Comparison:**
+- More artistic than DALL-E
+- Less precise than Stable Diffusion
+- Best for creative/artistic work`,
+    category: 'models',
+    relatedTerms: ['diffusion-model', 'stable-diffusion', 'image-generation'],
+    examples: 'Creating fantasy art with Midjourney\'s signature aesthetic style.',
+  },
+  {
+    slug: 'copilot',
+    term: 'GitHub Copilot',
+    shortDef: 'AI coding assistant that suggests code in real-time as you type.',
+    fullDef: `GitHub Copilot is an AI pair programmer that suggests code completions based on context.
+
+**How It Works:**
+- Trained on public code repositories
+- Understands context from file and comments
+- Suggests entire functions or lines
+- Multiple suggestions to choose from
+
+**Features:**
+- Code completion
+- Function generation
+- Test generation
+- Documentation generation
+- Multi-language support
+
+**Versions:**
+- **Copilot**: Code suggestions
+- **Copilot Chat**: Conversational coding help
+- **Copilot Enterprise**: Custom models on your code
+
+**Powered By:**
+- OpenAI Codex (earlier)
+- GPT-4 (Copilot Chat)
+
+**Pricing:**
+- Individual: $10/month
+- Business: $19/user/month
+- Enterprise: $39/user/month`,
+    category: 'models',
+    relatedTerms: ['openai', 'code-generation', 'llm'],
+    examples: 'Copilot completing a function after you write the docstring.',
+  },
+  {
+    slug: 'langchain',
+    term: 'LangChain',
+    shortDef: 'Popular framework for building applications with large language models.',
+    fullDef: `LangChain is a framework for developing applications powered by language models.
+
+**Core Concepts:**
+- **Chains**: Sequences of LLM calls
+- **Agents**: LLMs that decide actions
+- **Memory**: Persist state across interactions
+- **Retrievers**: Get relevant documents
+
+**Key Components:**
+- Document loaders
+- Text splitters
+- Vector stores
+- Prompt templates
+- Output parsers
+
+**Use Cases:**
+- RAG applications
+- Chatbots with memory
+- Autonomous agents
+- Document Q&A
+- Data extraction
+
+**Ecosystem:**
+- LangSmith: Monitoring and debugging
+- LangServe: Deploy chains as APIs
+- LangGraph: Complex agent workflows
+
+**Alternatives:**
+- LlamaIndex (data-focused)
+- Semantic Kernel (Microsoft)
+- Haystack`,
+    category: 'concepts',
+    relatedTerms: ['rag', 'agent', 'vector-database'],
+    examples: 'Building a chatbot that answers questions about your documents using LangChain.',
+  },
+  {
+    slug: 'llamaindex',
+    term: 'LlamaIndex',
+    shortDef: 'Framework for connecting LLMs with external data sources.',
+    fullDef: `LlamaIndex (formerly GPT Index) is a data framework for LLM applications, focused on ingestion and retrieval.
+
+**Focus Areas:**
+- Data ingestion from many sources
+- Indexing strategies
+- Query engines
+- Retrieval optimization
+
+**Data Connectors:**
+- Documents (PDF, Word, etc.)
+- Databases
+- APIs
+- Web pages
+- Many more via LlamaHub
+
+**Index Types:**
+- Vector index
+- Tree index
+- Keyword index
+- Knowledge graph
+
+**Vs LangChain:**
+- LlamaIndex: Data-centric
+- LangChain: Orchestration-centric
+- Often used together
+
+**Use Cases:**
+- Document Q&A
+- Structured data querying
+- Multi-document synthesis`,
+    category: 'concepts',
+    relatedTerms: ['rag', 'langchain', 'vector-database'],
+    examples: 'Using LlamaIndex to build a Q&A system over company documents.',
+  },
+  {
+    slug: 'ollama',
+    term: 'Ollama',
+    shortDef: 'Tool for easily running large language models locally on your computer.',
+    fullDef: `Ollama makes it easy to run open-source LLMs locally with a simple command-line interface.
+
+**Key Features:**
+- One-command model download
+- Local inference
+- API compatible with OpenAI
+- Model customization
+
+**Supported Models:**
+- Llama 3
+- Mistral/Mixtral
+- Phi
+- Gemma
+- Many community models
+
+**Simple Usage:**
+- ollama run llama3
+- ollama pull mistral
+- ollama list
+
+**Benefits:**
+- Privacy (data stays local)
+- No API costs
+- Offline capable
+- Easy model switching
+
+**Requirements:**
+- macOS, Linux, Windows
+- Decent CPU or GPU
+- RAM depends on model size`,
+    category: 'concepts',
+    relatedTerms: ['llama', 'local-llm', 'open-source-ai'],
+    examples: 'Running "ollama run llama3" to chat with Llama 3 locally.',
+  },
+  {
+    slug: 'nvidia',
+    term: 'NVIDIA',
+    shortDef: 'Leading GPU manufacturer whose hardware powers most AI training and inference.',
+    fullDef: `NVIDIA dominates AI hardware with GPUs essential for training and running modern AI models.
+
+**Key AI Products:**
+- **H100**: Current flagship for AI training
+- **A100**: Previous generation workhorse
+- **RTX 4090**: Consumer GPU for local AI
+- **Grace Hopper**: CPU+GPU superchip
+
+**Software Stack:**
+- **CUDA**: GPU programming platform
+- **cuDNN**: Deep learning primitives
+- **TensorRT**: Inference optimization
+- **Triton**: Inference server
+
+**Why NVIDIA Dominates:**
+- CUDA ecosystem (15+ years)
+- Hardware optimization for AI
+- Software support
+- First-mover advantage
+
+**Market Position:**
+- ~80% of AI training market
+- Multi-trillion dollar company
+- AI infrastructure backbone
+
+**Competitors:**
+- AMD (MI300X)
+- Intel (Gaudi)
+- Google (TPU)
+- Custom chips (Groq, Cerebras)`,
+    category: 'companies',
+    relatedTerms: ['gpu', 'training', 'hardware'],
+    examples: 'Training GPT-4 required thousands of NVIDIA A100 GPUs.',
+  },
+  {
+    slug: 'gpu',
+    term: 'GPU (Graphics Processing Unit)',
+    shortDef: 'Specialized processor essential for training and running AI models efficiently.',
+    fullDef: `GPUs are processors originally designed for graphics but now essential for AI due to their parallel processing capabilities.
+
+**Why GPUs for AI:**
+- Thousands of cores for parallel processing
+- Matrix operations are parallelizable
+- Much faster than CPUs for AI workloads
+- High memory bandwidth
+
+**AI-Specific GPUs:**
+- Tensor Cores: Specialized matrix units
+- High-bandwidth memory (HBM)
+- Large VRAM capacity
+- NVLink for multi-GPU
+
+**VRAM (Memory) Matters:**
+- Limits model size you can run
+- 8GB: Small models
+- 24GB: Medium models
+- 80GB+: Large models, training
+
+**Cloud GPU Options:**
+- AWS (p4d, p5 instances)
+- Google Cloud (A100, H100)
+- Azure (NC, ND series)
+- Lambda Labs, CoreWeave, etc.`,
+    category: 'concepts',
+    relatedTerms: ['nvidia', 'training', 'inference'],
+    examples: 'Running Llama 3 8B requires ~16GB VRAM, fitting on RTX 4090.',
+  },
+  {
+    slug: 'tpu',
+    term: 'TPU (Tensor Processing Unit)',
+    shortDef: 'Google\'s custom AI chip designed specifically for machine learning workloads.',
+    fullDef: `TPUs are Google's custom-designed chips optimized specifically for machine learning.
+
+**Versions:**
+- TPU v1: Inference only
+- TPU v2/v3: Training capable
+- TPU v4: Current generation
+- TPU v5: Latest, most powerful
+
+**Architecture:**
+- Systolic array for matrix multiplication
+- High-bandwidth memory
+- Designed for TensorFlow/JAX
+- Connected in pods for scale
+
+**Advantages:**
+- Optimized for ML workloads
+- Cost-effective at scale
+- High throughput
+- Used for Google's own training
+
+**Access:**
+- Google Cloud (TPU VMs)
+- Colab (free TPU access)
+- Google Research programs
+
+**Vs GPUs:**
+- TPUs: Better for large-scale training
+- GPUs: More flexible, wider ecosystem`,
+    category: 'concepts',
+    relatedTerms: ['google', 'gpu', 'training'],
+    examples: 'Google trained PaLM and Gemini on TPU v4 pods.',
+  },
+  {
+    slug: 'semantic-search',
+    term: 'Semantic Search',
+    shortDef: 'Search that understands meaning and intent, not just keyword matching.',
+    fullDef: `Semantic search finds results based on meaning and context rather than exact keyword matches.
+
+**How It Works:**
+1. Convert query to embedding (vector)
+2. Compare to document embeddings
+3. Return semantically similar results
+4. Rank by relevance
+
+**Vs Keyword Search:**
+- Keyword: "car" won't match "automobile"
+- Semantic: Understands synonyms, concepts
+- Keyword: Exact matching
+- Semantic: Meaning matching
+
+**Enabling Technologies:**
+- Embedding models
+- Vector databases
+- Approximate nearest neighbor
+- Hybrid search (semantic + keyword)
+
+**Applications:**
+- Enterprise search
+- E-commerce product search
+- Document retrieval for RAG
+- Customer support`,
+    category: 'concepts',
+    relatedTerms: ['embeddings', 'vector-database', 'rag'],
+    examples: 'Searching "how to fix slow computer" and finding "PC performance optimization".',
+  },
+  {
+    slug: 'text-to-speech',
+    term: 'Text-to-Speech (TTS)',
+    shortDef: 'AI technology that converts written text into natural-sounding spoken audio.',
+    fullDef: `Text-to-speech systems convert text into human-like speech using AI.
+
+**Modern TTS Features:**
+- Natural prosody and intonation
+- Multiple voices and languages
+- Emotional expression
+- Voice cloning capability
+
+**Leading TTS Systems:**
+- **ElevenLabs**: High-quality, voice cloning
+- **OpenAI TTS**: Simple API
+- **Google Cloud TTS**: Many languages
+- **Amazon Polly**: AWS integration
+- **Coqui**: Open source
+
+**Use Cases:**
+- Audiobook generation
+- Video narration
+- Accessibility
+- Virtual assistants
+- Content creation
+
+**Voice Cloning:**
+- Clone voice from samples
+- Ethical considerations
+- Requires consent for real people`,
+    category: 'concepts',
+    relatedTerms: ['speech-recognition', 'multimodal', 'whisper'],
+    examples: 'ElevenLabs generating podcast narration from a script.',
+  },
+  {
+    slug: 'constitutional-ai',
+    term: 'Constitutional AI',
+    shortDef: 'Anthropic\'s training approach using principles to guide AI behavior without human labeling.',
+    fullDef: `Constitutional AI (CAI) is Anthropic's method for training AI systems to be helpful, harmless, and honest.
+
+**How It Works:**
+1. Start with helpful but potentially harmful model
+2. Model critiques its own outputs
+3. Uses written principles (constitution) as guide
+4. Revises responses to be safer
+5. Train on self-revised responses
+
+**Key Innovation:**
+- Less reliance on human labeling
+- Scalable safety training
+- Explicit principles instead of implicit preferences
+
+**The Constitution:**
+- Set of principles model follows
+- Examples: "Be helpful but don't cause harm"
+- Can be customized for different use cases
+
+**Benefits:**
+- More transparent than pure RLHF
+- Reduces human labeling costs
+- Consistent application of rules
+
+**Used By:**
+- Claude (Anthropic's model)
+- Basis for Claude's behavior`,
+    category: 'techniques',
+    relatedTerms: ['anthropic', 'rlhf', 'alignment'],
+    examples: 'Claude refusing harmful requests based on constitutional principles.',
+  },
+  {
+    slug: 'sora',
+    term: 'Sora',
+    shortDef: 'OpenAI\'s text-to-video model that generates realistic videos from text prompts.',
+    fullDef: `Sora is OpenAI's video generation model that creates realistic videos from text descriptions.
+
+**Capabilities:**
+- Generate up to 60-second videos
+- Understand complex scenes and physics
+- Multiple camera angles and movements
+- High visual quality
+
+**Technical Approach:**
+- Diffusion transformer architecture
+- Trained on videos and images
+- Understands 3D consistency
+- Temporal coherence
+
+**Demonstrated Features:**
+- Complex scenes with multiple subjects
+- Realistic motion and physics
+- Style and aesthetic control
+- Camera movements
+
+**Current Status:**
+- Limited access (red teamers, artists)
+- Not publicly available (as of training cutoff)
+- Safety evaluations ongoing
+
+**Implications:**
+- Film and content creation
+- Advertising
+- Education
+- Creative tools`,
+    category: 'models',
+    relatedTerms: ['openai', 'diffusion-model', 'video-generation'],
+    examples: 'Sora generating a video of "a cat walking on a busy city street in Tokyo".',
+  },
+  {
+    slug: 'groq',
+    term: 'Groq',
+    shortDef: 'AI chip company known for extremely fast LLM inference using custom hardware.',
+    fullDef: `Groq develops custom AI chips (LPUs) optimized for fast inference, particularly for LLMs.
+
+**LPU (Language Processing Unit):**
+- Deterministic, predictable performance
+- No batching needed
+- Extremely low latency
+- High throughput
+
+**Speed Claims:**
+- 10x+ faster than GPU inference
+- Hundreds of tokens per second
+- Sub-100ms time to first token
+- Consistent latency
+
+**GroqCloud:**
+- API access to fast inference
+- Supports Llama, Mixtral, etc.
+- Competitive pricing
+- Free tier available
+
+**Use Cases:**
+- Real-time applications
+- Conversational AI
+- High-throughput batch processing
+- Latency-sensitive workloads
+
+**Trade-offs:**
+- Less flexible than GPUs
+- Specific to inference (not training)
+- Limited availability`,
+    category: 'companies',
+    relatedTerms: ['inference', 'hardware', 'llama'],
+    examples: 'Groq serving Llama 3 at 500+ tokens per second.',
+  },
+  {
+    slug: 'agi',
+    term: 'AGI (Artificial General Intelligence)',
+    shortDef: 'Hypothetical AI with human-level intelligence across all cognitive tasks.',
+    fullDef: `AGI refers to AI systems that match or exceed human intelligence across all cognitive domains.
+
+**Current AI vs AGI:**
+- Current AI: Narrow, task-specific
+- AGI: General-purpose, human-like reasoning
+- Current AI: Pattern matching
+- AGI: True understanding (debated)
+
+**Characteristics of AGI:**
+- Transfer learning across all domains
+- Common sense reasoning
+- Self-improvement capability
+- General problem solving
+
+**Timeline Predictions:**
+- Vary wildly: 5 years to never
+- OpenAI: Working toward AGI
+- Some researchers: Already close
+- Others: Decades away or impossible
+
+**Concerns:**
+- Safety and control
+- Economic disruption
+- Existential risk debates
+- Alignment challenges
+
+**Related Concepts:**
+- ASI: Artificial Superintelligence
+- Narrow AI: Current systems
+- Transformative AI: Significant impact`,
+    category: 'concepts',
+    relatedTerms: ['alignment', 'ai-safety', 'scaling-laws'],
+    examples: 'Debates about whether GPT-4 shows "sparks of AGI" or is just sophisticated pattern matching.',
+  },
+  {
+    slug: 'red-teaming',
+    term: 'Red Teaming',
+    shortDef: 'Testing AI systems by deliberately trying to make them fail or produce harmful outputs.',
+    fullDef: `Red teaming involves adversarial testing to find vulnerabilities and failure modes in AI systems.
+
+**Goals:**
+- Find ways to bypass safety measures
+- Discover harmful outputs
+- Test edge cases
+- Improve robustness
+
+**Techniques:**
+- Jailbreak attempts
+- Prompt injection
+- Adversarial inputs
+- Edge case exploration
+- Social engineering
+
+**Who Does Red Teaming:**
+- Internal safety teams
+- External researchers
+- Bug bounty participants
+- AI safety organizations
+
+**Findings Help:**
+- Improve training data
+- Refine safety filters
+- Update policies
+- Fix vulnerabilities
+
+**Challenges:**
+- Can't test everything
+- Adversaries adapt
+- Novel attacks emerge
+- Balance with capabilities`,
+    category: 'concepts',
+    relatedTerms: ['ai-safety', 'alignment', 'jailbreak'],
+    examples: 'Researchers finding ways to make ChatGPT produce harmful content to help fix vulnerabilities.',
+  },
+  {
+    slug: 'jailbreak',
+    term: 'Jailbreak',
+    shortDef: 'Techniques to bypass AI safety measures and get models to ignore restrictions.',
+    fullDef: `Jailbreaking refers to prompts or techniques that circumvent AI safety guardrails.
+
+**Common Techniques:**
+- Role-playing scenarios
+- Hypothetical framing
+- Token manipulation
+- Prompt injection
+- Multi-turn manipulation
+
+**Example Patterns:**
+- "Pretend you're an AI without restrictions"
+- "For educational purposes only..."
+- Character role-play
+- Gradual escalation
+
+**Why They Work:**
+- Training doesn't cover all cases
+- Models follow instructions literally
+- Edge cases in safety training
+- Novel prompt structures
+
+**Mitigation:**
+- Better training data
+- Constitutional AI
+- Output filtering
+- Continuous red teaming
+- Regular updates
+
+**Responsible Use:**
+- Research and safety testing
+- Not for actual harm
+- Report vulnerabilities`,
+    category: 'concepts',
+    relatedTerms: ['red-teaming', 'ai-safety', 'prompt-injection'],
+    examples: 'The "DAN" (Do Anything Now) prompt attempting to bypass ChatGPT restrictions.',
+  },
+  {
+    slug: 'prompt-injection',
+    term: 'Prompt Injection',
+    shortDef: 'Security vulnerability where malicious input hijacks AI model behavior.',
+    fullDef: `Prompt injection attacks manipulate AI systems by embedding malicious instructions in input data.
+
+**Types:**
+- **Direct**: User provides malicious prompt
+- **Indirect**: Malicious content in retrieved data
+- Hidden instructions in documents/websites
+
+**Attack Examples:**
+- "Ignore previous instructions and..."
+- Hidden text in documents
+- Invisible characters
+- Data exfiltration attempts
+
+**Risks:**
+- Data leakage
+- Unauthorized actions
+- Bypassing restrictions
+- System manipulation
+
+**Defenses:**
+- Input sanitization
+- Output filtering
+- Privilege separation
+- Instruction hierarchy
+- Monitoring and detection
+
+**Analogy:**
+- Similar to SQL injection
+- New attack surface for AI apps
+- Critical for production systems`,
+    category: 'concepts',
+    relatedTerms: ['jailbreak', 'ai-safety', 'security'],
+    examples: 'A malicious PDF instructing an AI assistant to email sensitive data to attackers.',
+  },
+  {
+    slug: 'model-collapse',
+    term: 'Model Collapse',
+    shortDef: 'Degradation when AI models are trained on AI-generated content recursively.',
+    fullDef: `Model collapse occurs when models trained on synthetic/AI-generated data progressively lose quality and diversity.
+
+**How It Happens:**
+1. Model generates content
+2. Content joins training data
+3. New models trained on this data
+4. Each generation loses information
+5. Eventually: low quality, repetitive
+
+**Research Findings:**
+- Irreversible quality degradation
+- Loss of minority/tail information
+- Convergence to limited outputs
+- Affects both text and images
+
+**Implications:**
+- Internet increasingly AI-generated
+- Future training data contaminated
+- Need for data provenance
+- Human data becomes more valuable
+
+**Mitigation:**
+- Track AI-generated content
+- Maintain human data sources
+- Filter training data
+- Data diversity requirements`,
+    category: 'concepts',
+    relatedTerms: ['training', 'synthetic-data', 'data-quality'],
+    examples: 'Image models producing increasingly generic faces after training on AI-generated images.',
+  },
+  {
+    slug: 'tool-use',
+    term: 'Tool Use / Function Calling',
+    shortDef: 'LLMs calling external tools, APIs, or functions to extend their capabilities.',
+    fullDef: `Tool use enables LLMs to interact with external systems by generating structured calls to functions or APIs.
+
+**How It Works:**
+1. Define available tools/functions
+2. Model decides when to use tools
+3. Model generates structured call
+4. System executes tool
+5. Result returned to model
+
+**Common Tools:**
+- Web search
+- Calculator
+- Code execution
+- Database queries
+- API calls
+- File operations
+
+**Implementation:**
+- Function calling (OpenAI)
+- Tool use (Anthropic)
+- ReAct pattern
+- Agent frameworks
+
+**Benefits:**
+- Access current information
+- Perform calculations accurately
+- Take real-world actions
+- Extend model capabilities
+
+**Challenges:**
+- Reliability of tool selection
+- Error handling
+- Security considerations
+- Cost management`,
+    category: 'techniques',
+    relatedTerms: ['agent', 'langchain', 'api'],
+    examples: 'ChatGPT using a calculator tool for complex math instead of computing directly.',
+  },
+  {
+    slug: 'system-prompt',
+    term: 'System Prompt',
+    shortDef: 'Hidden instructions that define AI behavior, personality, and constraints.',
+    fullDef: `System prompts are instructions that set the context, behavior, and constraints for AI interactions.
+
+**Purpose:**
+- Define AI's role/persona
+- Set behavior guidelines
+- Specify constraints
+- Provide context
+
+**Components:**
+- Role definition
+- Behavioral instructions
+- Output format requirements
+- Safety guidelines
+- Domain knowledge
+
+**Best Practices:**
+- Be specific and clear
+- Include examples
+- Define edge cases
+- Test thoroughly
+- Iterate based on failures
+
+**Security:**
+- Can be extracted by users
+- Don't include secrets
+- Use as guidance, not security
+- Layer with other protections
+
+**Examples:**
+- "You are a helpful customer service agent for..."
+- "Always respond in JSON format"
+- "Never provide medical advice"`,
+    category: 'concepts',
+    relatedTerms: ['prompt', 'prompt-engineering', 'jailbreak'],
+    examples: 'Custom GPT using system prompt to act as a cooking assistant with specific guidelines.',
+  },
+  {
+    slug: 'context-caching',
+    term: 'Context Caching',
+    shortDef: 'Storing computed representations to avoid reprocessing unchanged context.',
+    fullDef: `Context caching stores intermediate computations for repeated or similar prompts, reducing cost and latency.
+
+**How It Works:**
+- Cache key-value representations
+- Reuse for similar/repeated prompts
+- Only compute new/changed parts
+- Significant cost savings
+
+**Implementations:**
+- Anthropic Prompt Caching
+- KV cache in inference
+- Prefix caching
+
+**Benefits:**
+- 50-90% cost reduction for long contexts
+- Faster responses
+- Better for repeated queries
+- Efficient RAG applications
+
+**Use Cases:**
+- Long system prompts
+- Document Q&A
+- Multi-turn conversations
+- RAG with fixed context
+
+**Considerations:**
+- Cache invalidation
+- Memory requirements
+- Not all providers support`,
+    category: 'techniques',
+    relatedTerms: ['inference', 'context-window', 'optimization'],
+    examples: 'Caching a long document to answer multiple questions about it cheaply.',
+  },
+  {
+    slug: 'ai-safety',
+    term: 'AI Safety',
+    shortDef: 'Research field focused on ensuring AI systems are beneficial and don\'t cause harm.',
+    fullDef: `AI Safety is an interdisciplinary field working to ensure AI systems remain safe and beneficial.
+
+**Key Research Areas:**
+- Alignment: Making AI do what we want
+- Robustness: Reliable under distribution shift
+- Interpretability: Understanding model decisions
+- Governance: Policy and regulations
+
+**Current Focus:**
+- RLHF and Constitutional AI
+- Red teaming and evaluation
+- Capability control
+- Monitoring and auditing
+
+**Organizations:**
+- Anthropic
+- OpenAI Safety team
+- DeepMind Safety
+- Center for AI Safety
+- MIRI
+
+**Near-term Concerns:**
+- Misinformation
+- Bias and fairness
+- Privacy
+- Job displacement
+
+**Long-term Concerns:**
+- AGI alignment
+- Recursive self-improvement
+- Value lock-in
+- Existential risk`,
+    category: 'concepts',
+    relatedTerms: ['alignment', 'rlhf', 'red-teaming'],
+    examples: 'Anthropic\'s research on Constitutional AI to make Claude safer.',
+  },
+  {
+    slug: 'diffusion-model',
+    term: 'Diffusion Model',
+    shortDef: 'AI models that generate data by learning to reverse a gradual noising process.',
+    fullDef: `Diffusion models work by adding noise to data gradually, then learning to reverse this process to generate new samples.
+
+**How It Works:**
+1. Forward process: Add noise step by step until pure noise
+2. Reverse process: Learn to denoise step by step
+3. Generation: Start from noise, denoise to create new data
+
+**Key Advantages:**
+- High-quality outputs
+- Training stability
+- Flexible conditioning
+
+**Popular Implementations:**
+- Stable Diffusion
+- DALL-E 2/3
+- Midjourney
+- Imagen
+
+**Applications:**
+- Image generation
+- Video synthesis
+- Audio generation
+- 3D asset creation`,
+    category: 'techniques',
+    relatedTerms: ['dall-e', 'midjourney', 'stable-diffusion'],
+    examples: 'Stable Diffusion generating photorealistic images from text prompts.',
+  },
+  {
+    slug: 'multimodal-ai',
+    term: 'Multimodal AI',
+    shortDef: 'AI systems that can process and generate multiple types of data like text, images, and audio.',
+    fullDef: `Multimodal AI can understand and work with multiple types of input and output modalities simultaneously.
+
+**Modalities:**
+- Text
+- Images
+- Audio/Speech
+- Video
+- Code
+- 3D data
+
+**Capabilities:**
+- Image-to-text (captioning)
+- Text-to-image (generation)
+- Visual question answering
+- Audio transcription with context
+- Cross-modal reasoning
+
+**Key Models:**
+- GPT-4V (Vision)
+- Claude 3 (Vision)
+- Gemini
+- CLIP
+- LLaVA
+
+**Applications:**
+- Accessibility tools
+- Content creation
+- Medical imaging analysis
+- Autonomous vehicles`,
+    category: 'concepts',
+    relatedTerms: ['vision-transformer', 'clip', 'gpt-4'],
+    examples: 'Claude analyzing a chart image and explaining the data trends in text.',
+  },
+  {
+    slug: 'zero-shot-learning',
+    term: 'Zero-Shot Learning',
+    shortDef: 'AI ability to perform tasks it was not explicitly trained on.',
+    fullDef: `Zero-shot learning enables models to handle new tasks or categories without seeing specific training examples.
+
+**How It Works:**
+- Leverages general knowledge from pretraining
+- Uses task descriptions or prompts
+- Transfers understanding across domains
+
+**Types:**
+- **Zero-shot**: No examples given
+- **Few-shot**: A few examples provided
+- **One-shot**: Single example given
+
+**Key Enablers:**
+- Large-scale pretraining
+- Instruction tuning
+- Rich semantic representations
+
+**Limitations:**
+- May underperform vs fine-tuned models
+- Prompt sensitivity
+- Domain-specific knowledge gaps`,
+    category: 'techniques',
+    relatedTerms: ['prompt-engineering', 'few-shot-learning', 'in-context-learning'],
+    examples: 'GPT-4 translating to a language it saw little of during training.',
+  },
+  {
+    slug: 'few-shot-learning',
+    term: 'Few-Shot Learning',
+    shortDef: 'AI ability to learn new tasks from just a handful of examples.',
+    fullDef: `Few-shot learning allows models to adapt to new tasks with minimal training examples, typically 2-10 examples.
+
+**In-Context Learning:**
+Modern LLMs perform few-shot learning by including examples in the prompt:
+
+\`\`\`
+Translate English to French:
+cat -> chat
+dog -> chien
+house -> ?
+\`\`\`
+
+**Advantages:**
+- No fine-tuning required
+- Quick adaptation
+- Lower data requirements
+
+**Techniques:**
+- Prompt engineering with examples
+- Meta-learning approaches
+- Prototype-based methods
+
+**Applications:**
+- Rapid prototyping
+- Low-resource languages
+- Specialized classifications`,
+    category: 'techniques',
+    relatedTerms: ['zero-shot-learning', 'in-context-learning', 'prompt-engineering'],
+    examples: 'Showing an LLM 3 examples of your coding style before asking it to write new code.',
+  },
+  {
+    slug: 'in-context-learning',
+    term: 'In-Context Learning (ICL)',
+    shortDef: 'LLMs learning to perform tasks from examples provided in the prompt without weight updates.',
+    fullDef: `In-context learning is the ability of LLMs to learn from demonstrations provided within the input prompt.
+
+**Key Insight:**
+The model learns the pattern from examples without any gradient updates - it's all inference-time learning.
+
+**How It Works:**
+1. Include task demonstrations in prompt
+2. Model recognizes the pattern
+3. Applies pattern to new input
+
+**Factors Affecting Performance:**
+- Example quality and relevance
+- Example ordering
+- Format consistency
+- Model size (emergent in large models)
+
+**Research Findings:**
+- Label correctness matters less than format
+- More examples generally help
+- Example diversity important`,
+    category: 'techniques',
+    relatedTerms: ['few-shot-learning', 'prompt-engineering', 'zero-shot-learning'],
+    examples: 'Including example Q&A pairs before your actual question to guide the model\'s response format.',
+  },
+  {
+    slug: 'embedding',
+    term: 'Embedding',
+    shortDef: 'Dense vector representation of data that captures semantic meaning.',
+    fullDef: `Embeddings convert discrete data (words, sentences, images) into continuous vector representations in a high-dimensional space.
+
+**Key Properties:**
+- Similar items have similar vectors
+- Enable mathematical operations on meaning
+- Typically 384-4096 dimensions
+
+**Types:**
+- **Word embeddings**: Word2Vec, GloVe
+- **Sentence embeddings**: SBERT, Ada-002
+- **Image embeddings**: CLIP, ResNet features
+- **Code embeddings**: CodeBERT
+
+**Applications:**
+- Semantic search
+- Recommendation systems
+- Clustering and classification
+- RAG systems
+
+**Popular Models:**
+- OpenAI text-embedding-ada-002
+- Cohere embed
+- Voyage AI
+- BGE, E5`,
+    category: 'concepts',
+    relatedTerms: ['semantic-search', 'vector-database', 'rag'],
+    examples: 'Converting "king" and "queen" to vectors where their difference equals the "male-female" direction.',
+  },
+  {
+    slug: 'vector-database',
+    term: 'Vector Database',
+    shortDef: 'Database optimized for storing and searching high-dimensional vector embeddings.',
+    fullDef: `Vector databases are specialized systems for efficient similarity search over embedding vectors.
+
+**Core Operations:**
+- Store vectors with metadata
+- Find k-nearest neighbors
+- Filter by metadata
+- Update/delete vectors
+
+**Search Algorithms:**
+- HNSW (Hierarchical Navigable Small World)
+- IVF (Inverted File Index)
+- PQ (Product Quantization)
+- Exact nearest neighbor (small scale)
+
+**Popular Solutions:**
+- Pinecone (managed)
+- Weaviate (open source)
+- Milvus (open source)
+- Qdrant (open source)
+- Chroma (lightweight)
+- pgvector (PostgreSQL extension)
+
+**Use Cases:**
+- RAG systems
+- Semantic search
+- Recommendation engines
+- Image similarity`,
+    category: 'concepts',
+    relatedTerms: ['embedding', 'rag', 'semantic-search'],
+    examples: 'Pinecone storing document embeddings for a customer support chatbot.',
+  },
+  {
+    slug: 'model-evaluation',
+    term: 'Model Evaluation',
+    shortDef: 'Measuring AI model performance using benchmarks and metrics.',
+    fullDef: `Model evaluation assesses how well AI models perform on various tasks and criteria.
+
+**Key Metrics:**
+- **Accuracy**: Correct predictions / total
+- **Perplexity**: Language model uncertainty
+- **BLEU/ROUGE**: Text similarity scores
+- **F1 Score**: Balance precision/recall
+- **Human preference**: User studies, Elo ratings
+
+**Popular Benchmarks:**
+- MMLU (knowledge)
+- HumanEval (coding)
+- MT-Bench (conversation)
+- BigBench (diverse tasks)
+- HELM (holistic evaluation)
+
+**Evaluation Challenges:**
+- Benchmark contamination
+- Gaming metrics
+- Real-world performance gap
+- Emergent capabilities
+
+**Best Practices:**
+- Multiple benchmarks
+- Human evaluation
+- Task-specific metrics
+- Regular re-evaluation`,
+    category: 'concepts',
+    relatedTerms: ['benchmark', 'perplexity', 'fine-tuning'],
+    examples: 'Claude 3 Opus scoring 86.8% on MMLU knowledge benchmark.',
+  },
+  {
+    slug: 'synthetic-data',
+    term: 'Synthetic Data',
+    shortDef: 'Artificially generated data used to train AI models.',
+    fullDef: `Synthetic data is created algorithmically rather than collected from real-world events, often using AI to generate training data for other AI.
+
+**Generation Methods:**
+- LLM-generated text
+- GAN-generated images
+- Rule-based generation
+- Simulation environments
+- Data augmentation
+
+**Advantages:**
+- No privacy concerns
+- Scalable production
+- Controlled characteristics
+- Fill data gaps
+- Cheaper than collection
+
+**Challenges:**
+- May not reflect reality
+- Model collapse (training on AI outputs)
+- Quality verification
+- Bias amplification
+
+**Use Cases:**
+- Instruction tuning datasets
+- Code generation training
+- Rare scenario simulation
+- Privacy-preserving ML`,
+    category: 'concepts',
+    relatedTerms: ['fine-tuning', 'training', 'model-collapse'],
+    examples: 'Using GPT-4 to generate 50,000 instruction-following examples for fine-tuning a smaller model.',
+  },
+  {
+    slug: 'latent-space',
+    term: 'Latent Space',
+    shortDef: 'A compressed, abstract representation learned by neural networks.',
+    fullDef: `Latent space is the internal representation where neural networks encode meaningful features of data in a lower-dimensional form.
+
+**Key Concepts:**
+- Compressed representation of input
+- Captures underlying structure
+- Enables generation and manipulation
+- Learned during training
+
+**Properties:**
+- Dimensionality reduction
+- Semantic organization
+- Interpolation between points
+- Clustering of similar items
+
+**Applications:**
+- Image generation (VAE, GAN, Diffusion)
+- Representation learning
+- Anomaly detection
+- Style transfer
+
+**Visualization:**
+- t-SNE
+- UMAP
+- PCA
+
+Similar concepts often cluster together in latent space, enabling meaningful operations like "king - man + woman = queen".`,
+    category: 'concepts',
+    relatedTerms: ['embedding', 'diffusion-model', 'autoencoder'],
+    examples: 'Moving through Stable Diffusion\'s latent space to morph between a cat and a dog image.',
+  },
 ];
