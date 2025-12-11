@@ -49,7 +49,9 @@ export default async function Home() {
               </p>
 
               {/* Newsletter Signup */}
-              <NewsletterSignup variant="hero" />
+              <div id="newsletter">
+                <NewsletterSignup variant="hero" />
+              </div>
             </div>
 
             {/* Stock Pulse Widget */}

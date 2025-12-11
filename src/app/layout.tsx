@@ -20,21 +20,12 @@ export const metadata: Metadata = {
     siteName: 'A2Z AI',
     title: 'A2Z AI | Your A-to-Z Guide to AI',
     description: 'Your A-to-Z guide to AI. Stay current in 5 minutes a day.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'A2Z AI - Your daily AI briefing',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'A2Z AI | Your A-to-Z Guide to AI',
     description: 'Your A-to-Z guide to AI. Stay current in 5 minutes a day.',
-    images: ['/og-image.png'],
-    creator: '@a2zai',
+    creator: '@a2zai_news',
   },
 };
 
