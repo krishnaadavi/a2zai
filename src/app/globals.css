@@ -97,3 +97,70 @@ html, body {
 .overflow-x-auto {
   -webkit-overflow-scrolling: touch;
 }
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Better tap highlight on mobile */
+@media (hover: none) {
+  a, button {
+    -webkit-tap-highlight-color: rgba(168, 85, 247, 0.2);
+  }
+}
+
+/* Prevent text selection on interactive elements */
+button, a {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in content areas */
+article, .prose, p, h1, h2, h3, h4, h5, h6 {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Mobile-friendly form inputs */
+@media (max-width: 640px) {
+  input, textarea, select {
+    font-size: 16px !important; /* Prevent iOS zoom on focus */
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Better image loading */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Card hover states - disable on touch */
+@media (hover: none) {
+  .hover\:border-purple-500\/50:hover {
+    border-color: transparent;
+  }
+}
+
+/* Bottom nav safe area */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}

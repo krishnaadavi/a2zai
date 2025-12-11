@@ -32,6 +32,18 @@ export const metadata: Metadata = {
     description: 'Your A-to-Z guide to AI. Stay current in 5 minutes a day.',
     creator: '@a2zai_news',
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    viewportFit: 'cover',
+  },
+  themeColor: '#030712',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'A2Z AI',
+  },
 };
 
 export default function RootLayout({
