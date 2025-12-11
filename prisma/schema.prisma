@@ -50,10 +50,11 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts  Account[]
-  sessions  Session[]
-  savedArticles SavedArticle[]
+  accounts         Account[]
+  sessions         Session[]
+  savedArticles    SavedArticle[]
   topicPreferences TopicPreference[]
+  readHistory      ReadHistory[]
 }
 
 model VerificationToken {
@@ -118,4 +119,56 @@ model TopicPreference {
 
   @@unique([userId, topic])
   @@index([userId])
+}
+
+// User read history for personalization
+model ReadHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  articleId String   // External article ID
+  articleType String // 'news', 'research', 'model'
+  readAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+  @@index([userId])
+  @@index([readAt])
+}
+
+// Learning content - Glossary terms
+model GlossaryTerm {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  term         String
+  shortDef     String   // 1-2 sentence definition
+  fullDef      String   @db.Text // Detailed explanation
+  category     String   // 'models', 'techniques', 'concepts', 'companies'
+  relatedTerms String[] // Array of related term slugs
+  examples     String?  @db.Text // Real-world examples
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([category])
+  @@index([slug])
+}
+
+// Learning content - AI 101 Explainers
+model Explainer {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  title      String
+  subtitle   String?
+  content    String   @db.Text // Markdown content
+  category   String   // 'fundamentals', 'models', 'applications', 'ethics'
+  difficulty String   // 'beginner', 'intermediate', 'advanced'
+  readTime   Int      // Minutes
+  order      Int      @default(0) // For sequencing within category
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([category])
+  @@index([difficulty])
+  @@index([order])
 }

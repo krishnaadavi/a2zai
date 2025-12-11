@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Brain, Zap, BookOpen, Newspaper, Sparkles, Menu, X, Building2 } from 'lucide-react';
+import { Brain, Zap, BookOpen, Newspaper, Sparkles, Menu, X, Building2, GraduationCap } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import UserMenu from './UserMenu';
 
 export default function AppHeader() {
     const pathname = usePathname();
@@ -32,6 +33,7 @@ export default function AppHeader() {
         { href: '/models', label: 'Models', icon: Brain },
         { href: '/research', label: 'Research', icon: BookOpen },
         { href: '/companies', label: 'Companies', icon: Building2 },
+        { href: '/learn', label: 'Learn', icon: GraduationCap },
     ];
 
     return (
@@ -76,12 +78,16 @@ export default function AppHeader() {
                         })}
                     </nav>
 
-                    {/* Right Side - Subscribe Button */}
-                    <div className="flex items-center gap-3">
-                        <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg hover:from-purple-700 hover:to-cyan-700 transition-all shadow-md hover:shadow-lg font-semibold text-sm">
+                    {/* Right Side - Subscribe Button & User Menu */}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <Link
+                            href="/#newsletter"
+                            className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg hover:from-purple-700 hover:to-cyan-700 transition-all shadow-md hover:shadow-lg font-semibold text-sm"
+                        >
                             <Sparkles className="h-4 w-4" />
-                            <span className="hidden sm:inline">Subscribe</span>
-                        </button>
+                            Subscribe
+                        </Link>
+                        <UserMenu />
                     </div>
                 </div>
             </div>
