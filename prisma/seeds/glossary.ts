@@ -3163,4 +3163,347 @@ Similar concepts often cluster together in latent space, enabling meaningful ope
     relatedTerms: ['embedding', 'diffusion-model', 'autoencoder'],
     examples: 'Moving through Stable Diffusion\'s latent space to morph between a cat and a dog image.',
   },
+  {
+    slug: 'reasoning-model',
+    term: 'Reasoning Model',
+    shortDef: 'AI models designed to break down complex problems through step-by-step logical reasoning.',
+    fullDef: `Reasoning models are LLMs trained specifically to think through problems methodically, showing their work and breaking down complex tasks into logical steps.
+
+**Key Characteristics:**
+- Extended "thinking" before responding
+- Chain of thought reasoning
+- Self-correction capabilities
+- Better at math and logic
+- May take longer to respond
+
+**Examples:**
+- OpenAI o1 (and o1-pro)
+- Claude with extended thinking
+- Google Gemini 2.0 Flash Thinking
+
+**How They Work:**
+1. Receive a complex problem
+2. Generate internal reasoning chain
+3. Explore multiple approaches
+4. Self-check for errors
+5. Output final answer
+
+**Best For:**
+- Math problems
+- Coding challenges
+- Scientific reasoning
+- Multi-step logic puzzles`,
+    category: 'models',
+    relatedTerms: ['chain-of-thought', 'large-language-model', 'prompt-engineering'],
+    examples: 'OpenAI o1 solving a complex physics problem by breaking it into sub-problems and checking each step.',
+  },
+  {
+    slug: 'ai-agent',
+    term: 'AI Agent',
+    shortDef: 'An autonomous AI system that can plan, take actions, and complete tasks with minimal human intervention.',
+    fullDef: `AI agents are autonomous systems that use LLMs as their "brain" to perceive their environment, make decisions, and take actions to achieve specific goals.
+
+**Core Components:**
+- **Planning**: Breaking down goals into tasks
+- **Memory**: Storing context and past actions
+- **Tools**: APIs, code execution, web browsing
+- **Reasoning**: Deciding what to do next
+
+**Types of Agents:**
+- Task-specific agents (coding, research)
+- General-purpose agents
+- Multi-agent systems
+- Autonomous agents
+
+**Popular Frameworks:**
+- LangChain
+- AutoGPT
+- CrewAI
+- Microsoft Autogen
+
+**Capabilities:**
+- Web browsing and research
+- Code writing and execution
+- File management
+- Multi-step task completion
+- Tool use and API calls`,
+    category: 'concepts',
+    relatedTerms: ['large-language-model', 'tool-use', 'rag'],
+    examples: 'Devin by Cognition can autonomously write code, run tests, and fix bugs like a software engineer.',
+  },
+  {
+    slug: 'tool-use',
+    term: 'Tool Use (Function Calling)',
+    shortDef: 'The ability of AI models to use external tools, APIs, and functions to extend their capabilities.',
+    fullDef: `Tool use enables LLMs to go beyond text generation by calling external functions, APIs, and tools to complete tasks.
+
+**How It Works:**
+1. LLM receives a request
+2. Decides which tool(s) to use
+3. Generates function call with parameters
+4. External system executes the function
+5. LLM processes the result
+6. Continues or responds
+
+**Common Tools:**
+- Web search
+- Code execution
+- Calculator
+- Database queries
+- API calls
+- File operations
+
+**Benefits:**
+- Access real-time information
+- Perform accurate calculations
+- Execute code
+- Interact with external systems
+- Overcome training cutoff limitations
+
+**Providers:**
+- OpenAI Function Calling
+- Anthropic Tool Use
+- Google Gemini Functions`,
+    category: 'techniques',
+    relatedTerms: ['ai-agent', 'large-language-model', 'rag'],
+    examples: 'Claude using a calculator tool to solve a complex math problem, or calling a weather API to get current conditions.',
+  },
+  {
+    slug: 'model-context-protocol',
+    term: 'Model Context Protocol (MCP)',
+    shortDef: 'An open protocol by Anthropic for connecting AI models to external data sources and tools.',
+    fullDef: `Model Context Protocol (MCP) is an open standard that allows AI applications to connect with external data sources and tools in a standardized way.
+
+**Purpose:**
+- Standardize AI-tool connections
+- Enable portable tool integrations
+- Simplify building AI applications
+- Reduce fragmentation
+
+**Components:**
+- **MCP Servers**: Provide tools and data
+- **MCP Clients**: AI apps that use servers
+- **Protocol**: Standardized communication
+
+**Example Servers:**
+- File system access
+- Database connections
+- Git repositories
+- Slack, GitHub integrations
+- Web scraping
+
+**Benefits:**
+- Write once, use everywhere
+- Community ecosystem
+- Secure, standardized access
+- Easy to implement`,
+    category: 'techniques',
+    relatedTerms: ['tool-use', 'ai-agent', 'rag'],
+    examples: 'Claude Desktop using MCP servers to access your local files, GitHub repos, and Slack messages.',
+  },
+  {
+    slug: 'computer-use',
+    term: 'Computer Use',
+    shortDef: 'AI capability to control computers by viewing screens and performing mouse/keyboard actions.',
+    fullDef: `Computer use is the ability of AI models to interact with computer interfaces like a human would - viewing screens, clicking, typing, and navigating applications.
+
+**How It Works:**
+1. AI receives a screenshot
+2. Identifies UI elements
+3. Decides on action (click, type, scroll)
+4. Executes action
+5. Receives new screenshot
+6. Repeats until task complete
+
+**Capabilities:**
+- Click on buttons and links
+- Fill in forms
+- Navigate websites
+- Use desktop applications
+- Multi-step workflows
+
+**Current State:**
+- Still experimental
+- Can be slow
+- May make mistakes
+- Best for repetitive tasks
+
+**Providers:**
+- Anthropic Claude (Computer Use API)
+- Google Project Mariner
+- Various agent frameworks`,
+    category: 'techniques',
+    relatedTerms: ['ai-agent', 'tool-use', 'automation'],
+    examples: 'Claude filling out a web form by taking screenshots and generating mouse clicks and keystrokes.',
+  },
+  {
+    slug: 'multimodal-ai',
+    term: 'Multimodal AI',
+    shortDef: 'AI systems that can understand and generate multiple types of content like text, images, audio, and video.',
+    fullDef: `Multimodal AI models can process and generate content across different modalities - text, images, audio, video - in a unified system.
+
+**Modalities:**
+- Text (language understanding/generation)
+- Images (vision, generation)
+- Audio (speech, music)
+- Video (understanding, generation)
+- Code (programming)
+
+**Capabilities:**
+- Describe images
+- Generate images from text
+- Transcribe and generate speech
+- Analyze videos
+- Create videos from prompts
+
+**Examples:**
+- GPT-4o (text + images + audio)
+- Gemini (text + images + video)
+- Claude 3 (text + images)
+- Sora (text to video)
+
+**Architecture:**
+Models use encoders for each modality that map inputs to a shared representation space, enabling cross-modal understanding.`,
+    category: 'concepts',
+    relatedTerms: ['large-language-model', 'diffusion-model', 'clip'],
+    examples: 'GPT-4o analyzing a chart image and answering questions about it, or Sora generating video from a text description.',
+  },
+  {
+    slug: 'system-prompt',
+    term: 'System Prompt',
+    shortDef: 'Instructions given to an AI model that define its behavior, personality, and constraints.',
+    fullDef: `A system prompt is a special message that sets the context and rules for how an AI model should behave throughout a conversation.
+
+**Purpose:**
+- Define AI persona
+- Set behavioral guidelines
+- Establish constraints
+- Provide background context
+- Configure output format
+
+**Common Uses:**
+- Role-playing ("You are a helpful coding assistant")
+- Format specification ("Respond in JSON")
+- Behavior rules ("Never discuss X")
+- Expertise framing ("You are an expert in Y")
+- Tone setting ("Be concise and professional")
+
+**Best Practices:**
+- Be specific and clear
+- Use structured formatting
+- Include examples
+- Define edge cases
+- Test thoroughly
+
+**Note:**
+System prompts are typically hidden from users but guide the AI's behavior in every response.`,
+    category: 'techniques',
+    relatedTerms: ['prompt-engineering', 'large-language-model', 'context-window'],
+    examples: 'Custom GPTs use system prompts to define their specific behavior and knowledge domain.',
+  },
+  {
+    slug: 'agentic-workflow',
+    term: 'Agentic Workflow',
+    shortDef: 'An AI system that autonomously plans, executes, and iterates on tasks to complete complex goals.',
+    fullDef: `Agentic workflows involve AI systems that operate more autonomously, breaking down complex tasks, executing steps, and iterating until goals are achieved.
+
+**Key Patterns:**
+- **Reflection**: AI reviews and improves its output
+- **Tool Use**: AI uses external tools and APIs
+- **Planning**: Breaking goals into sub-tasks
+- **Multi-Agent**: Multiple AIs collaborating
+
+**Workflow Steps:**
+1. Receive high-level goal
+2. Plan approach and sub-tasks
+3. Execute first step
+4. Evaluate result
+5. Adjust plan if needed
+6. Continue until complete
+
+**Frameworks:**
+- LangGraph
+- CrewAI
+- AutoGen
+- LlamaIndex Workflows
+
+**Benefits:**
+- Handle complex tasks
+- Self-correct errors
+- More human-like problem solving
+- Reduced need for hand-holding`,
+    category: 'concepts',
+    relatedTerms: ['ai-agent', 'tool-use', 'chain-of-thought'],
+    examples: 'An agent that researches a topic, writes an article, fact-checks it, and revises based on feedback.',
+  },
+  {
+    slug: 'test-time-compute',
+    term: 'Test-Time Compute',
+    shortDef: 'Using additional computation during inference (not training) to improve AI model outputs.',
+    fullDef: `Test-time compute refers to allocating more computational resources when the model is generating outputs, rather than only investing compute during training.
+
+**Key Insight:**
+Instead of just making models bigger, you can make them "think longer" on hard problems.
+
+**Techniques:**
+- Chain of thought reasoning
+- Multiple sampling and voting
+- Tree search over responses
+- Self-verification
+- Extended thinking time
+
+**OpenAI o1 Approach:**
+- Model generates internal reasoning
+- More tokens for complex problems
+- Self-checks before responding
+- Trade-off: slower but more accurate
+
+**When It Helps:**
+- Math problems
+- Coding challenges
+- Complex reasoning
+- Multi-step logic
+
+**Trade-offs:**
+- Longer response times
+- Higher inference costs
+- May not help simple tasks`,
+    category: 'concepts',
+    relatedTerms: ['reasoning-model', 'chain-of-thought', 'inference'],
+    examples: 'OpenAI o1 spending more "thinking tokens" on a hard math problem to ensure the answer is correct.',
+  },
+  {
+    slug: 'open-weights',
+    term: 'Open Weights',
+    shortDef: 'AI models where the trained parameters are publicly released, enabling local deployment and modification.',
+    fullDef: `Open weights models have their trained model parameters publicly available for download, allowing anyone to run them locally or fine-tune them.
+
+**Open Weights vs Open Source:**
+- Open weights: Parameters available
+- Open source: Parameters + training code + data
+- Many "open" models are weights-only
+
+**Benefits:**
+- Run locally (privacy)
+- No API costs
+- Customization via fine-tuning
+- Research and experimentation
+- No vendor lock-in
+
+**Notable Open Weights Models:**
+- Meta Llama 3 family
+- Mistral models
+- Qwen models
+- Gemma (Google)
+- Phi models (Microsoft)
+
+**Considerations:**
+- Require compute to run
+- May have license restrictions
+- Large file sizes
+- Self-hosting complexity`,
+    category: 'concepts',
+    relatedTerms: ['large-language-model', 'fine-tuning', 'llama'],
+    examples: 'Downloading Llama 3.1 70B to run on your own GPU cluster without sending data to external APIs.',
+  },
 ];
