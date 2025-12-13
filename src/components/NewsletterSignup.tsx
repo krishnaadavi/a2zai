@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface NewsletterSignupProps {
-    variant?: 'hero' | 'sidebar';
+    variant?: 'hero' | 'sidebar' | 'inline';
     className?: string;
 }
 
@@ -48,7 +48,7 @@ export default function NewsletterSignup({ variant = 'hero', className = '' }: N
         }
     };
 
-    if (variant === 'hero') {
+    if (variant === 'hero' || variant === 'inline') {
         return (
             <div className={`max-w-md mx-auto ${className}`}>
                 <form onSubmit={handleSubmit}>

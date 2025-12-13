@@ -16,6 +16,9 @@ import {
   BookMarked,
   TrendingUp,
   FileText,
+  Wrench,
+  Rocket,
+  Mail,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import UserMenu from './UserMenu';
@@ -52,6 +55,8 @@ export default function AppHeader() {
         { href: '/models', label: 'Models', description: 'Trending AI models', icon: Brain },
         { href: '/research', label: 'Research', description: 'Academic papers', icon: FileText },
         { href: '/companies', label: 'Companies', description: 'AI industry leaders', icon: Building2 },
+        { href: '/funding', label: 'Funding', description: 'Startup funding tracker', icon: Rocket },
+        { href: '/tools', label: 'AI Tools', description: 'Directory of AI tools', icon: Wrench },
       ],
     },
     {
@@ -61,8 +66,10 @@ export default function AppHeader() {
         { href: '/learn', label: 'Learning Hub', description: 'Start your AI journey', icon: BookOpen },
         { href: '/learn/101', label: 'AI 101', description: '6-lesson fundamentals course', icon: GraduationCap },
         { href: '/learn/glossary', label: 'Glossary', description: 'AI terms explained', icon: BookMarked },
+        { href: '/courses', label: 'Courses', description: 'External AI courses', icon: BookOpen },
       ],
     },
+    { href: '/digest', label: 'Weekly Digest', icon: Mail },
   ];
 
   // Close mobile menu on route change
