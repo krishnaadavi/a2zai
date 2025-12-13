@@ -21,10 +21,13 @@ import {
   Mail,
   Lightbulb,
   GitCompare,
+  Search,
+  MessageSquare,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import UserMenu from './UserMenu';
 import Logo from './Logo';
+import SearchModal, { useSearchModal } from './SearchModal';
 
 type DropdownItem = {
   href: string;
@@ -45,6 +48,7 @@ export default function AppHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchModal = useSearchModal();
 
   // Navigation structure with dropdowns
   const navItems: NavItem[] = [
@@ -67,6 +71,7 @@ export default function AppHeader() {
       dropdown: [
         { href: '/tools', label: 'AI Tools', description: 'Directory of 60+ tools', icon: Wrench },
         { href: '/compare', label: 'Compare Models', description: 'GPT-4 vs Claude vs Gemini', icon: GitCompare },
+        { href: '/prompts', label: 'Prompt Library', description: 'Ready-to-use prompts', icon: MessageSquare },
         { href: '/use-cases', label: 'Use Cases', description: 'Practical AI applications', icon: Lightbulb },
         { href: '/courses', label: 'Courses', description: 'Learn AI/ML online', icon: GraduationCap },
       ],
@@ -209,8 +214,19 @@ export default function AppHeader() {
             })}
           </nav>
 
-          {/* Right Side - Subscribe & User Menu */}
+          {/* Right Side - Search, Subscribe & User Menu */}
           <div className="flex items-center gap-2">
+            {/* Search Button */}
+            <button
+              onClick={searchModal.open}
+              className="hidden md:flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-800 rounded-lg transition-colors text-sm"
+            >
+              <Search className="h-4 w-4" />
+              <span className="text-gray-500">Search...</span>
+              <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs bg-gray-700 text-gray-400 rounded">
+                ⌘K
+              </kbd>
+            </button>
             <Link
               href="/#newsletter"
               className="hidden md:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg hover:from-purple-500 hover:to-cyan-500 transition-all shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 font-semibold text-sm"
@@ -239,6 +255,20 @@ export default function AppHeader() {
                 className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg"
               >
                 <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Mobile Search Button */}
+            <div className="px-4 pt-4">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  searchModal.open();
+                }}
+                className="flex items-center gap-3 w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-400"
+              >
+                <Search className="h-5 w-5" />
+                <span>Search glossary, lessons...</span>
               </button>
             </div>
 
@@ -305,6 +335,8 @@ export default function AppHeader() {
           </div>
         </>
       )}
+      {/* Search Modal */}
+      <SearchModal isOpen={searchModal.isOpen} onClose={searchModal.close} />
     </header>
   );
 }
