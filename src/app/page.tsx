@@ -228,8 +228,8 @@ export default async function Home() {
       </section>
 
       {/* Build Timestamp */}
-      <div className="fixed bottom-4 left-4 text-xs text-gray-600 bg-gray-900/80 px-2 py-1 rounded">
-        Build: Dec 12, 2025
+      <div className="fixed bottom-4 left-4 text-xs text-gray-600 bg-gray-900/80 px-2 py-1 rounded font-mono">
+        v12132025-10.30pmCST-a095ee4
       </div>
     </div>
   );
