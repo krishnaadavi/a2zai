@@ -1,10 +1,11 @@
-import { Zap, TrendingUp, BookOpen, Brain, Clock, ArrowRight, Sparkles, ExternalLink } from 'lucide-react';
+import { Zap, TrendingUp, BookOpen, Brain, Clock, ArrowRight, Sparkles, ExternalLink, GraduationCap, Newspaper, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 import { fetchAINews } from '@/lib/newsdata';
 import { fetchTrendingModels } from '@/lib/huggingface';
 import { fetchLatestPapers } from '@/lib/arxiv';
 import { fetchAllCompanyNews, MOCK_COMPANY_NEWS } from '@/lib/company-rss';
 import { fetchAIStocks, MOCK_STOCK_DATA } from '@/lib/stocks';
+import { prisma } from '@/lib/prisma';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import CompanyTicker from '@/components/CompanyTicker';
 import CompanySpotlight from '@/components/CompanySpotlight';
@@ -17,12 +18,19 @@ export const revalidate = 0;
 
 export default async function Home() {
   // Fetch all data server-side
-  const [news, models, papers, companyNews, stocks] = await Promise.all([
+  const [news, models, papers, companyNews, stocks, termOfDay, glossaryCount, explainerCount] = await Promise.all([
     fetchAINews(5),
     fetchTrendingModels(5),
     fetchLatestPapers(2),
     fetchAllCompanyNews(3).catch(() => MOCK_COMPANY_NEWS),
     fetchAIStocks().catch(() => MOCK_STOCK_DATA),
+    // Get a random glossary term for "Term of the Day"
+    prisma.glossaryTerm.findFirst({
+      orderBy: { updatedAt: 'desc' },
+      skip: Math.floor(Math.random() * 10), // Random from recent 10
+    }).catch(() => null),
+    prisma.glossaryTerm.count().catch(() => 100),
+    prisma.explainer.count().catch(() => 15),
   ]);
 
   return (
@@ -33,34 +41,84 @@ export default async function Home() {
       {/* Company Ticker */}
       <CompanyTicker news={companyNews.length > 0 ? companyNews : MOCK_COMPANY_NEWS} />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 py-12 px-4">
+      {/* Hero Section - Split Layout */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 py-10 md:py-16 px-4">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="max-w-6xl mx-auto relative">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            {/* Hero Text */}
-            <div className="lg:col-span-2">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-sm mb-6">
-                <Sparkles className="h-4 w-4" />
-                Your A-to-Z guide to AI
+          {/* Main Headline */}
+          <div className="text-center mb-10">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4">
+              Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">A-to-Z</span> Guide to AI
+            </h1>
+            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
+              News, research, and learning — everything you need to stay AI-current
+            </p>
+          </div>
+
+          {/* Split Cards - Two User Journeys */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            {/* Stay Current Card */}
+            <Link
+              href="/news"
+              className="group relative p-6 md:p-8 rounded-2xl bg-gradient-to-br from-purple-900/40 to-purple-900/20 border border-purple-500/30 hover:border-purple-500/60 transition-all hover:scale-[1.02]"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl">
+                  <Newspaper className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl md:text-2xl font-bold text-white group-hover:text-purple-300 transition-colors">Stay Current</h2>
+                  <p className="text-purple-300/70 text-sm">For AI professionals</p>
+                </div>
               </div>
-              <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
-                Stay <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">AI-current</span> in 5 minutes
-              </h1>
-              <p className="text-gray-400 text-lg max-w-xl mb-6">
-                Track AI innovation from NVIDIA, Meta, Google, OpenAI & more.
-                News, models, research, and market moves — all in one place.
+              <p className="text-gray-400 mb-4">
+                Daily news, trending models, research papers, and market moves from OpenAI, Google, Meta, NVIDIA & more.
               </p>
-
-              {/* Newsletter Signup */}
-              <div id="newsletter">
-                <NewsletterSignup variant="hero" />
+              <div className="flex items-center gap-2 text-purple-400 font-medium">
+                <Clock className="h-4 w-4" />
+                <span>5 min daily digest</span>
+                <ArrowRight className="h-4 w-4 ml-auto group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
+            </Link>
 
-            {/* Stock Pulse Widget */}
-            <div className="hidden lg:block">
-              <AIStockPulse stocks={stocks} />
+            {/* Learn AI Card */}
+            <Link
+              href="/learn"
+              className="group relative p-6 md:p-8 rounded-2xl bg-gradient-to-br from-emerald-900/40 to-emerald-900/20 border border-emerald-500/30 hover:border-emerald-500/60 transition-all hover:scale-[1.02]"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-xl">
+                  <GraduationCap className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl md:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">Learn AI</h2>
+                  <p className="text-emerald-300/70 text-sm">For curious minds</p>
+                </div>
+              </div>
+              <p className="text-gray-400 mb-4">
+                AI 101 course, comprehensive glossary, and beginner-friendly explainers. No ML degree required.
+              </p>
+              <div className="flex items-center gap-2 text-emerald-400 font-medium">
+                <BookOpen className="h-4 w-4" />
+                <span>{explainerCount} lessons • {glossaryCount}+ terms</span>
+                <ArrowRight className="h-4 w-4 ml-auto group-hover:translate-x-1 transition-transform" />
+              </div>
+            </Link>
+          </div>
+
+          {/* Credibility Stats Bar */}
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 py-4 px-6 rounded-xl bg-gray-900/50 border border-gray-800">
+            <div className="flex items-center gap-2 text-gray-400">
+              <Brain className="h-5 w-5 text-purple-400" />
+              <span><strong className="text-white">{glossaryCount}+</strong> AI terms explained</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <BookOpen className="h-5 w-5 text-emerald-400" />
+              <span><strong className="text-white">{explainerCount}</strong> in-depth lessons</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <TrendingUp className="h-5 w-5 text-cyan-400" />
+              <span><strong className="text-white">60+</strong> AI tools reviewed</span>
             </div>
           </div>
         </div>
@@ -134,7 +192,31 @@ export default async function Home() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-8">
+            <div className="space-y-6">
+              {/* Term of the Day */}
+              {termOfDay && (
+                <Link
+                  href={`/glossary/${termOfDay.slug}`}
+                  className="block p-5 rounded-xl bg-gradient-to-br from-emerald-900/30 to-emerald-900/10 border border-emerald-500/30 hover:border-emerald-500/50 transition-colors group"
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="p-1.5 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded">
+                      <Lightbulb className="h-4 w-4 text-white" />
+                    </div>
+                    <span className="text-emerald-400 text-sm font-medium">Term of the Day</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white group-hover:text-emerald-300 transition-colors mb-2">
+                    {termOfDay.term}
+                  </h3>
+                  <p className="text-gray-400 text-sm line-clamp-2">
+                    {termOfDay.shortDef}
+                  </p>
+                  <div className="flex items-center gap-1 text-emerald-400 text-sm mt-3 font-medium">
+                    Learn more <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              )}
+
               {/* Mobile Stock Pulse */}
               <div className="lg:hidden">
                 <AIStockPulse stocks={stocks} />
@@ -178,6 +260,11 @@ export default async function Home() {
                     </a>
                   ))}
                 </div>
+              </div>
+
+              {/* AI Stock Pulse - Desktop */}
+              <div className="hidden lg:block">
+                <AIStockPulse stocks={stocks} />
               </div>
 
               {/* Newsletter Sidebar */}
@@ -233,7 +320,7 @@ export default async function Home() {
 
       {/* Build Timestamp */}
       <div className="fixed bottom-4 left-4 text-xs text-gray-600 bg-gray-900/80 px-2 py-1 rounded font-mono">
-        v12132025-8.40amCST-d1ccf00
+        v12132025-1.25pmCST-753c3af
       </div>
     </div>
   );

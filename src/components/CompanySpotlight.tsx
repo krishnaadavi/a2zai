@@ -76,16 +76,14 @@ export default function CompanySpotlight({ news, stocks = [] }: CompanySpotlight
                                         {item.title}
                                     </p>
                                 ) : (
-                                    <div className="flex flex-wrap gap-1">
-                                        {company.categories.slice(0, 2).map((cat) => (
-                                            <span
-                                                key={cat}
-                                                className="text-xs px-1.5 py-0.5 rounded bg-gray-800 text-gray-400"
-                                            >
-                                                {cat}
-                                            </span>
-                                        ))}
-                                    </div>
+                                    <p className="text-gray-500 text-xs md:text-sm italic">
+                                        {company.id === 'openai' && 'GPT-4, ChatGPT, DALL-E'}
+                                        {company.id === 'google' && 'Gemini, Bard, DeepMind'}
+                                        {company.id === 'meta' && 'Llama 3, PyTorch, AR/VR'}
+                                        {company.id === 'nvidia' && 'H100, CUDA, Omniverse'}
+                                        {company.id === 'anthropic' && 'Claude 3.5, Constitutional AI'}
+                                        {company.id === 'microsoft' && 'Copilot, Azure AI, Phi'}
+                                    </p>
                                 )}
                             </div>
                         </Link>
