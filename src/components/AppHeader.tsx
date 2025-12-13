@@ -19,6 +19,8 @@ import {
   Wrench,
   Rocket,
   Mail,
+  Lightbulb,
+  GitCompare,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import UserMenu from './UserMenu';
@@ -64,6 +66,8 @@ export default function AppHeader() {
       icon: Wrench,
       dropdown: [
         { href: '/tools', label: 'AI Tools', description: 'Directory of 60+ tools', icon: Wrench },
+        { href: '/compare', label: 'Compare Models', description: 'GPT-4 vs Claude vs Gemini', icon: GitCompare },
+        { href: '/use-cases', label: 'Use Cases', description: 'Practical AI applications', icon: Lightbulb },
         { href: '/courses', label: 'Courses', description: 'Learn AI/ML online', icon: GraduationCap },
       ],
     },
@@ -72,8 +76,8 @@ export default function AppHeader() {
       icon: GraduationCap,
       dropdown: [
         { href: '/learn', label: 'Learning Hub', description: 'Start your AI journey', icon: BookOpen },
-        { href: '/learn/101', label: 'AI 101', description: '6-lesson fundamentals', icon: GraduationCap },
-        { href: '/learn/glossary', label: 'Glossary', description: '100+ AI terms', icon: BookMarked },
+        { href: '/learn/101', label: 'AI 101', description: '15-lesson curriculum', icon: GraduationCap },
+        { href: '/learn/glossary', label: 'Glossary', description: '130+ AI terms', icon: BookMarked },
       ],
     },
   ];
