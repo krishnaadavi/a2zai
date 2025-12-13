@@ -10,14 +10,11 @@ import {
   Brain,
   Code,
   Image,
-  MessageSquare,
-  FileText,
-  Globe,
   Lock,
-  Sparkles,
   ArrowRight,
   ExternalLink,
 } from 'lucide-react';
+import { ShareButtons } from '@/components/ShareButton';
 
 export const metadata: Metadata = {
   title: 'AI Model Comparison | GPT-4 vs Claude vs Gemini vs Llama | A2Z AI',
@@ -340,9 +337,10 @@ export default function ComparePage() {
           <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
             AI Model <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Comparison</span>
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-6">
             Compare GPT-4, Claude, Gemini, Llama, and more. Find the right model for your use case.
           </p>
+          <ShareButtons url="https://a2zai.ai/compare" title="AI Model Comparison - A2Z AI" />
         </div>
       </section>
 

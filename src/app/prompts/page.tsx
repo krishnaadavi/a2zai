@@ -15,6 +15,7 @@ import {
   FileText,
 } from 'lucide-react';
 import CopyButton from '@/components/CopyButton';
+import { ShareButtons } from '@/components/ShareButton';
 
 export const metadata: Metadata = {
   title: 'AI Prompt Library | Ready-to-Use Prompts | A2Z AI',
@@ -493,6 +494,9 @@ export default function PromptsPage() {
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Copy-paste prompts for ChatGPT, Claude, Gemini, and more. Tested and optimized for best results.
           </p>
+          <div className="mt-6">
+            <ShareButtons url="https://a2zai.ai/prompts" title="AI Prompt Library - A2Z AI" />
+          </div>
         </div>
       </section>
 

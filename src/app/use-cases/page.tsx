@@ -5,21 +5,15 @@ import {
   PenTool,
   Briefcase,
   GraduationCap,
-  Stethoscope,
   Scale,
   LineChart,
-  ShoppingBag,
   Headphones,
   Camera,
-  Music,
-  Globe,
   Search,
-  FileText,
-  MessageSquare,
-  Zap,
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
+import { ShareButtons } from '@/components/ShareButton';
 
 export const metadata: Metadata = {
   title: 'AI Use Cases | A2Z AI',
@@ -309,6 +303,9 @@ export default function UseCasesPage() {
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Real-world applications of AI across industries. Discover how professionals are using AI to work smarter.
           </p>
+          <div className="mt-6">
+            <ShareButtons url="https://a2zai.ai/use-cases" title="AI Use Cases - A2Z AI" />
+          </div>
         </div>
       </section>
 
