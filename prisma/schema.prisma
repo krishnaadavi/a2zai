@@ -57,6 +57,7 @@ model User {
   readHistory      ReadHistory[]
   comments         Comment[]
   learningProgress LearningProgress[]
+  preferences      UserPreferences?
 }
 
 model VerificationToken {
@@ -194,6 +195,44 @@ model Comment {
   @@index([userId])
   @@index([parentId])
   @@index([createdAt])
+}
+
+// User preferences for content and notifications
+model UserPreferences {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+
+  // Content Categories (what they want to see)
+  showNews              Boolean  @default(true)
+  showModels            Boolean  @default(true)
+  showResearch          Boolean  @default(true)
+  showFunding           Boolean  @default(true)
+  showTools             Boolean  @default(true)
+  showCourses           Boolean  @default(true)
+
+  // Topics of Interest
+  topicsLLMs            Boolean  @default(true)
+  topicsComputerVision  Boolean  @default(false)
+  topicsRobotics        Boolean  @default(false)
+  topicsAudio           Boolean  @default(false)
+  topicsAgents          Boolean  @default(true)
+  topicsOpenSource      Boolean  @default(false)
+  topicsStartups        Boolean  @default(false)
+  topicsPolicy          Boolean  @default(false)
+
+  // Email Preferences
+  emailDigestDaily      Boolean  @default(false)
+  emailDigestWeekly     Boolean  @default(true)
+  emailBreakingNews     Boolean  @default(false)
+
+  // Display Preferences
+  defaultHomePage       String   @default("home") // 'home', 'news', 'learn'
+  compactView           Boolean  @default(false)
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Learning progress tracking

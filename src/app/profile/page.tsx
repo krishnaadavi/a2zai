@@ -36,8 +36,8 @@ export default async function ProfilePage() {
     {
       href: '/profile/preferences',
       icon: Settings,
-      label: 'Topic Preferences',
-      description: 'Customize what topics appear in your feed',
+      label: 'Preferences',
+      description: 'Content, topics, email notifications, and display settings',
       color: 'from-emerald-500 to-cyan-500',
     },
   ];
