@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import {
   MessageSquare,
-  Copy,
   Code,
   PenTool,
   Briefcase,
@@ -11,14 +10,11 @@ import {
   Lightbulb,
   Sparkles,
   ArrowRight,
-  Filter,
   Zap,
   Brain,
   FileText,
-  Image,
-  Music,
-  Video,
 } from 'lucide-react';
+import CopyButton from '@/components/CopyButton';
 
 export const metadata: Metadata = {
   title: 'AI Prompt Library | Ready-to-Use Prompts | A2Z AI',
@@ -551,15 +547,10 @@ export default function PromptsPage() {
                         <pre className="p-4 rounded-lg bg-gray-800/50 border border-gray-700 text-sm text-gray-300 overflow-x-auto max-h-48 overflow-y-auto whitespace-pre-wrap font-mono">
                           {prompt.prompt}
                         </pre>
-                        <button
-                          className="absolute top-2 right-2 p-2 bg-gray-700 hover:bg-purple-600 rounded-lg text-gray-300 hover:text-white transition-colors opacity-0 group-hover:opacity-100"
-                          onClick={() => {
-                            navigator.clipboard.writeText(prompt.prompt);
-                          }}
-                          title="Copy to clipboard"
-                        >
-                          <Copy className="h-4 w-4" />
-                        </button>
+                        <CopyButton
+                          text={prompt.prompt}
+                          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100"
+                        />
                       </div>
 
                       {/* Tags */}
