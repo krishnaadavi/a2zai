@@ -4,6 +4,7 @@ import "./globals.css";
 import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -54,6 +55,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className={`${inter.className} bg-gray-950 text-white antialiased`}>
         <div className="min-h-screen flex flex-col">
           <AppHeader />

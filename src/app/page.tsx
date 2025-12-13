@@ -9,6 +9,7 @@ import NewsletterSignup from '@/components/NewsletterSignup';
 import CompanyTicker from '@/components/CompanyTicker';
 import CompanySpotlight from '@/components/CompanySpotlight';
 import AIStockPulse from '@/components/AIStockPulse';
+import { WebsiteJsonLd, OrganizationJsonLd } from '@/components/JsonLd';
 
 // Force dynamic rendering - always fetch fresh data
 export const dynamic = 'force-dynamic';
@@ -26,6 +27,9 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen">
+      <WebsiteJsonLd />
+      <OrganizationJsonLd />
+
       {/* Company Ticker */}
       <CompanyTicker news={companyNews.length > 0 ? companyNews : MOCK_COMPANY_NEWS} />
 
@@ -229,7 +233,7 @@ export default async function Home() {
 
       {/* Build Timestamp */}
       <div className="fixed bottom-4 left-4 text-xs text-gray-600 bg-gray-900/80 px-2 py-1 rounded font-mono">
-        v12132025-10.30pmCST-a095ee4
+        v12132025-8.40amCST-d1ccf00
       </div>
     </div>
   );

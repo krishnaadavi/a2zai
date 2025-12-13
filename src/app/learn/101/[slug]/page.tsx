@@ -7,6 +7,7 @@ import CommentSection from '@/components/CommentSection';
 import { ShareButtons } from '@/components/ShareButton';
 import ReadTracker from '@/components/ReadTracker';
 import ProgressButton from '@/components/ProgressButton';
+import { ArticleJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
 
 export const dynamic = 'force-dynamic';
 
@@ -59,8 +60,25 @@ export default async function ExplainerPage({ params }: Props) {
     advanced: 'bg-red-500/20 text-red-300 border-red-500/30',
   };
 
+  const pageUrl = `https://a2zai.ai/learn/101/${explainer.slug}`;
+
   return (
     <div className="min-h-screen bg-gray-950">
+      <ArticleJsonLd
+        title={explainer.title}
+        description={explainer.subtitle || `Learn about ${explainer.title} in our AI 101 course.`}
+        url={pageUrl}
+        datePublished={explainer.createdAt?.toISOString()}
+        dateModified={explainer.updatedAt?.toISOString()}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: 'https://a2zai.ai' },
+          { name: 'Learn', url: 'https://a2zai.ai/learn' },
+          { name: 'AI 101', url: 'https://a2zai.ai/learn/101' },
+          { name: explainer.title, url: pageUrl },
+        ]}
+      />
       <ReadTracker articleId={explainer.slug} articleType="explainer" />
       {/* Header */}
       <section className="bg-gradient-to-br from-gray-900 via-emerald-900/20 to-gray-900 py-12 px-4">

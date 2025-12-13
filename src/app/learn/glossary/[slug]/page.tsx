@@ -6,6 +6,7 @@ import CommentSection from '@/components/CommentSection';
 import { ShareButtons } from '@/components/ShareButton';
 import ReadTracker from '@/components/ReadTracker';
 import ProgressButton from '@/components/ProgressButton';
+import { GlossaryTermJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
 
 export const dynamic = 'force-dynamic';
 
@@ -56,8 +57,23 @@ export default async function GlossaryTermPage({ params }: Props) {
     companies: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
   };
 
+  const pageUrl = `https://a2zai.ai/learn/glossary/${term.slug}`;
+
   return (
     <div className="min-h-screen bg-gray-950">
+      <GlossaryTermJsonLd
+        term={term.term}
+        definition={term.fullDef}
+        url={pageUrl}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: 'https://a2zai.ai' },
+          { name: 'Learn', url: 'https://a2zai.ai/learn' },
+          { name: 'Glossary', url: 'https://a2zai.ai/learn/glossary' },
+          { name: term.term, url: pageUrl },
+        ]}
+      />
       <ReadTracker articleId={term.slug} articleType="glossary" />
       {/* Header */}
       <section className="bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 py-12 px-4">

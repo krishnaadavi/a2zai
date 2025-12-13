@@ -1,0 +1,192 @@
+type JsonLdProps = {
+  data: Record<string, unknown>;
+};
+
+export default function JsonLd({ data }: JsonLdProps) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+// Glossary Term structured data
+export function GlossaryTermJsonLd({
+  term,
+  definition,
+  url,
+}: {
+  term: string;
+  definition: string;
+  url: string;
+}) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    name: term,
+    description: definition,
+    url: url,
+    inDefinedTermSet: {
+      '@type': 'DefinedTermSet',
+      name: 'A2Z AI Glossary',
+      url: 'https://a2zai.ai/learn/glossary',
+    },
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// Article/Explainer structured data
+export function ArticleJsonLd({
+  title,
+  description,
+  url,
+  datePublished,
+  dateModified,
+  authorName = 'A2Z AI',
+}: {
+  title: string;
+  description: string;
+  url: string;
+  datePublished?: string;
+  dateModified?: string;
+  authorName?: string;
+}) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description,
+    url: url,
+    author: {
+      '@type': 'Organization',
+      name: authorName,
+      url: 'https://a2zai.ai',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'A2Z AI',
+      url: 'https://a2zai.ai',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://a2zai.ai/icon',
+      },
+    },
+    ...(datePublished && { datePublished }),
+    ...(dateModified && { dateModified }),
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// Course structured data for AI 101
+export function CourseJsonLd({
+  name,
+  description,
+  url,
+  provider = 'A2Z AI',
+}: {
+  name: string;
+  description: string;
+  url: string;
+  provider?: string;
+}) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: name,
+    description: description,
+    url: url,
+    provider: {
+      '@type': 'Organization',
+      name: provider,
+      url: 'https://a2zai.ai',
+    },
+    isAccessibleForFree: true,
+    educationalLevel: 'Beginner',
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// Website structured data for homepage
+export function WebsiteJsonLd() {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'A2Z AI',
+    alternateName: 'A2Z AI - Your A-to-Z Guide to AI',
+    url: 'https://a2zai.ai',
+    description: 'Your A-to-Z guide to AI. Byte-sized AI news, model updates, and learning resources.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://a2zai.ai/learn/glossary?search={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// Organization structured data
+export function OrganizationJsonLd() {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'A2Z AI',
+    url: 'https://a2zai.ai',
+    logo: 'https://a2zai.ai/icon',
+    sameAs: [
+      'https://twitter.com/a2zai_news',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      url: 'https://a2zai.ai',
+    },
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// FAQ structured data
+export function FAQJsonLd({ faqs }: { faqs: { question: string; answer: string }[] }) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// Breadcrumb structured data
+export function BreadcrumbJsonLd({
+  items,
+}: {
+  items: { name: string; url: string }[];
+}) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+
+  return <JsonLd data={data} />;
+}
