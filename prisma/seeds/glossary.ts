@@ -3506,4 +3506,650 @@ Instead of just making models bigger, you can make them "think longer" on hard p
     relatedTerms: ['large-language-model', 'fine-tuning', 'llama'],
     examples: 'Downloading Llama 3.1 70B to run on your own GPU cluster without sending data to external APIs.',
   },
+  // New terms - December 2024
+  {
+    slug: 'structured-output',
+    term: 'Structured Output',
+    shortDef: 'Constraining AI responses to follow specific formats like JSON schemas.',
+    fullDef: `Structured outputs force AI models to generate responses in specific, predictable formats.
+
+**Implementation Methods:**
+- **JSON Mode**: Guarantee valid JSON output
+- **Schema Enforcement**: Match specific JSON schemas
+- **Grammar Constraints**: Use CFG to constrain generation
+- **Function Calling**: Format as tool invocations
+
+**Why It Matters:**
+- Reliable parsing for applications
+- Reduces post-processing errors
+- Better integration with code
+- Type-safe AI outputs
+
+**Providers:**
+- OpenAI: JSON mode, function calling
+- Anthropic: Tool use with schemas
+- Open source: Outlines, Guidance, LMQL
+
+**Use Cases:**
+- API responses
+- Data extraction
+- Form filling
+- Database operations`,
+    category: 'techniques',
+    relatedTerms: ['api', 'tool-use', 'prompt-engineering'],
+    examples: 'Extracting product information from reviews into a structured database format.',
+  },
+  {
+    slug: 'model-merging',
+    term: 'Model Merging',
+    shortDef: 'Combining multiple fine-tuned models into a single model without additional training.',
+    fullDef: `Model merging combines the weights of multiple models to create a new model that inherits capabilities from all sources.
+
+**Key Methods:**
+- **Linear Interpolation**: Weighted average of weights
+- **SLERP**: Spherical interpolation
+- **TIES**: Task arithmetic with interference elimination
+- **DARE**: Drop and rescale approach
+
+**Why It Works:**
+- Fine-tuned models occupy similar regions in weight space
+- Averaging can preserve capabilities
+- Works best for related tasks
+
+**Advantages:**
+- No training compute required
+- Combine specialized capabilities
+- Experiment quickly
+- Community collaboration
+
+**Popular Tools:**
+- mergekit
+- LazyMergeKit
+
+**Community Impact:**
+- Leaderboard models often merged
+- Democratizes model creation`,
+    category: 'techniques',
+    relatedTerms: ['fine-tuning', 'lora', 'open-weights'],
+    examples: 'Merging a code-specialized model with a creative writing model to get both capabilities.',
+  },
+  {
+    slug: 'speculative-decoding',
+    term: 'Speculative Decoding',
+    shortDef: 'Acceleration technique using a small model to draft tokens that a large model verifies.',
+    fullDef: `Speculative decoding speeds up inference by having a small "draft" model propose multiple tokens, then verifying them in parallel with the large model.
+
+**How It Works:**
+1. Small model generates N candidate tokens
+2. Large model verifies all N in parallel
+3. Accept correct predictions, reject wrong ones
+4. Continue from last correct token
+
+**Speed Benefits:**
+- 2-3x faster inference typical
+- More benefit for longer generations
+- Maintains exact output distribution
+
+**Requirements:**
+- Draft model must be much faster
+- Draft and target should be similar
+- Works best when draft accuracy is high
+
+**Variants:**
+- Self-speculative decoding
+- Medusa (multiple heads)
+- Lookahead decoding`,
+    category: 'techniques',
+    relatedTerms: ['inference', 'quantization', 'parameters'],
+    examples: 'Using a 1B parameter model to draft tokens for a 70B model, achieving 2.5x speedup.',
+  },
+  {
+    slug: 'vision-language-model',
+    term: 'Vision-Language Model (VLM)',
+    shortDef: 'AI models that can process and reason about both images and text together.',
+    fullDef: `Vision-Language Models combine visual understanding with language capabilities, enabling AI to see and discuss images.
+
+**Architecture Approaches:**
+- **Encoder-Decoder**: Separate vision and language components
+- **Unified**: Single model for both modalities
+- **Adapter-based**: Connect vision encoder to LLM
+
+**Capabilities:**
+- Image description and captioning
+- Visual question answering
+- Document understanding (OCR + reasoning)
+- Chart and diagram analysis
+- Multi-image reasoning
+
+**Leading Models:**
+- GPT-4V / GPT-4o (OpenAI)
+- Claude 3 (Anthropic)
+- Gemini Pro Vision (Google)
+- LLaVA (open source)
+- Qwen-VL`,
+    category: 'models',
+    relatedTerms: ['multimodal-ai', 'clip', 'vision-transformer'],
+    examples: 'Uploading a receipt photo and asking Claude to extract all line items into a spreadsheet format.',
+  },
+  {
+    slug: 'ai-coding-assistant',
+    term: 'AI Coding Assistant',
+    shortDef: 'AI tools that help developers write, debug, and understand code.',
+    fullDef: `AI coding assistants are specialized AI tools integrated into development workflows to accelerate programming tasks.
+
+**Types:**
+- **Autocomplete**: Inline suggestions (Copilot, Codeium)
+- **Chat-based**: Conversational coding help (ChatGPT, Claude)
+- **Agents**: Autonomous coding (Cursor, Devin)
+- **IDE-integrated**: Full development environment integration
+
+**Key Features:**
+- Code completion and generation
+- Bug detection and fixing
+- Code explanation
+- Refactoring suggestions
+- Test generation
+- Documentation writing
+
+**Leading Products:**
+- GitHub Copilot
+- Cursor
+- Codeium
+- Amazon CodeWhisperer
+- Tabnine`,
+    category: 'applications',
+    relatedTerms: ['copilot', 'large-language-model', 'tool-use'],
+    examples: 'Using Cursor to refactor a complex function and automatically update all calling code.',
+  },
+  {
+    slug: 'ai-search',
+    term: 'AI Search',
+    shortDef: 'Search engines that use AI to understand queries and synthesize answers from multiple sources.',
+    fullDef: `AI search combines traditional search with large language models to provide direct answers rather than just links.
+
+**How It Works:**
+1. Understand query intent with AI
+2. Search relevant sources
+3. Synthesize information
+4. Generate coherent answer
+5. Cite sources
+
+**Key Players:**
+- Perplexity AI
+- Google AI Overviews
+- Bing Chat / Copilot
+- You.com
+- Brave Search Leo
+
+**Advantages:**
+- Direct answers vs link lists
+- Synthesized from multiple sources
+- Follow-up questions
+- Cited sources
+
+**Impact:**
+- Changing SEO strategies
+- Traffic to publishers
+- Research workflows`,
+    category: 'applications',
+    relatedTerms: ['rag', 'large-language-model', 'semantic-search'],
+    examples: 'Asking Perplexity "What are the pros and cons of React vs Vue in 2024?" and getting a synthesized comparison.',
+  },
+  {
+    slug: 'voice-mode',
+    term: 'Voice Mode',
+    shortDef: 'Real-time spoken conversation capability in AI assistants.',
+    fullDef: `Voice mode enables natural spoken conversations with AI, combining speech recognition, language understanding, and speech synthesis.
+
+**Architecture:**
+- **Traditional**: Speech-to-text → LLM → Text-to-speech
+- **End-to-end**: Native audio understanding (GPT-4o)
+
+**GPT-4o Innovation:**
+- Single multimodal model
+- Sub-200ms latency
+- Natural interruptions
+- Emotion and tone awareness
+- Real-time translation
+
+**Capabilities:**
+- Natural conversation flow
+- Interruption handling
+- Emotion detection
+- Multiple languages
+- Voice customization`,
+    category: 'applications',
+    relatedTerms: ['text-to-speech', 'whisper', 'multimodal-ai'],
+    examples: 'Having a real-time conversation with ChatGPT Voice about your day while driving.',
+  },
+  {
+    slug: 'ai-video-generation',
+    term: 'AI Video Generation',
+    shortDef: 'Creating video content from text descriptions or images using AI models.',
+    fullDef: `AI video generation creates videos from text prompts, images, or other inputs using generative models.
+
+**Key Technologies:**
+- Diffusion models adapted for video
+- Temporal consistency techniques
+- Motion prediction
+- Frame interpolation
+
+**Leading Models:**
+- Sora (OpenAI) - most advanced
+- Runway Gen-2/Gen-3
+- Pika Labs
+- Stable Video Diffusion
+- Kling (Kuaishou)
+
+**Capabilities:**
+- Text-to-video generation
+- Image-to-video animation
+- Video extension
+- Style transfer
+
+**Current Limitations:**
+- Short duration (seconds to minutes)
+- Temporal consistency issues
+- Physics violations
+- High compute cost`,
+    category: 'models',
+    relatedTerms: ['diffusion-model', 'sora', 'multimodal-ai'],
+    examples: 'Using Runway to animate a product photo into a 4-second promotional video.',
+  },
+  {
+    slug: 'ai-music-generation',
+    term: 'AI Music Generation',
+    shortDef: 'Creating original music and audio from text descriptions using AI.',
+    fullDef: `AI music generation creates original songs, instrumentals, and audio from text prompts or other inputs.
+
+**Leading Platforms:**
+- **Suno**: Full songs with vocals
+- **Udio**: High-quality music generation
+- **Stable Audio**: Instrumental and sound effects
+- **MusicLM/MusicFX**: Google's music models
+
+**Capabilities:**
+- Text-to-music generation
+- Style and genre control
+- Lyric-aware vocal generation
+- Instrumental tracks
+- Sound effects
+
+**Legal/Ethical Issues:**
+- Copyright of training data
+- Artist compensation
+- Deepfake concerns
+- Industry disruption`,
+    category: 'applications',
+    relatedTerms: ['diffusion-model', 'multimodal-ai', 'text-to-speech'],
+    examples: 'Using Suno to generate a 2-minute jazz track with vocals for a podcast intro.',
+  },
+  {
+    slug: 'long-context',
+    term: 'Long Context',
+    shortDef: 'AI models capable of processing very large amounts of text in a single prompt.',
+    fullDef: `Long context refers to AI models that can handle extended input lengths, from hundreds of thousands to millions of tokens.
+
+**Context Window Evolution:**
+- GPT-3 (2020): 4K tokens
+- GPT-4 (2023): 128K tokens
+- Claude 3 (2024): 200K tokens
+- Gemini 1.5 (2024): 1M+ tokens
+
+**Enabling Technologies:**
+- Efficient attention mechanisms
+- Positional encoding improvements
+- Memory optimization
+- Sparse attention patterns
+
+**Use Cases:**
+- Entire codebase analysis
+- Book-length document Q&A
+- Long meeting transcripts
+- Multi-document synthesis
+
+**Challenges:**
+- Compute cost scales with length
+- "Lost in the middle" phenomenon
+- Retrieval may still outperform`,
+    category: 'concepts',
+    relatedTerms: ['context-window', 'token', 'rag'],
+    examples: 'Uploading an entire novel to Claude and asking it to identify all plot inconsistencies.',
+  },
+  {
+    slug: 'prompt-caching',
+    term: 'Prompt Caching',
+    shortDef: 'Storing processed prompt prefixes to reduce cost and latency for repeated requests.',
+    fullDef: `Prompt caching stores the computed key-value representations of prompt prefixes to avoid reprocessing identical content.
+
+**How It Works:**
+1. First request: Full processing, cache stored
+2. Subsequent requests: Reuse cached computation
+3. Only process new/changed content
+
+**Benefits:**
+- 50-90% cost reduction
+- Significantly lower latency
+- Better for long system prompts
+- Efficient multi-turn conversations
+
+**Provider Support:**
+- Anthropic: Prompt caching (explicit)
+- OpenAI: Automatic caching
+- Google: Context caching
+
+**Best Use Cases:**
+- Long, static system prompts
+- Document Q&A (same doc, many questions)
+- Few-shot examples (static examples)
+- RAG with stable context`,
+    category: 'techniques',
+    relatedTerms: ['context-caching', 'inference', 'api'],
+    examples: 'Caching a 50-page legal document to answer unlimited questions about it at reduced cost.',
+  },
+  {
+    slug: 'model-distillation',
+    term: 'Model Distillation',
+    shortDef: 'Training a smaller model to mimic the behavior of a larger, more capable model.',
+    fullDef: `Model distillation transfers knowledge from a large "teacher" model to a smaller "student" model.
+
+**How It Works:**
+1. Teacher model generates outputs
+2. Student trained to match teacher's outputs
+3. Student learns soft labels (probabilities)
+4. Result: Smaller model with similar capabilities
+
+**Why Distillation:**
+- Smaller models are faster/cheaper
+- Deploy on edge devices
+- Reduce serving costs
+- Maintain quality
+
+**Types:**
+- **Response Distillation**: Match final outputs
+- **Feature Distillation**: Match intermediate representations
+- **Attention Distillation**: Match attention patterns
+
+**Real Examples:**
+- GPT-4 → GPT-4o mini
+- Claude 3 Opus → Claude 3 Haiku
+- Gemini Pro → Gemini Flash`,
+    category: 'techniques',
+    relatedTerms: ['knowledge-distillation', 'fine-tuning', 'quantization'],
+    examples: 'OpenAI training GPT-4o mini to match GPT-4 quality at a fraction of the cost.',
+  },
+  {
+    slug: 'ai-for-science',
+    term: 'AI for Science',
+    shortDef: 'Application of AI to accelerate scientific research and discovery.',
+    fullDef: `AI for Science uses machine learning to tackle scientific challenges, from drug discovery to climate modeling.
+
+**Key Areas:**
+- **Biology**: AlphaFold (protein structure), drug discovery
+- **Chemistry**: Molecule generation, reaction prediction
+- **Physics**: Simulation, particle physics
+- **Climate**: Weather prediction, climate modeling
+- **Materials**: New material discovery
+
+**Breakthrough Examples:**
+- AlphaFold2: Solved protein folding
+- GNoME: Discovered 2.2M new materials
+- GraphCast: Weather forecasting
+- AlphaGeometry: Math olympiad problems
+
+**Why AI Helps:**
+- Handle massive datasets
+- Find patterns humans miss
+- Simulate complex systems
+- Accelerate experiments`,
+    category: 'applications',
+    relatedTerms: ['machine-learning', 'deep-learning', 'neural-network'],
+    examples: 'Using AlphaFold to predict the 3D structure of a protein in minutes instead of years of lab work.',
+  },
+  {
+    slug: 'agentic-rag',
+    term: 'Agentic RAG',
+    shortDef: 'RAG systems that use AI agents to dynamically retrieve and reason over information.',
+    fullDef: `Agentic RAG combines retrieval-augmented generation with autonomous agent capabilities for more sophisticated information retrieval.
+
+**How It Differs from Basic RAG:**
+- **Basic RAG**: Query → Retrieve → Generate
+- **Agentic RAG**: Query → Plan → Multi-step Retrieve → Reason → Generate
+
+**Key Capabilities:**
+- Query decomposition
+- Multi-source retrieval
+- Iterative refinement
+- Tool use for retrieval
+- Self-correction
+
+**Architecture Patterns:**
+- **Router**: Choose appropriate retrieval strategy
+- **Planner**: Break complex queries into sub-queries
+- **Critic**: Evaluate and refine responses
+
+**Frameworks:**
+- LangGraph
+- LlamaIndex Agents
+- CrewAI for multi-agent RAG`,
+    category: 'techniques',
+    relatedTerms: ['rag', 'ai-agent', 'tool-use'],
+    examples: 'An agent that breaks down "Compare Q3 earnings across tech companies" into multiple searches and synthesizes.',
+  },
+  {
+    slug: 'small-language-model',
+    term: 'Small Language Model (SLM)',
+    shortDef: 'Efficient language models optimized for specific tasks or resource-constrained environments.',
+    fullDef: `Small Language Models are compact AI models (typically 1-7B parameters) designed for efficiency while maintaining useful capabilities.
+
+**Why SLMs Matter:**
+- Run on consumer hardware
+- Lower latency
+- Reduced costs
+- Edge deployment
+- Privacy (local processing)
+
+**Leading SLMs:**
+- **Phi-3** (Microsoft): 3.8B, strong reasoning
+- **Gemma 2** (Google): 2B-9B, efficient
+- **Llama 3.2** (Meta): 1B-3B, mobile-focused
+- **Qwen 2.5** (Alibaba): Various sizes
+- **Mistral 7B**: Strong for size
+
+**Use Cases:**
+- Mobile applications
+- On-device AI
+- High-volume processing
+- Cost-sensitive applications`,
+    category: 'models',
+    relatedTerms: ['large-language-model', 'quantization', 'inference'],
+    examples: 'Running Phi-3 on a laptop for quick code completion without internet.',
+  },
+  {
+    slug: 'ai-safety-evaluation',
+    term: 'AI Safety Evaluation',
+    shortDef: 'Testing and measuring AI systems for potential risks and harmful behaviors.',
+    fullDef: `AI safety evaluation systematically tests AI systems for dangerous capabilities, misuse potential, and alignment with human values.
+
+**What's Tested:**
+- Harmful content generation
+- Bias and fairness
+- Deception and manipulation
+- Dangerous information
+- Jailbreak resistance
+- Capability thresholds
+
+**Evaluation Types:**
+- **Red Teaming**: Adversarial testing by humans
+- **Automated Evals**: Scalable benchmark testing
+- **Capability Evals**: Measuring dangerous abilities
+- **Alignment Evals**: Testing value alignment
+
+**Organizations:**
+- METR (Model Evaluation & Threat Research)
+- Apollo Research
+- ARC Evals
+- Internal safety teams`,
+    category: 'concepts',
+    relatedTerms: ['ai-safety', 'red-teaming', 'alignment'],
+    examples: 'Testing whether a model will help users create biological weapons when asked indirectly.',
+  },
+  {
+    slug: 'ai-governance',
+    term: 'AI Governance',
+    shortDef: 'Policies, regulations, and frameworks for responsible AI development and deployment.',
+    fullDef: `AI governance encompasses the rules, policies, and frameworks that guide how AI systems are developed, deployed, and used.
+
+**Key Regulations:**
+- **EU AI Act**: Risk-based regulation
+- **US Executive Orders**: Federal AI guidelines
+- **China AI Rules**: Content and algorithm regulations
+- **UK AI Safety Institute**: Research and evaluation
+
+**Governance Areas:**
+- Development practices
+- Deployment standards
+- Use case restrictions
+- Liability frameworks
+- Transparency requirements
+
+**Key Principles:**
+- Transparency
+- Accountability
+- Fairness
+- Safety
+- Privacy
+- Human oversight`,
+    category: 'concepts',
+    relatedTerms: ['ai-safety', 'ai-safety-evaluation', 'alignment'],
+    examples: 'The EU AI Act requiring high-risk AI systems to undergo conformity assessments before deployment.',
+  },
+  {
+    slug: 'cursor',
+    term: 'Cursor',
+    shortDef: 'AI-powered code editor built for pair programming with AI.',
+    fullDef: `Cursor is a code editor (VS Code fork) designed from the ground up for AI-assisted development.
+
+**Key Features:**
+- **Tab Completion**: Context-aware code suggestions
+- **Cmd+K**: Inline code editing with AI
+- **Chat**: Codebase-aware conversations
+- **Composer**: Multi-file editing with AI
+
+**Why It's Popular:**
+- Deep codebase understanding
+- Fast, inline suggestions
+- Multi-file refactoring
+- Natural language editing
+- VS Code compatibility
+
+**Compared to Copilot:**
+- More agentic (can edit multiple files)
+- Better codebase context
+- Integrated chat experience
+- Custom model selection
+
+**Pricing:**
+- Free tier available
+- Pro for advanced features`,
+    category: 'applications',
+    relatedTerms: ['ai-coding-assistant', 'copilot', 'large-language-model'],
+    examples: 'Using Cursor Composer to refactor authentication across your entire codebase with a single prompt.',
+  },
+  {
+    slug: 'deepseek',
+    term: 'DeepSeek',
+    shortDef: 'Chinese AI lab producing highly capable open-weight models competitive with top proprietary models.',
+    fullDef: `DeepSeek is a Chinese AI research lab known for releasing powerful open-weight models that rival proprietary alternatives.
+
+**Notable Models:**
+- **DeepSeek-V2**: Efficient MoE architecture
+- **DeepSeek-V3**: Frontier capabilities
+- **DeepSeek Coder**: Code-specialized model
+- **DeepSeek Math**: Math reasoning
+
+**Key Innovations:**
+- Multi-head Latent Attention (MLA)
+- Efficient mixture-of-experts
+- Strong reasoning capabilities
+- Competitive with GPT-4 on benchmarks
+
+**Why It Matters:**
+- Open weights (community can use)
+- Demonstrates non-US AI capabilities
+- Efficient architectures
+- Strong at code and math
+
+**Considerations:**
+- Chinese company (geopolitical factors)
+- Large model sizes
+- Resource requirements`,
+    category: 'companies',
+    relatedTerms: ['large-language-model', 'open-weights', 'mixture-of-experts'],
+    examples: 'Running DeepSeek Coder locally for private code assistance without sending data to external APIs.',
+  },
+  {
+    slug: 'xai',
+    term: 'xAI',
+    shortDef: 'Elon Musk\'s AI company developing the Grok family of AI models.',
+    fullDef: `xAI is an artificial intelligence company founded by Elon Musk, focused on developing AI that can understand the universe.
+
+**Products:**
+- **Grok**: Conversational AI with real-time X (Twitter) access
+- **Grok-2**: Improved reasoning and capabilities
+- **Colossus**: Massive GPU cluster for training
+
+**Differentiators:**
+- Real-time access to X/Twitter data
+- Less restrictive content policies
+- Integrated with X premium
+- "Rebellious" personality
+
+**Technical Notes:**
+- Trained on Colossus cluster (100K+ H100s)
+- Rapid iteration pace
+- Competitive benchmark performance
+
+**Access:**
+- X Premium subscribers
+- API access (limited)
+- Grok app`,
+    category: 'companies',
+    relatedTerms: ['large-language-model', 'chatgpt', 'claude'],
+    examples: 'Using Grok on X to get AI analysis of trending topics with real-time information.',
+  },
+  {
+    slug: 'world-model',
+    term: 'World Model',
+    shortDef: 'AI systems that build internal representations of how the world works.',
+    fullDef: `World models are AI systems that learn to simulate or predict the dynamics of environments, enabling planning and reasoning.
+
+**Concept:**
+- AI builds internal "mental model" of world
+- Can simulate consequences of actions
+- Enables planning without real-world trial
+- Key for embodied AI and robotics
+
+**Applications:**
+- Robotics planning
+- Autonomous vehicles
+- Game AI
+- Scientific simulation
+- Video generation (implicit)
+
+**Research Directions:**
+- Sora as world simulator
+- JEPA (Yann LeCun's vision)
+- Model-based RL
+- Structured world models
+
+**Why It Matters:**
+- More sample-efficient learning
+- Better generalization
+- Safer exploration
+- Human-like reasoning`,
+    category: 'concepts',
+    relatedTerms: ['reinforcement-learning', 'ai-video-generation', 'artificial-intelligence'],
+    examples: 'Sora generating physically plausible videos by implicitly learning how objects interact.',
+  },
 ];
