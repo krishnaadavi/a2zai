@@ -15,6 +15,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { ShareButtons } from '@/components/ShareButton';
+import { ComparisonJsonLd } from '@/components/JsonLd';
 
 export const metadata: Metadata = {
   title: 'AI Model Comparison | GPT-4 vs Claude vs Gemini vs Llama | A2Z AI',
@@ -327,6 +328,14 @@ function FeatureIcon({ value }: { value: FeatureValue }) {
 export default function ComparePage() {
   return (
     <div className="min-h-screen bg-gray-950">
+      <ComparisonJsonLd
+        products={models.map((m) => ({
+          name: m.name,
+          description: m.description,
+          brand: m.provider,
+          url: m.url,
+        }))}
+      />
       {/* Hero */}
       <section className="bg-gradient-to-br from-gray-900 via-blue-900/20 to-gray-900 py-16 px-4">
         <div className="max-w-6xl mx-auto text-center">

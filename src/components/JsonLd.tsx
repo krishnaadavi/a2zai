@@ -190,3 +190,94 @@ export function BreadcrumbJsonLd({
 
   return <JsonLd data={data} />;
 }
+
+// ItemList for comparison/collection pages
+export function ItemListJsonLd({
+  name,
+  description,
+  url,
+  items,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  items: { name: string; description?: string; url?: string }[];
+}) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: name,
+    description: description,
+    url: url,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      ...(item.description && { description: item.description }),
+      ...(item.url && { url: item.url }),
+    })),
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// HowTo for prompts/guides
+export function HowToJsonLd({
+  name,
+  description,
+  steps,
+}: {
+  name: string;
+  description: string;
+  steps: { name: string; text: string }[];
+}) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: name,
+    description: description,
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+    })),
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// Product comparison
+export function ComparisonJsonLd({
+  products,
+}: {
+  products: { name: string; description: string; brand: string; url: string }[];
+}) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'AI Model Comparison',
+    description: 'Comparison of leading AI models including features, pricing, and capabilities',
+    url: 'https://a2zai.ai/compare',
+    numberOfItems: products.length,
+    itemListElement: products.map((product, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'SoftwareApplication',
+        name: product.name,
+        description: product.description,
+        applicationCategory: 'Artificial Intelligence',
+        operatingSystem: 'Web',
+        brand: {
+          '@type': 'Brand',
+          name: product.brand,
+        },
+        url: product.url,
+      },
+    })),
+  };
+
+  return <JsonLd data={data} />;
+}
