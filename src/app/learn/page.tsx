@@ -1,6 +1,7 @@
 import { BookOpen, GraduationCap, Search, ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import LearningDashboard from '@/components/LearningDashboard';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,6 +51,13 @@ export default async function LearnPage() {
             Whether you're new to AI or looking to fill gaps in your knowledge,
             we've got you covered with plain-English explanations.
           </p>
+        </div>
+      </section>
+
+      {/* Progress Dashboard */}
+      <section className="py-8 px-4 bg-gray-950 border-b border-gray-800">
+        <div className="max-w-6xl mx-auto">
+          <LearningDashboard totalGlossary={glossaryCount} totalExplainers={explainerCount} />
         </div>
       </section>
 

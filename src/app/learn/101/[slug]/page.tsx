@@ -6,6 +6,7 @@ import MarkdownRenderer from '@/components/MarkdownRenderer';
 import CommentSection from '@/components/CommentSection';
 import { ShareButtons } from '@/components/ShareButton';
 import ReadTracker from '@/components/ReadTracker';
+import ProgressButton from '@/components/ProgressButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -103,11 +104,12 @@ export default async function ExplainerPage({ params }: Props) {
               {explainer.subtitle && (
                 <p className="text-gray-300 text-lg mt-2">{explainer.subtitle}</p>
               )}
-              <div className="flex items-center gap-4 mt-4">
+              <div className="flex items-center gap-4 mt-4 flex-wrap">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <Clock className="h-4 w-4" />
                   <span>{explainer.readTime} min read</span>
                 </div>
+                <ProgressButton contentType="explainer" contentId={explainer.slug} />
                 <ShareButtons
                   url={`https://a2zai.ai/learn/101/${explainer.slug}`}
                   title={`${explainer.title} | AI 101 | A2Z AI`}

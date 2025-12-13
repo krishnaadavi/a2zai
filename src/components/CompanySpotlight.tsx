@@ -69,14 +69,23 @@ export default function CompanySpotlight({ news, stocks = [] }: CompanySpotlight
                                 </div>
                             </div>
 
-                            {/* Latest News - Hidden on very small screens */}
+                            {/* Latest News or Focus Areas - Hidden on very small screens */}
                             <div className="hidden sm:block">
                                 {item ? (
                                     <p className="text-gray-400 text-xs md:text-sm line-clamp-2 group-hover:text-gray-300 transition-colors">
                                         {item.title}
                                     </p>
                                 ) : (
-                                    <p className="text-gray-600 text-xs italic">No recent updates</p>
+                                    <div className="flex flex-wrap gap-1">
+                                        {company.categories.slice(0, 2).map((cat) => (
+                                            <span
+                                                key={cat}
+                                                className="text-xs px-1.5 py-0.5 rounded bg-gray-800 text-gray-400"
+                                            >
+                                                {cat}
+                                            </span>
+                                        ))}
+                                    </div>
                                 )}
                             </div>
                         </Link>

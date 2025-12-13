@@ -51,12 +51,20 @@ export default function AppHeader() {
       label: 'Discover',
       icon: TrendingUp,
       dropdown: [
-        { href: '/news', label: 'News', description: 'Latest AI headlines', icon: Newspaper },
+        { href: '/news', label: 'AI News', description: 'Latest headlines & updates', icon: Newspaper },
+        { href: '/digest', label: 'Weekly Digest', description: 'Curated weekly roundup', icon: Mail },
         { href: '/models', label: 'Models', description: 'Trending AI models', icon: Brain },
         { href: '/research', label: 'Research', description: 'Academic papers', icon: FileText },
         { href: '/companies', label: 'Companies', description: 'AI industry leaders', icon: Building2 },
-        { href: '/funding', label: 'Funding', description: 'Startup funding tracker', icon: Rocket },
-        { href: '/tools', label: 'AI Tools', description: 'Directory of AI tools', icon: Wrench },
+        { href: '/funding', label: 'Funding', description: 'Startup investments', icon: Rocket },
+      ],
+    },
+    {
+      label: 'Tools',
+      icon: Wrench,
+      dropdown: [
+        { href: '/tools', label: 'AI Tools', description: 'Directory of 60+ tools', icon: Wrench },
+        { href: '/courses', label: 'Courses', description: 'Learn AI/ML online', icon: GraduationCap },
       ],
     },
     {
@@ -64,12 +72,10 @@ export default function AppHeader() {
       icon: GraduationCap,
       dropdown: [
         { href: '/learn', label: 'Learning Hub', description: 'Start your AI journey', icon: BookOpen },
-        { href: '/learn/101', label: 'AI 101', description: '6-lesson fundamentals course', icon: GraduationCap },
-        { href: '/learn/glossary', label: 'Glossary', description: 'AI terms explained', icon: BookMarked },
-        { href: '/courses', label: 'Courses', description: 'External AI courses', icon: BookOpen },
+        { href: '/learn/101', label: 'AI 101', description: '6-lesson fundamentals', icon: GraduationCap },
+        { href: '/learn/glossary', label: 'Glossary', description: '100+ AI terms', icon: BookMarked },
       ],
     },
-    { href: '/digest', label: 'Weekly Digest', icon: Mail },
   ];
 
   // Close mobile menu on route change

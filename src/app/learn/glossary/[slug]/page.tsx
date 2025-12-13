@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import CommentSection from '@/components/CommentSection';
 import { ShareButtons } from '@/components/ShareButton';
 import ReadTracker from '@/components/ReadTracker';
+import ProgressButton from '@/components/ProgressButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -82,7 +83,8 @@ export default async function GlossaryTermPage({ params }: Props) {
               </span>
               <h1 className="text-3xl md:text-4xl font-bold text-white">{term.term}</h1>
               <p className="text-gray-300 text-lg mt-2">{term.shortDef}</p>
-              <div className="mt-4">
+              <div className="mt-4 flex items-center gap-4 flex-wrap">
+                <ProgressButton contentType="glossary" contentId={term.slug} />
                 <ShareButtons
                   url={`https://a2zai.ai/learn/glossary/${term.slug}`}
                   title={`${term.term} - AI Glossary | A2Z AI`}
