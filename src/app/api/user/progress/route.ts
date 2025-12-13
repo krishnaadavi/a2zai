@@ -38,7 +38,6 @@ export async function GET(request: NextRequest) {
       where.contentType = contentType;
     }
 
-    // @ts-expect-error - LearningProgress model is defined in schema but types need regeneration
     const progress: ProgressItem[] = await prisma.learningProgress.findMany({
       where,
       orderBy: { updatedAt: 'desc' },
@@ -106,7 +105,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Upsert the progress record
-    // @ts-expect-error - LearningProgress model is defined in schema but types need regeneration
     const progress: ProgressItem = await prisma.learningProgress.upsert({
       where: {
         userId_contentType_contentId: {
@@ -164,7 +162,6 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // @ts-expect-error - LearningProgress model is defined in schema but types need regeneration
     await prisma.learningProgress.deleteMany({
       where: {
         userId: user.id,
