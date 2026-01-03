@@ -1,4 +1,4 @@
-import { Zap, TrendingUp, BookOpen, Brain, Clock, ArrowRight, Sparkles, ExternalLink, GraduationCap, Newspaper, Lightbulb } from 'lucide-react';
+import { Zap, TrendingUp, BookOpen, Brain, Clock, ArrowRight, Sparkles, ExternalLink, GraduationCap, Newspaper } from 'lucide-react';
 import Link from 'next/link';
 import { fetchAINews } from '@/lib/newsdata';
 import { fetchTrendingModels } from '@/lib/huggingface';
@@ -46,7 +46,7 @@ export default async function Home() {
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="max-w-6xl mx-auto relative">
           {/* Main Headline */}
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4">
               Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">A-to-Z</span> Guide to AI
             </h1>
@@ -55,8 +55,33 @@ export default async function Home() {
             </p>
           </div>
 
+          {/* New to AI? Quick Start Banner */}
+          {termOfDay && (
+            <div className="mb-8 p-4 md:p-6 rounded-2xl bg-gradient-to-r from-yellow-900/30 via-orange-900/20 to-yellow-900/30 border border-yellow-500/30">
+              <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-yellow-500/20 rounded-lg">
+                    <Sparkles className="h-5 w-5 text-yellow-400" />
+                  </div>
+                  <span className="text-yellow-300 font-semibold">New to AI?</span>
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <p className="text-gray-300">
+                    Learn your first AI term: <Link href={`/learn/glossary/${termOfDay.slug}`} className="text-white font-bold hover:text-yellow-300 underline decoration-yellow-500/50 underline-offset-2">{termOfDay.term}</Link> — {termOfDay.shortDef.slice(0, 80)}...
+                  </p>
+                </div>
+                <Link
+                  href="/learn/101"
+                  className="flex-shrink-0 px-4 py-2 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-colors text-sm"
+                >
+                  Start Learning →
+                </Link>
+              </div>
+            </div>
+          )}
+
           {/* Split Cards - Two User Journeys */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {/* Stay Current Card */}
             <Link
               href="/news"
@@ -86,6 +111,9 @@ export default async function Home() {
               href="/learn"
               className="group relative p-6 md:p-8 rounded-2xl bg-gradient-to-br from-emerald-900/40 to-emerald-900/20 border border-emerald-500/30 hover:border-emerald-500/60 transition-all hover:scale-[1.02]"
             >
+              <div className="absolute -top-2 -right-2 px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full">
+                START HERE
+              </div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-xl">
                   <GraduationCap className="h-6 w-6 text-white" />
@@ -193,35 +221,6 @@ export default async function Home() {
 
             {/* Sidebar */}
             <div className="space-y-6">
-              {/* Term of the Day */}
-              {termOfDay && (
-                <Link
-                  href={`/learn/glossary/${termOfDay.slug}`}
-                  className="block p-5 rounded-xl bg-gradient-to-br from-emerald-900/30 to-emerald-900/10 border border-emerald-500/30 hover:border-emerald-500/50 transition-colors group"
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="p-1.5 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded">
-                      <Lightbulb className="h-4 w-4 text-white" />
-                    </div>
-                    <span className="text-emerald-400 text-sm font-medium">Term of the Day</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white group-hover:text-emerald-300 transition-colors mb-2">
-                    {termOfDay.term}
-                  </h3>
-                  <p className="text-gray-400 text-sm line-clamp-2">
-                    {termOfDay.shortDef}
-                  </p>
-                  <div className="flex items-center gap-1 text-emerald-400 text-sm mt-3 font-medium">
-                    Learn more <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              )}
-
-              {/* Mobile Stock Pulse */}
-              <div className="lg:hidden">
-                <AIStockPulse stocks={stocks} />
-              </div>
-
               {/* Trending Models */}
               <div className="bg-gray-900/50 rounded-xl border border-gray-800 p-5">
                 <div className="flex items-center justify-between mb-4">
@@ -260,11 +259,6 @@ export default async function Home() {
                     </a>
                   ))}
                 </div>
-              </div>
-
-              {/* AI Stock Pulse - Desktop */}
-              <div className="hidden lg:block">
-                <AIStockPulse stocks={stocks} />
               </div>
 
               {/* Newsletter Sidebar */}
@@ -318,9 +312,16 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* AI Stock Pulse - Moved Lower */}
+      <section className="py-8 px-4 bg-gray-900/30">
+        <div className="max-w-6xl mx-auto">
+          <AIStockPulse stocks={stocks} />
+        </div>
+      </section>
+
       {/* Build Timestamp */}
       <div className="fixed bottom-4 left-4 text-xs text-gray-600 bg-gray-900/80 px-2 py-1 rounded font-mono">
-        v01022026-7.43pmCST
+        v01022026-8.05pmCST
       </div>
     </div>
   );
