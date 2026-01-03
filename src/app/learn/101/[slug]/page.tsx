@@ -8,6 +8,7 @@ import { ShareButtons } from '@/components/ShareButton';
 import ReadTracker from '@/components/ReadTracker';
 import ProgressButton from '@/components/ProgressButton';
 import { ArticleJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
+import NewsletterSignup from '@/components/NewsletterSignup';
 
 export const dynamic = 'force-dynamic';
 
@@ -183,6 +184,13 @@ export default async function ExplainerPage({ params }: Props) {
                 Course Complete! Back to Learn Hub
               </Link>
             )}
+          </div>
+
+          {/* Newsletter CTA */}
+          <div className="bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 rounded-xl border border-emerald-500/20 p-6 mt-8 text-center">
+            <h3 className="text-lg font-bold text-white mb-2">Enjoying the course?</h3>
+            <p className="text-gray-400 text-sm mb-4">Get notified when we add new lessons and AI updates.</p>
+            <NewsletterSignup variant="inline" />
           </div>
 
           {/* Comments */}

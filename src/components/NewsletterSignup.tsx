@@ -114,7 +114,7 @@ export default function NewsletterSignup({ variant = 'hero', className = '' }: N
                 )}
 
                 <p className="text-gray-500 text-sm mt-2 text-center">
-                    Join 10,000+ readers. Daily digest, no spam.
+                    Free daily digest. No spam, unsubscribe anytime.
                 </p>
             </div>
         );

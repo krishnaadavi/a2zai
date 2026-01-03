@@ -7,6 +7,7 @@ import { ShareButtons } from '@/components/ShareButton';
 import ReadTracker from '@/components/ReadTracker';
 import ProgressButton from '@/components/ProgressButton';
 import { GlossaryTermJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
+import NewsletterSignup from '@/components/NewsletterSignup';
 
 export const dynamic = 'force-dynamic';
 
@@ -198,6 +199,13 @@ export default async function GlossaryTermPage({ params }: Props) {
               </div>
             </div>
           )}
+
+          {/* Newsletter CTA */}
+          <div className="bg-gradient-to-r from-purple-900/30 to-cyan-900/30 rounded-xl border border-purple-500/20 p-6 mt-8 text-center">
+            <h3 className="text-lg font-bold text-white mb-2">Want more AI knowledge?</h3>
+            <p className="text-gray-400 text-sm mb-4">Get bite-sized AI concepts delivered to your inbox.</p>
+            <NewsletterSignup variant="inline" />
+          </div>
 
           {/* Comments */}
           <CommentSection articleId={term.slug} articleType="glossary" />

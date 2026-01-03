@@ -2,6 +2,7 @@ import { BookOpen, GraduationCap, Search, ArrowRight, Sparkles } from 'lucide-re
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import LearningDashboard from '@/components/LearningDashboard';
+import NewsletterSignup from '@/components/NewsletterSignup';
 
 export const dynamic = 'force-dynamic';
 
@@ -181,6 +182,13 @@ export default async function LearnPage() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* Newsletter CTA */}
+          <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-purple-900/30 to-cyan-900/30 border border-purple-500/20 text-center">
+            <h3 className="text-xl font-bold text-white mb-2">Get new lessons in your inbox</h3>
+            <p className="text-gray-400 mb-6">Stay updated when we add new AI concepts and tutorials.</p>
+            <NewsletterSignup variant="inline" />
           </div>
         </div>
       </section>
