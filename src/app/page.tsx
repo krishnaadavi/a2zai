@@ -196,7 +196,7 @@ export default async function Home() {
               {/* Term of the Day */}
               {termOfDay && (
                 <Link
-                  href={`/glossary/${termOfDay.slug}`}
+                  href={`/learn/glossary/${termOfDay.slug}`}
                   className="block p-5 rounded-xl bg-gradient-to-br from-emerald-900/30 to-emerald-900/10 border border-emerald-500/30 hover:border-emerald-500/50 transition-colors group"
                 >
                   <div className="flex items-center gap-2 mb-3">
@@ -320,7 +320,7 @@ export default async function Home() {
 
       {/* Build Timestamp */}
       <div className="fixed bottom-4 left-4 text-xs text-gray-600 bg-gray-900/80 px-2 py-1 rounded font-mono">
-        v01022026-7.40pmCST-d59ff3f
+        v01022026-7.43pmCST
       </div>
     </div>
   );
