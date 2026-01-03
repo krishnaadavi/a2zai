@@ -6,6 +6,7 @@ import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import SessionProvider from "@/components/SessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -60,13 +61,15 @@ export default function RootLayout({
         <GoogleAnalytics />
       </head>
       <body className={`${inter.className} bg-gray-950 text-white antialiased`}>
-        <div className="min-h-screen flex flex-col">
-          <AppHeader />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-          <BackToTop />
-        </div>
-        <Analytics />
+        <SessionProvider>
+          <div className="min-h-screen flex flex-col">
+            <AppHeader />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+            <BackToTop />
+          </div>
+          <Analytics />
+        </SessionProvider>
       </body>
     </html>
   );
