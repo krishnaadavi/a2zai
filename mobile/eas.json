@@ -32,9 +32,9 @@
   "submit": {
     "production": {
       "ios": {
-        "appleId": "",
+        "appleId": "krishnaadavi@gmail.com",
         "ascAppId": "",
-        "appleTeamId": ""
+        "appleTeamId": "T5TA38CZB4"
       },
       "android": {
         "serviceAccountKeyPath": ""
