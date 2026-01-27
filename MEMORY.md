@@ -1,7 +1,7 @@
 # A2Z AI - Development Memory
 
 > Auto-updated checkpoint file for session continuity.
-> Last updated: 2026-01-26 (Session 1)
+> Last updated: 2026-01-27 (Session 2)
 
 ## Project Overview
 
@@ -13,10 +13,10 @@
 
 ## Current State (Checkpoint)
 
-### Mobile App Status: RUNNING ON SIMULATOR, NOT COMMITTED
-- The `mobile/` directory is **untracked** in git (never committed)
-- iOS built and running on iPhone 16e simulator (iOS 26.2)
-- Built with xcodebuild + ad-hoc signing (`CODE_SIGN_IDENTITY=-`)
+### Mobile App Status: COMMITTED, AUTH IMPLEMENTED
+- `mobile/` committed and pushed to origin/main
+- Tested on iPhone 17 simulator (ECFC0680-C9EF-4509-8475-9D84FA6FF335)
+- Also tested on iPhone 16e (13D21611-560A-4D0F-96D5-338373DCEA3B)
 - `.gitignore` in `mobile/` excludes `/ios` and `/android` (generated)
 
 ### Bugs Fixed This Session
@@ -43,7 +43,9 @@
 - Term (`app/term/[slug].tsx`) - Glossary term detail
 
 **Lib Modules:**
-- `lib/api.ts` - API client (base: www.a2zai.ai), with response mapping for all endpoints
+- `lib/api.ts` - API client (base: www.a2zai.ai), token-aware fetchAPI, response mapping
+- `lib/auth.ts` - SecureStore session persistence helpers
+- `lib/AuthContext.tsx` - React context for auth (Google + Apple sign-in, session management)
 - `lib/cache.ts` - TTL-based caching (5min news, 1hr models, 24hr glossary)
 - `lib/analytics.ts` - Event tracking
 - `lib/notifications.ts` - Push notifications (daily 9AM teaser, simulator-safe)
@@ -51,18 +53,33 @@
 - `lib/types.ts` - TypeScript interfaces
 - `lib/theme.ts` - Dark theme colors (purple/cyan/green palette)
 
-### Root Changes (Uncommitted)
-- `package.json`: Added `expo` dep, bumped `next` to 16.1.5
-- `tsconfig.json`: Added `extends: "expo/tsconfig.base"`, formatting changes
-- `package-lock.json`: Large lockfile update from expo install
+### Authentication Architecture (Session 2)
+- **Server:** `/api/auth/mobile` endpoint verifies Google/Apple OAuth tokens, creates DB sessions
+- **Server:** `getAuthUser()` helper in `src/lib/auth-session.ts` — unified auth for cookies (web) + Bearer tokens (mobile)
+- **Server:** All 7 protected API routes updated to use `getAuthUser()`
+- **Mobile:** `AuthContext` with SecureStore persistence, native Apple + Google sign-in
+- **Mobile:** Profile screen shows Apple/Google sign-in buttons (signed out) or user info (signed in)
+
+### EAS Config
+- Apple Team ID: T5TA38CZB4
+- Apple ID: krishnaadavi@gmail.com
+- ASC App ID: 6758355325
+- Bundle ID: ai.a2z.app
+- EAS CLI: v16.31.0 installed globally
+
+### App Store Connect
+- App created: "A2Z AI" (Education category)
+- Age rating: 4+
+- Subtitle: "Learn AI from A to Z"
+- Capabilities registered: Associated Domains, Push Notifications, Sign in with Apple
 
 ### What Needs Doing
-- [ ] First git commit of mobile/ directory
-- [ ] Test Learn, Explore, Profile tabs on simulator (Home tab verified working)
-- [ ] Test Quiz modal screen
-- [ ] EAS build config incomplete (missing Apple team ID, app store IDs in eas.json)
-- [ ] Authentication not wired up in mobile (Google sign-in -> web redirect)
-- [ ] App Store submission prep
+- [ ] `eas login` (interactive — user must do manually)
+- [ ] Create Google iOS OAuth client ID in Google Cloud Console (bundle ID: ai.a2z.app)
+- [ ] Set env vars: `GOOGLE_IOS_CLIENT_ID` on server, `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID` for mobile
+- [ ] `npx expo prebuild --clean` to regenerate native project with Apple Sign In entitlement
+- [ ] Test auth end-to-end (Apple Sign In needs real device)
+- [ ] App Store submission prep (screenshots, description, privacy policy)
 - [ ] Consider adding expo-dev-client for better DX
 
 ## Key Commands
@@ -100,9 +117,10 @@ cd mobile && eas build --platform ios --profile development
 - `expo run:ios` broken (requires code signing certs not available). Use xcodebuild directly.
 
 ## Simulator Info
-- **Device:** iPhone 16e (13D21611-560A-4D0F-96D5-338373DCEA3B)
-- **iOS:** 26.2
+- **iPhone 16e:** 13D21611-560A-4D0F-96D5-338373DCEA3B (iOS 26.2)
+- **iPhone 17:** ECFC0680-C9EF-4509-8475-9D84FA6FF335 (iOS 26.2)
 - **DerivedData:** ~/Library/Developer/Xcode/DerivedData/A2ZAI-dwsvowtahapnkccvmynxzjcfngex/
 
 ## Session Log
 - **2026-01-26 Session 1:** Resumed iOS development. Explored full project state. Built and ran on simulator. Fixed API base URL (307 redirect), news/glossary/models data mapping, notification crashes on simulator. Home screen verified working with live news feed. Created MEMORY.md.
+- **2026-01-27 Session 2:** Retested on iPhone 17 simulator (no errors). Git committed mobile/ directory. Set up EAS config (Team ID, Apple ID, ASC App ID). Created App Store Connect listing (Education, 4+, registered capabilities). Implemented full auth: server-side mobile auth endpoint, unified getAuthUser() helper, updated all protected routes, mobile AuthContext with Apple + Google sign-in, profile screen UI.
