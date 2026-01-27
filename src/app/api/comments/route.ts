@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { getAuthUser } from '@/lib/auth-session';
 import { prisma } from '@/lib/prisma';
-import { authOptions } from '@/lib/auth';
 
 // GET /api/comments - Get comments for an article
 export async function GET(request: Request) {
@@ -64,9 +63,9 @@ export async function GET(request: Request) {
 // POST /api/comments - Create a new comment
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.email) {
+    if (!authUser?.id) {
       return NextResponse.json(
         { success: false, error: 'Please sign in to comment' },
         { status: 401 }
@@ -90,18 +89,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Get user
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json(
-        { success: false, error: 'User not found' },
-        { status: 404 }
-      );
-    }
-
     // If parentId is provided, verify it exists
     if (parentId) {
       const parentComment = await prisma.comment.findUnique({
@@ -117,7 +104,7 @@ export async function POST(request: Request) {
 
     const comment = await prisma.comment.create({
       data: {
-        userId: user.id,
+        userId: authUser.id,
         articleId,
         articleType,
         content: content.trim(),
@@ -150,9 +137,9 @@ export async function POST(request: Request) {
 // DELETE /api/comments - Delete a comment
 export async function DELETE(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.email) {
+    if (!authUser?.id) {
       return NextResponse.json(
         { success: false, error: 'Please sign in to delete comments' },
         { status: 401 }
@@ -169,18 +156,6 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // Get user
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json(
-        { success: false, error: 'User not found' },
-        { status: 404 }
-      );
-    }
-
     // Check comment exists and belongs to user
     const comment = await prisma.comment.findUnique({
       where: { id: commentId },
@@ -193,7 +168,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    if (comment.userId !== user.id) {
+    if (comment.userId !== authUser.id) {
       return NextResponse.json(
         { success: false, error: 'You can only delete your own comments' },
         { status: 403 }

@@ -6,16 +6,21 @@ import {
   View,
   TouchableOpacity,
   Linking,
+  Image,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import { brand, dark } from '@/constants/Colors';
 import { getProgress } from '@/lib/storage';
 import { UserProgress } from '@/lib/types';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const { user, signInWithGoogle, signInWithApple, signOut } = useAuth();
   const [progress, setProgress] = useState<UserProgress | null>(null);
 
   const loadProgress = useCallback(async () => {
@@ -43,21 +48,47 @@ export default function ProfileScreen() {
         colors={['#1e1b4b', '#312e81', '#1e1b4b']}
         style={styles.profileHeader}
       >
-        <View style={styles.avatar}>
-          <FontAwesome name="user" size={32} color={brand.purple} />
-        </View>
-        <Text style={styles.profileTitle}>AI Learner</Text>
-        <Text style={styles.profileSub}>Track your AI learning journey</Text>
+        {user ? (
+          <>
+            {user.image ? (
+              <Image source={{ uri: user.image }} style={styles.userAvatar} />
+            ) : (
+              <View style={styles.avatar}>
+                <FontAwesome name="user" size={32} color={brand.purple} />
+              </View>
+            )}
+            <Text style={styles.profileTitle}>{user.name || 'AI Learner'}</Text>
+            <Text style={styles.profileSub}>{user.email}</Text>
+            <TouchableOpacity style={styles.signOutBtn} onPress={signOut}>
+              <Text style={styles.signOutText}>Sign Out</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <>
+            <View style={styles.avatar}>
+              <FontAwesome name="user" size={32} color={brand.purple} />
+            </View>
+            <Text style={styles.profileTitle}>AI Learner</Text>
+            <Text style={styles.profileSub}>Track your AI learning journey</Text>
 
-        {/* Sign in CTA */}
-        <TouchableOpacity
-          style={styles.signInBtn}
-          onPress={() => Linking.openURL('https://a2zai.ai/api/auth/signin')}
-        >
-          <FontAwesome name="google" size={16} color="#fff" />
-          <Text style={styles.signInText}>Sign in with Google</Text>
-        </TouchableOpacity>
-        <Text style={styles.signInHint}>Sync progress across devices</Text>
+            <View style={styles.authButtons}>
+              {Platform.OS === 'ios' && (
+                <AppleAuthentication.AppleAuthenticationButton
+                  buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                  buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
+                  cornerRadius={12}
+                  style={styles.appleButton}
+                  onPress={signInWithApple}
+                />
+              )}
+              <TouchableOpacity style={styles.googleButton} onPress={signInWithGoogle}>
+                <FontAwesome name="google" size={16} color="#fff" />
+                <Text style={styles.signInText}>Sign in with Google</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.signInHint}>Sync progress across devices</Text>
+          </>
+        )}
       </LinearGradient>
 
       {/* Stats Grid */}
@@ -161,17 +192,46 @@ const styles = StyleSheet.create({
   },
   profileTitle: { color: dark.text, fontSize: 22, fontWeight: '700' },
   profileSub: { color: dark.textSecondary, fontSize: 14, marginTop: 4, marginBottom: 16 },
-  signInBtn: {
+  authButtons: {
+    width: '100%',
+    maxWidth: 280,
+    alignItems: 'center',
+    gap: 10,
+  },
+  appleButton: {
+    width: '100%',
+    height: 48,
+  },
+  googleButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 10,
     backgroundColor: '#4285F4',
     paddingHorizontal: 24,
-    paddingVertical: 12,
+    paddingVertical: 14,
     borderRadius: 12,
+    width: '100%',
   },
   signInText: { color: '#fff', fontWeight: '700', fontSize: 15 },
   signInHint: { color: dark.textMuted, fontSize: 12, marginTop: 8 },
+  userAvatar: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 2,
+    borderColor: brand.purple,
+    marginBottom: 12,
+  },
+  signOutBtn: {
+    marginTop: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: dark.border,
+  },
+  signOutText: { color: dark.textMuted, fontSize: 14 },
 
   sectionTitle: { color: dark.text, fontSize: 18, fontWeight: '700', marginBottom: 12, paddingHorizontal: 16 },
 

@@ -3,10 +3,18 @@ import { fetchWithCache } from './cache';
 
 const API_BASE = 'https://www.a2zai.ai';
 
-async function fetchAPI<T>(path: string, options?: RequestInit): Promise<T> {
+async function fetchAPI<T>(path: string, options?: RequestInit & { token?: string }): Promise<T> {
+  const { token, ...fetchOptions } = options || {};
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(fetchOptions.headers as Record<string, string>),
+  };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
-    ...options,
+    ...fetchOptions,
+    headers,
   });
   if (!res.ok) {
     throw new Error(`API error: ${res.status} ${res.statusText}`);
@@ -94,23 +102,19 @@ export async function search(query: string): Promise<{ results: any[] }> {
 
 // ── User endpoints (authenticated, not cached) ───────
 export async function getUserProgress(token: string) {
-  return fetchAPI('/api/user/progress', {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+  return fetchAPI('/api/user/progress', { token });
+}
+
+export async function saveArticle(token: string, articleId: string, title: string, url: string, source: string) {
+  return fetchAPI('/api/user/saved', {
+    method: 'POST',
+    token,
+    body: JSON.stringify({ articleId, title, url, source }),
   });
 }
 
-export async function saveArticle(token: string, articleId: string) {
-  return fetchAPI('/api/user/saved', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ articleId }),
-  });
+export async function getSavedArticles(token: string) {
+  return fetchAPI('/api/user/saved', { token });
 }
 
 // ── Tools (cached 24h) ──────────────────────────────

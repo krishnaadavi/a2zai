@@ -1,14 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getAuthUser } from '@/lib/auth-session';
 import { prisma } from '@/lib/prisma';
 
 // GET /api/user/history - Get user's read history
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.id) {
+    if (!authUser?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -20,7 +19,7 @@ export async function GET(request: Request) {
     const limit = parseInt(searchParams.get('limit') || '50', 10);
 
     const where: { userId: string; articleType?: string } = {
-      userId: session.user.id,
+      userId: authUser.id,
     };
 
     if (type) {
@@ -50,9 +49,9 @@ export async function GET(request: Request) {
 // POST /api/user/history - Track article read
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.id) {
+    if (!authUser?.id) {
       // Silently return success for non-authenticated users
       // They just won't have tracking
       return NextResponse.json({
@@ -83,7 +82,7 @@ export async function POST(request: Request) {
     const history = await prisma.readHistory.upsert({
       where: {
         userId_articleId: {
-          userId: session.user.id,
+          userId: authUser.id,
           articleId,
         },
       },
@@ -92,7 +91,7 @@ export async function POST(request: Request) {
         articleType,
       },
       create: {
-        userId: session.user.id,
+        userId: authUser.id,
         articleId,
         articleType,
       },
@@ -114,9 +113,9 @@ export async function POST(request: Request) {
 // DELETE /api/user/history - Clear read history
 export async function DELETE(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.id) {
+    if (!authUser?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -131,7 +130,7 @@ export async function DELETE(request: Request) {
       await prisma.readHistory.delete({
         where: {
           userId_articleId: {
-            userId: session.user.id,
+            userId: authUser.id,
             articleId,
           },
         },
@@ -139,7 +138,7 @@ export async function DELETE(request: Request) {
     } else {
       // Clear all history
       await prisma.readHistory.deleteMany({
-        where: { userId: session.user.id },
+        where: { userId: authUser.id },
       });
     }
 

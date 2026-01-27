@@ -1,28 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getAuthUser } from '@/lib/auth-session';
 import { prisma } from '@/lib/prisma';
 
 // GET - Get user's preferences
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.email) {
+    if (!authUser?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+    const userWithPrefs = await prisma.user.findUnique({
+      where: { id: authUser.id },
       include: { preferences: true },
     });
 
-    if (!user) {
+    if (!userWithPrefs) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     // Return preferences or defaults if none exist
-    const preferences = user.preferences || {
+    const preferences = userWithPrefs.preferences || {
       showNews: true,
       showModels: true,
       showResearch: true,
@@ -57,18 +56,10 @@ export async function GET() {
 // POST/PUT - Update user's preferences
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.email) {
+    if (!authUser?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     const body = await request.json();
@@ -97,10 +88,10 @@ export async function POST(request: NextRequest) {
 
     // Upsert preferences
     const preferences = await prisma.userPreferences.upsert({
-      where: { userId: user.id },
+      where: { userId: authUser.id },
       update: updateData,
       create: {
-        userId: user.id,
+        userId: authUser.id,
         ...updateData,
       },
     });

@@ -1,14 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getAuthUser } from '@/lib/auth-session';
 import { prisma } from '@/lib/prisma';
 
 // GET /api/user/saved - Get user's saved articles
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.id) {
+    if (!authUser?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -19,7 +18,7 @@ export async function GET(request: Request) {
     const type = searchParams.get('type'); // 'news', 'research', 'model', or null for all
 
     const where: { userId: string; source?: string } = {
-      userId: session.user.id,
+      userId: authUser.id,
     };
 
     if (type) {
@@ -48,9 +47,9 @@ export async function GET(request: Request) {
 // POST /api/user/saved - Save an article
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.id) {
+    if (!authUser?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -76,7 +75,7 @@ export async function POST(request: Request) {
     const existing = await prisma.savedArticle.findUnique({
       where: {
         userId_articleId: {
-          userId: session.user.id,
+          userId: authUser.id,
           articleId,
         },
       },
@@ -92,7 +91,7 @@ export async function POST(request: Request) {
 
     const savedArticle = await prisma.savedArticle.create({
       data: {
-        userId: session.user.id,
+        userId: authUser.id,
         articleId,
         title,
         url,
@@ -117,9 +116,9 @@ export async function POST(request: Request) {
 // DELETE /api/user/saved - Remove a saved article
 export async function DELETE(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.id) {
+    if (!authUser?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -139,7 +138,7 @@ export async function DELETE(request: Request) {
     await prisma.savedArticle.delete({
       where: {
         userId_articleId: {
-          userId: session.user.id,
+          userId: authUser.id,
           articleId,
         },
       },

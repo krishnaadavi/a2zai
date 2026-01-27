@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getAuthUser } from '@/lib/auth-session';
 import { prisma } from '@/lib/prisma';
 
 interface ProgressItem {
@@ -16,24 +15,16 @@ interface ProgressItem {
 // GET - Get user's learning progress
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.email) {
+    if (!authUser?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     const { searchParams } = new URL(request.url);
     const contentType = searchParams.get('type'); // 'glossary', 'explainer', 'course', or null for all
 
-    const where: { userId: string; contentType?: string } = { userId: user.id };
+    const where: { userId: string; contentType?: string } = { userId: authUser.id };
     if (contentType) {
       where.contentType = contentType;
     }
@@ -73,18 +64,10 @@ export async function GET(request: NextRequest) {
 // POST - Mark content as started or completed
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.email) {
+    if (!authUser?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     const { contentType, contentId, status } = await request.json();
@@ -108,7 +91,7 @@ export async function POST(request: NextRequest) {
     const progress: ProgressItem = await prisma.learningProgress.upsert({
       where: {
         userId_contentType_contentId: {
-          userId: user.id,
+          userId: authUser.id,
           contentType,
           contentId,
         },
@@ -118,7 +101,7 @@ export async function POST(request: NextRequest) {
         completedAt: status === 'completed' ? new Date() : null,
       },
       create: {
-        userId: user.id,
+        userId: authUser.id,
         contentType,
         contentId,
         status,
@@ -139,18 +122,10 @@ export async function POST(request: NextRequest) {
 // DELETE - Remove progress (reset)
 export async function DELETE(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.email) {
+    if (!authUser?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     const { contentType, contentId } = await request.json();
@@ -164,7 +139,7 @@ export async function DELETE(request: NextRequest) {
 
     await prisma.learningProgress.deleteMany({
       where: {
-        userId: user.id,
+        userId: authUser.id,
         contentType,
         contentId,
       },

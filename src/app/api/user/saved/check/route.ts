@@ -1,15 +1,14 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getAuthUser } from '@/lib/auth-session';
 import { prisma } from '@/lib/prisma';
 
 // POST /api/user/saved/check - Check if articles are saved
 // Takes an array of articleIds and returns which ones are saved
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
 
-    if (!session?.user?.id) {
+    if (!authUser?.id) {
       // Return empty for unauthenticated users
       return NextResponse.json({
         success: true,
@@ -29,7 +28,7 @@ export async function POST(request: Request) {
 
     const savedArticles = await prisma.savedArticle.findMany({
       where: {
-        userId: session.user.id,
+        userId: authUser.id,
         articleId: { in: articleIds },
       },
       select: { articleId: true },

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getAuthUser } from '@/lib/auth-session';
 import { prisma } from '@/lib/prisma';
 import { fetchAINews } from '@/lib/newsdata';
 import { fetchTrendingModels } from '@/lib/huggingface';
@@ -22,7 +21,7 @@ const categoryToTopicMap: Record<string, string> = {
 // GET /api/feed - Get personalized content feed
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const authUser = await getAuthUser();
     const { searchParams } = new URL(request.url);
     const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 50);
 
@@ -34,7 +33,7 @@ export async function GET(request: Request) {
     ]);
 
     // If user is not logged in, return unfiltered content
-    if (!session?.user?.id) {
+    if (!authUser?.id) {
       return NextResponse.json({
         success: true,
         data: {
@@ -48,12 +47,12 @@ export async function GET(request: Request) {
 
     // Get user preferences
     const preferences = await prisma.topicPreference.findMany({
-      where: { userId: session.user.id },
+      where: { userId: authUser.id },
     });
 
     // Get user read history to deprioritize already-read content
     const readHistory = await prisma.readHistory.findMany({
-      where: { userId: session.user.id },
+      where: { userId: authUser.id },
       select: { articleId: true },
     });
     const readIds = new Set(readHistory.map((r) => r.articleId));
