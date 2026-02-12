@@ -1,4 +1,5 @@
 import { fetchAINews } from '@/lib/newsdata';
+import type { AINewsItem } from '@/lib/newsdata';
 
 export type LiveFundingSignal = {
   id: string;
@@ -47,7 +48,10 @@ function scoreSignal(text: string, amount: string | null, company: string | null
 
 export async function fetchLiveFundingSignals(limit: number = 10): Promise<LiveFundingSignal[]> {
   const news = await fetchAINews(Math.max(limit * 6, 36));
+  return deriveFundingSignalsFromNews(news, limit);
+}
 
+export function deriveFundingSignalsFromNews(news: AINewsItem[], limit: number = 10): LiveFundingSignal[] {
   const parsed = news
     .map((item) => {
       const text = `${item.title} ${item.description || ''}`;

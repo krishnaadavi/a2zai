@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
 import { FUNDING_CATEGORIES, ROUND_TYPES } from '@/lib/funding-data';
-import { fetchLiveFundingHeadlines } from '@/lib/funding-headlines';
-import { fetchLiveFundingSignals } from '@/lib/funding-live-service';
+import type { FundingHeadline } from '@/lib/funding-headlines';
+import { deriveFundingHeadlinesFromNews, fetchLiveFundingHeadlines } from '@/lib/funding-headlines';
+import type { LiveFundingSignal } from '@/lib/funding-live-service';
+import { deriveFundingSignalsFromNews, fetchLiveFundingSignals } from '@/lib/funding-live-service';
 import { getFundingProviderStatus } from '@/lib/funding-provider';
+import { fetchTheNewsAPIFundingNews } from '@/lib/thenewsapi';
 import { getFundingStats, queryFundingRounds } from '@/lib/funding-service';
 
 export const dynamic = 'force-dynamic';
@@ -26,10 +29,26 @@ export async function GET(request: Request) {
       sortBy,
     });
     const provider = getFundingProviderStatus();
-    const [liveHeadlines, liveSignals] = await Promise.all([
-      fetchLiveFundingHeadlines(8),
-      fetchLiveFundingSignals(10),
-    ]);
+
+    let liveHeadlines: FundingHeadline[] = [];
+    let liveSignals: LiveFundingSignal[] = [];
+    if (provider.enabled && provider.configuredProvider === 'thenewsapi') {
+      const providerNews = await fetchTheNewsAPIFundingNews(30);
+      if (providerNews.length > 0) {
+        liveHeadlines = deriveFundingHeadlinesFromNews(providerNews, 8);
+        liveSignals = deriveFundingSignalsFromNews(providerNews, 10);
+      } else {
+        [liveHeadlines, liveSignals] = await Promise.all([
+          fetchLiveFundingHeadlines(8),
+          fetchLiveFundingSignals(10),
+        ]);
+      }
+    } else {
+      [liveHeadlines, liveSignals] = await Promise.all([
+        fetchLiveFundingHeadlines(8),
+        fetchLiveFundingSignals(10),
+      ]);
+    }
     const stats = getFundingStats(rounds);
     const latestCuratedDate = rounds[0]?.date ?? null;
     const staleDays = latestCuratedDate

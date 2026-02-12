@@ -1,4 +1,4 @@
-export type FundingProviderName = 'none' | 'dealroom' | 'crunchbase';
+export type FundingProviderName = 'none' | 'dealroom' | 'crunchbase' | 'thenewsapi';
 
 export type FundingProviderStatus = {
   configuredProvider: FundingProviderName;
@@ -11,6 +11,7 @@ function normalizeProvider(raw: string | undefined): FundingProviderName {
   const value = raw.trim().toLowerCase();
   if (value === 'dealroom') return 'dealroom';
   if (value === 'crunchbase') return 'crunchbase';
+  if (value === 'thenewsapi') return 'thenewsapi';
   return 'none';
 }
 
@@ -34,6 +35,17 @@ export function getFundingProviderStatus(): FundingProviderStatus {
         configuredProvider,
         enabled: false,
         reason: 'CRUNCHBASE_API_KEY missing',
+      };
+    }
+    return { configuredProvider, enabled: true };
+  }
+
+  if (configuredProvider === 'thenewsapi') {
+    if (!process.env.THE_NEWS_API_TOKEN) {
+      return {
+        configuredProvider,
+        enabled: false,
+        reason: 'THE_NEWS_API_TOKEN missing',
       };
     }
     return { configuredProvider, enabled: true };

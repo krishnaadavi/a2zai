@@ -80,6 +80,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add live funding headline ingestion (NewsData-filtered) and surface alongside curated rounds for recency coverage
 - `DONE` Add funding/intelligence no-store cache headers and curated funding freshness indicators in funding API/page
 - `DONE` Add news-derived live funding signal extraction (company/amount/round/confidence) and render on `/funding` as current deal radar
+- `DONE` Add TheNewsAPI funding-provider pathway (`FUNDING_PROVIDER=thenewsapi`) with automatic fallback to default news ingestion when token/provider fetch fails
 
 ### Latest Session Update (2026-02-11)
 

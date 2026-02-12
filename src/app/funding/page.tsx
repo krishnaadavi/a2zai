@@ -163,6 +163,11 @@ export default function FundingPage() {
               Live funding provider not connected yet. Using curated rounds + live news-derived signals.
             </p>
           )}
+          {providerStatus?.enabled === false && providerStatus?.configuredProvider === 'thenewsapi' && (
+            <p className="text-xs text-amber-300 mb-4">
+              TheNewsAPI is selected but not configured ({providerStatus.reason}). Using default live-news fallback.
+            </p>
+          )}
           {apiSource === 'fallback' && (
             <p className="text-xs text-amber-400 mb-4">
               Funding API is unavailable. Showing bundled curated rounds.
