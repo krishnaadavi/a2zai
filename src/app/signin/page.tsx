@@ -1,9 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { useEffect, useMemo } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession, signIn } from 'next-auth/react';
 import { LogIn, AlertTriangle } from 'lucide-react';
 
 function getErrorMessage(error: string | null): string | null {
@@ -20,20 +15,14 @@ function getErrorMessage(error: string | null): string | null {
   return 'Sign-in failed. Please try again.';
 }
 
-export default function SignInPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { status } = useSession();
-
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
-  const error = searchParams.get('error');
-  const errorMessage = useMemo(() => getErrorMessage(error), [error]);
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      router.replace(callbackUrl);
-    }
-  }, [status, callbackUrl, router]);
+export default function SignInPage({
+  searchParams,
+}: {
+  searchParams: { callbackUrl?: string; error?: string };
+}) {
+  const callbackUrl = searchParams.callbackUrl || '/';
+  const errorMessage = getErrorMessage(searchParams.error || null);
+  const signInHref = `/api/auth/signin/google?callbackUrl=${encodeURIComponent(callbackUrl)}`;
 
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
@@ -50,13 +39,13 @@ export default function SignInPage() {
           </div>
         )}
 
-        <button
-          onClick={() => signIn('google', { callbackUrl })}
+        <a
+          href={signInHref}
           className="mt-5 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold hover:from-purple-500 hover:to-cyan-500 transition-colors"
         >
           <LogIn className="h-4 w-4" />
           Continue with Google
-        </button>
+        </a>
 
         <Link href="/" className="mt-4 inline-block text-sm text-gray-400 hover:text-white">
           Back to home
