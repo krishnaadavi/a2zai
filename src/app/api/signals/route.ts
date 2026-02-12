@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { fetchAINews } from '@/lib/newsdata';
-import { fetchTrendingModels } from '@/lib/huggingface';
-import { fetchLatestPapers } from '@/lib/arxiv';
-import { queryFundingRounds } from '@/lib/funding-service';
-import { buildSignalFeed } from '@/lib/signal-normalizer';
+import { buildLiveSignals } from '@/lib/signals-service';
+import { getAuthUser } from '@/lib/auth-session';
+import { prisma } from '@/lib/prisma';
+import { annotateSignalsWithWatchlist, filterSignalsByWatchlist } from '@/lib/watchlist-matching';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,30 +10,51 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '20', 10);
+    const watchlistOnly = searchParams.get('watchlistOnly') === 'true';
+    const personalized = searchParams.get('personalized') === 'true';
 
-    const [news, models, papers] = await Promise.all([
-      fetchAINews(15),
-      fetchTrendingModels(10),
-      fetchLatestPapers(6),
-    ]);
-    const funding = queryFundingRounds({ limit: 12, sortBy: 'date' });
+    const { signals, context } = await buildLiveSignals(limit);
 
-    const signals = buildSignalFeed({
-      news,
-      models,
-      funding,
-      limit: Math.min(Math.max(limit, 1), 100),
-    });
+    let data = signals;
+    let matchedCount = 0;
+    let userWatchlistCount = 0;
+
+    if (watchlistOnly || personalized) {
+      const authUser = await getAuthUser();
+      if (!authUser?.id) {
+        return NextResponse.json(
+          { success: false, error: 'Unauthorized for personalized signals' },
+          { status: 401 }
+        );
+      }
+
+      const watchlistItems = await prisma.userWatchlist.findMany({
+        where: { userId: authUser.id },
+        include: { entity: true },
+      });
+      const entities = watchlistItems.map((item) => item.entity);
+      userWatchlistCount = entities.length;
+
+      if (watchlistOnly) {
+        data = filterSignalsByWatchlist(signals, entities);
+        matchedCount = data.length;
+      } else {
+        const annotated = annotateSignalsWithWatchlist(signals, entities);
+        matchedCount = annotated.filter((signal) => signal.watchlistMatch).length;
+        data = annotated;
+      }
+    }
 
     return NextResponse.json({
       success: true,
-      data: signals,
-      count: signals.length,
-      context: {
-        newsCount: news.length,
-        modelCount: models.length,
-        paperCount: papers.length,
-        fundingCount: funding.length,
+      data,
+      count: data.length,
+      context,
+      personalization: {
+        personalized,
+        watchlistOnly,
+        userWatchlistCount,
+        matchedCount,
       },
       updatedAt: new Date().toISOString(),
     });

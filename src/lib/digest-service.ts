@@ -4,6 +4,7 @@ import { fetchTrendingModels } from '@/lib/huggingface';
 import { fetchLatestPapers } from '@/lib/arxiv';
 import { queryFundingRounds } from '@/lib/funding-service';
 import { buildSignalFeed } from '@/lib/signal-normalizer';
+import { filterSignalsByWatchlist } from '@/lib/watchlist-matching';
 
 export type DigestIssue = {
   id: string;
@@ -110,4 +111,44 @@ export async function getDigestIssues(limit: number = 12): Promise<DigestIssue[]
   const archive = archiveRows.map(parseDailyDigestRow);
 
   return [latestIssue, ...archive].slice(0, limit);
+}
+
+export async function getPersonalizedDigestPreview(userId: string): Promise<DigestIssue | null> {
+  const watchlistItems = await prisma.userWatchlist.findMany({
+    where: { userId },
+    include: { entity: true },
+  });
+  const entities = watchlistItems.map((item) => item.entity);
+
+  if (entities.length === 0) {
+    return null;
+  }
+
+  const now = new Date();
+  const weekNumber = getWeekNumber(now);
+  const year = now.getFullYear();
+
+  const [news, models, papers] = await Promise.all([
+    fetchAINews(20),
+    fetchTrendingModels(10),
+    fetchLatestPapers(8),
+  ]);
+  const funding = queryFundingRounds({ limit: 15, sortBy: 'date' });
+  const signals = buildSignalFeed({ news, models, funding, limit: 30 });
+  const matchedSignals = filterSignalsByWatchlist(signals, entities).slice(0, 6);
+
+  return {
+    id: `personalized-digest-${year}-w${weekNumber}`,
+    weekNumber,
+    year,
+    date: now.toISOString(),
+    title: `Your Personalized AI Brief • Week ${weekNumber}`,
+    highlights: matchedSignals.slice(0, 3).map((signal) => signal.title),
+    stats: {
+      newsItems: news.length,
+      modelsReleased: models.length,
+      fundingRounds: funding.length,
+      researchPapers: papers.length,
+    },
+  };
 }

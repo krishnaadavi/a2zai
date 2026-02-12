@@ -48,6 +48,14 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add watchlist suggestion endpoint (`/api/watchlists/suggestions`)
 - `DONE` Replace `/watchlists` placeholder with real interactive manager for follows/removals/preferences
 
+### M6: Personalization Layer
+
+- `DONE` Add signal service abstraction for reusable live signal generation
+- `DONE` Add watchlist-based signal matching and filtering utilities
+- `DONE` Enhance `/api/signals` with personalized and watchlist-only modes
+- `DONE` Add `/api/briefs/personalized` endpoint for user-specific brief output
+- `DONE` Add personalized mode support to `/api/digest/preview`
+
 ### M4: QA and Release Readiness
 
 - `IN_PROGRESS` Regression test core routes (`/`, `/learn`, `/news`, `/models`, `/companies`)
