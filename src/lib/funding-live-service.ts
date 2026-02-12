@@ -16,8 +16,8 @@ export type LiveFundingSignal = {
 
 const ROUND_PATTERN = /\b(pre-seed|seed|series\s+[a-h]|growth|debt|strategic)\b/i;
 const AMOUNT_PATTERN = /(\$\s?\d+(?:\.\d+)?\s?(?:billion|million|bn|m|b))/i;
-const FUNDING_VERB_PATTERN = /\b(raises|raised|secures|secured|lands|bags|snags)\b/i;
-const FUNDING_KEYWORD_PATTERN = /\b(funding|fundraise|valuation|investor|venture capital|backed)\b/i;
+const FUNDING_VERB_PATTERN = /\b(raises|raised|secures|secured|lands|bags|snags|closes|closed|announces)\b/i;
+const FUNDING_KEYWORD_PATTERN = /\b(funding|fundraise|valuation|investor|venture capital|backed|investment|financing)\b/i;
 
 function normalizeSpaces(input: string): string {
   return input.replace(/\s+/g, ' ').trim();
@@ -38,10 +38,10 @@ function extractCompany(text: string): string | null {
 
 function scoreSignal(text: string, amount: string | null, company: string | null): number {
   let score = 0;
-  if (FUNDING_VERB_PATTERN.test(text)) score += 40;
-  if (FUNDING_KEYWORD_PATTERN.test(text)) score += 20;
+  if (FUNDING_VERB_PATTERN.test(text)) score += 30;
+  if (FUNDING_KEYWORD_PATTERN.test(text)) score += 25;
   if (ROUND_PATTERN.test(text)) score += 20;
-  if (amount) score += 10;
+  if (amount) score += 15;
   if (company) score += 10;
   return Math.min(score, 100);
 }
@@ -73,10 +73,28 @@ export function deriveFundingSignalsFromNews(news: AINewsItem[], limit: number =
         confidence,
       };
     })
-    .filter((item) => item.confidence >= 50)
+    .filter((item) => item.confidence >= 35)
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
-  const deduped = parsed.filter((item, index, arr) => {
+  const baseline = parsed.length > 0
+    ? parsed
+    : news
+        .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+        .slice(0, Math.min(Math.max(limit, 1), 10))
+        .map((item) => ({
+          id: item.id,
+          company: extractCompany(item.title) || 'Unspecified Company',
+          amount: null,
+          round: null,
+          title: item.title,
+          summary: item.description,
+          source: item.source,
+          publishedAt: item.publishedAt,
+          url: item.url,
+          confidence: 25,
+        }));
+
+  const deduped = baseline.filter((item, index, arr) => {
     const key = `${item.company.toLowerCase()}|${item.amount || ''}`;
     return arr.findIndex((candidate) => `${candidate.company.toLowerCase()}|${candidate.amount || ''}` === key) === index;
   });
