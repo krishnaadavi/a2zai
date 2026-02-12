@@ -81,6 +81,9 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add funding/intelligence no-store cache headers and curated funding freshness indicators in funding API/page
 - `DONE` Add news-derived live funding signal extraction (company/amount/round/confidence) and render on `/funding` as current deal radar
 - `DONE` Add TheNewsAPI funding-provider pathway (`FUNDING_PROVIDER=thenewsapi`) with automatic fallback to default news ingestion when token/provider fetch fails
+- `DONE` Add persistent funding snapshot storage models + ingest telemetry (`FundingSignalSnapshot`, `FundingSnapshotRun`)
+- `DONE` Add funding snapshot service and serve cached live signals/headlines from DB in `/api/funding`
+- `DONE` Add funding ingest admin + cron endpoints (`/api/admin/funding/ingest`, `/api/cron/funding/ingest`) and 6-hour cron schedule
 
 ### Latest Session Update (2026-02-11)
 

@@ -362,3 +362,42 @@ model AlertPipelineRun {
   @@index([createdAt])
   @@index([success, createdAt])
 }
+
+// Cached live funding signals/headlines for stable serving
+model FundingSignalSnapshot {
+  id          String   @id @default(cuid())
+  provider    String   // 'thenewsapi' | 'newsdata' | 'fallback'
+  externalId  String
+  title       String
+  summary     String
+  url         String
+  source      String
+  publishedAt DateTime
+  capturedAt  DateTime @default(now())
+  company     String?
+  amount      String?
+  round       String?
+  confidence  Int?
+  raw         Json?
+
+  @@unique([provider, externalId])
+  @@index([publishedAt])
+  @@index([capturedAt])
+}
+
+// Operational telemetry for funding snapshot ingestion
+model FundingSnapshotRun {
+  id              String   @id @default(cuid())
+  source          String   // 'admin' | 'cron' | 'api'
+  success         Boolean  @default(true)
+  provider        String
+  fetchedItems    Int      @default(0)
+  upsertedItems   Int      @default(0)
+  headlineCount   Int      @default(0)
+  signalCount     Int      @default(0)
+  errorMessage    String?
+  createdAt       DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([success, createdAt])
+}

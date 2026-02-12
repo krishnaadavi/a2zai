@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server';
 import { FUNDING_CATEGORIES, ROUND_TYPES } from '@/lib/funding-data';
-import type { FundingHeadline } from '@/lib/funding-headlines';
-import { deriveFundingHeadlinesFromNews, fetchLiveFundingHeadlines } from '@/lib/funding-headlines';
-import type { LiveFundingSignal } from '@/lib/funding-live-service';
-import { deriveFundingSignalsFromNews, fetchLiveFundingSignals } from '@/lib/funding-live-service';
 import { getFundingProviderStatus } from '@/lib/funding-provider';
-import { fetchTheNewsAPIFundingNews } from '@/lib/thenewsapi';
+import { ingestFundingSnapshots, readFundingSnapshots } from '@/lib/funding-snapshot-service';
 import { getFundingStats, queryFundingRounds } from '@/lib/funding-service';
 
 export const dynamic = 'force-dynamic';
@@ -29,25 +25,22 @@ export async function GET(request: Request) {
       sortBy,
     });
     const provider = getFundingProviderStatus();
+    let { liveHeadlines, liveSignals } = await readFundingSnapshots(96);
+    let usedSnapshots = liveHeadlines.length > 0 || liveSignals.length > 0;
 
-    let liveHeadlines: FundingHeadline[] = [];
-    let liveSignals: LiveFundingSignal[] = [];
-    if (provider.enabled && provider.configuredProvider === 'thenewsapi') {
-      const providerNews = await fetchTheNewsAPIFundingNews(30);
-      if (providerNews.length > 0) {
-        liveHeadlines = deriveFundingHeadlinesFromNews(providerNews, 8);
-        liveSignals = deriveFundingSignalsFromNews(providerNews, 10);
-      } else {
-        [liveHeadlines, liveSignals] = await Promise.all([
-          fetchLiveFundingHeadlines(8),
-          fetchLiveFundingSignals(10),
-        ]);
+    if (!usedSnapshots) {
+      try {
+        const ingested = await ingestFundingSnapshots('api');
+        const refreshed = await readFundingSnapshots(96);
+        liveHeadlines = refreshed.liveHeadlines;
+        liveSignals = refreshed.liveSignals;
+        usedSnapshots = liveHeadlines.length > 0 || liveSignals.length > 0;
+        if (!usedSnapshots) {
+          console.warn('Funding ingest completed but no snapshots available', ingested);
+        }
+      } catch (ingestError) {
+        console.error('Funding snapshot ingest failed during request:', ingestError);
       }
-    } else {
-      [liveHeadlines, liveSignals] = await Promise.all([
-        fetchLiveFundingHeadlines(8),
-        fetchLiveFundingSignals(10),
-      ]);
     }
     const stats = getFundingStats(rounds);
     const latestCuratedDate = rounds[0]?.date ?? null;
@@ -68,6 +61,7 @@ export async function GET(request: Request) {
         staleDays,
         hasLiveHeadlines: liveHeadlines.length > 0,
         hasLiveSignals: liveSignals.length > 0,
+        usedSnapshots,
       },
       source: 'curated',
       provider,

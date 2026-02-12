@@ -68,6 +68,8 @@
 - `/api/watchlists/suggestions`
 - `/api/admin/alerts/run` (protected by `CRON_SECRET`; triggers/statuses alert pipeline)
 - `/api/cron/alerts` (Vercel cron trigger; protected by `CRON_SECRET`)
+- `/api/admin/funding/ingest` (protected by `CRON_SECRET`; manual funding snapshot ingest + status)
+- `/api/cron/funding/ingest` (Vercel cron trigger; protected by `CRON_SECRET`)
 - `/api/glossary`
 - `/api/search`
 - `/api/feed`

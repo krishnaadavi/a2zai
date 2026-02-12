@@ -44,6 +44,7 @@ export default function FundingPage() {
   const [roundTypes, setRoundTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [staleDays, setStaleDays] = useState<number | null>(null);
+  const [usedSnapshots, setUsedSnapshots] = useState<boolean>(false);
   const [apiSource, setApiSource] = useState<'curated' | 'fallback'>('curated');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedRoundType, setSelectedRoundType] = useState<string | null>(null);
@@ -63,6 +64,7 @@ export default function FundingPage() {
           setLiveSignals(data.liveSignals || []);
           setProviderStatus(data.provider || null);
           setStaleDays(data.freshness?.staleDays ?? null);
+          setUsedSnapshots(Boolean(data.freshness?.usedSnapshots));
           setApiSource(data.source === 'curated' ? 'curated' : 'fallback');
         } else {
           setRounds(FUNDING_ROUNDS);
@@ -166,6 +168,11 @@ export default function FundingPage() {
           {providerStatus?.enabled === false && providerStatus?.configuredProvider === 'thenewsapi' && (
             <p className="text-xs text-amber-300 mb-4">
               TheNewsAPI is selected but not configured ({providerStatus.reason}). Using default live-news fallback.
+            </p>
+          )}
+          {usedSnapshots && (
+            <p className="text-xs text-gray-500 mb-4">
+              Live funding signals are served from cached snapshots and refreshed by scheduled ingest.
             </p>
           )}
           {apiSource === 'fallback' && (
