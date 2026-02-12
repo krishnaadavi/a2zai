@@ -71,6 +71,7 @@
 - `/api/search`
 - `/api/feed`
 - `/api/comments`
+- `/api/user/personalization`
 - `/api/user/*`
 - `/api/newsletter/*`
 - `/api/auth/[...nextauth]`

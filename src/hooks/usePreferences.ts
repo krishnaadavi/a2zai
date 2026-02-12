@@ -21,6 +21,13 @@ export interface UserPreferences {
   emailDigestDaily: boolean;
   emailDigestWeekly: boolean;
   emailBreakingNews: boolean;
+  emailDailyBrief: boolean;
+  emailWeeklyBrief: boolean;
+  emailInstantAlerts: boolean;
+  inAppAlerts: boolean;
+  fundingAlerts: boolean;
+  modelReleaseAlerts: boolean;
+  companyNewsAlerts: boolean;
   defaultHomePage: string;
   compactView: boolean;
 }
@@ -43,6 +50,13 @@ export const defaultPreferences: UserPreferences = {
   emailDigestDaily: false,
   emailDigestWeekly: true,
   emailBreakingNews: false,
+  emailDailyBrief: true,
+  emailWeeklyBrief: true,
+  emailInstantAlerts: false,
+  inAppAlerts: true,
+  fundingAlerts: true,
+  modelReleaseAlerts: true,
+  companyNewsAlerts: true,
   defaultHomePage: 'home',
   compactView: false,
 };
@@ -63,7 +77,7 @@ export function usePreferences() {
       }
 
       try {
-        const res = await fetch('/api/user/preferences');
+        const res = await fetch('/api/user/personalization');
         const data = await res.json();
 
         if (data.success && data.data) {
@@ -87,7 +101,7 @@ export function usePreferences() {
     setPreferences(newPreferences);
 
     try {
-      const res = await fetch('/api/user/preferences', {
+      const res = await fetch('/api/user/personalization', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newPreferences),

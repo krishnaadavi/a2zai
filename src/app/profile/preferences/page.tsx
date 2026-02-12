@@ -46,6 +46,13 @@ interface Preferences {
   emailDigestDaily: boolean;
   emailDigestWeekly: boolean;
   emailBreakingNews: boolean;
+  emailDailyBrief: boolean;
+  emailWeeklyBrief: boolean;
+  emailInstantAlerts: boolean;
+  inAppAlerts: boolean;
+  fundingAlerts: boolean;
+  modelReleaseAlerts: boolean;
+  companyNewsAlerts: boolean;
   defaultHomePage: string;
   compactView: boolean;
 }
@@ -68,6 +75,13 @@ const defaultPreferences: Preferences = {
   emailDigestDaily: false,
   emailDigestWeekly: true,
   emailBreakingNews: false,
+  emailDailyBrief: true,
+  emailWeeklyBrief: true,
+  emailInstantAlerts: false,
+  inAppAlerts: true,
+  fundingAlerts: true,
+  modelReleaseAlerts: true,
+  companyNewsAlerts: true,
   defaultHomePage: 'home',
   compactView: false,
 };
@@ -98,6 +112,16 @@ const emailOptions = [
   { key: 'emailBreakingNews', label: 'Breaking News', description: 'Major announcements only' },
 ];
 
+const alertOptions = [
+  { key: 'emailDailyBrief', label: 'Email Daily Brief', description: 'Receive your personalized daily intelligence brief' },
+  { key: 'emailWeeklyBrief', label: 'Email Weekly Brief', description: 'Weekly summary of watchlist and market changes' },
+  { key: 'emailInstantAlerts', label: 'Email Instant Alerts', description: 'Immediate alerts for high-priority watchlist signals' },
+  { key: 'inAppAlerts', label: 'In-App Alerts', description: 'Show watchlist alerts inside the product' },
+  { key: 'fundingAlerts', label: 'Funding Alerts', description: 'Notify on funding rounds relevant to your watchlist' },
+  { key: 'modelReleaseAlerts', label: 'Model Release Alerts', description: 'Notify when followed model providers launch updates' },
+  { key: 'companyNewsAlerts', label: 'Company News Alerts', description: 'Notify on major company news from followed entities' },
+];
+
 export default function PreferencesPage() {
   const sessionData = useSession();
   const session = sessionData?.data;
@@ -116,7 +140,7 @@ export default function PreferencesPage() {
   useEffect(() => {
     async function fetchPreferences() {
       try {
-        const res = await fetch('/api/user/preferences');
+        const res = await fetch('/api/user/personalization');
         const data = await res.json();
         if (data.success && data.data) {
           setPreferences({ ...defaultPreferences, ...data.data });
@@ -141,7 +165,7 @@ export default function PreferencesPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const res = await fetch('/api/user/preferences', {
+      const res = await fetch('/api/user/personalization', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(preferences),
@@ -345,6 +369,49 @@ export default function PreferencesPage() {
                   />
                 </div>
               </button>
+            </div>
+          </div>
+
+          {/* Watchlist & Signal Alerts */}
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <Bell className="h-5 w-5 text-fuchsia-400" />
+              <h2 className="text-lg font-semibold text-white">Watchlist & Signal Alerts</h2>
+            </div>
+            <p className="text-gray-500 text-sm mb-4">Fine-tune which personalized alerts you receive</p>
+            <div className="space-y-3">
+              {alertOptions.map(({ key, label, description }) => (
+                <button
+                  key={key}
+                  onClick={() => handleToggle(key as keyof Preferences)}
+                  className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all ${
+                    preferences[key as keyof Preferences]
+                      ? 'bg-fuchsia-500/10 border-fuchsia-500/50'
+                      : 'bg-gray-900 border-gray-800 hover:border-gray-700'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Bell className={`h-5 w-5 ${preferences[key as keyof Preferences] ? 'text-fuchsia-400' : 'text-gray-500'}`} />
+                    <div className="text-left">
+                      <span className={`font-medium ${preferences[key as keyof Preferences] ? 'text-white' : 'text-gray-400'}`}>
+                        {label}
+                      </span>
+                      <p className="text-xs text-gray-500">{description}</p>
+                    </div>
+                  </div>
+                  <div
+                    className={`w-12 h-7 rounded-full transition-colors relative ${
+                      preferences[key as keyof Preferences] ? 'bg-fuchsia-500' : 'bg-gray-700'
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-1 w-5 h-5 rounded-full bg-white transition-transform ${
+                        preferences[key as keyof Preferences] ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
 

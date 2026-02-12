@@ -61,6 +61,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add temporary admin debug endpoint to inspect personalized ranking payloads (`/api/admin/personalization/signals`)
 - `DONE` Add Intelligence feed `Recommended` vs `Latest` toggle with personalized “why this signal” reason chips
 - `DONE` Backfill read-history tracking coverage across core click surfaces (`news`, `models`, `research`, `funding`, and `intelligence` signals)
+- `DONE` Unify preferences backend + UI flow via `/api/user/personalization` (content preferences + watchlist alert preferences in one save path)
 
 ### M4: QA and Release Readiness
 
