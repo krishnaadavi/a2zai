@@ -40,6 +40,14 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add category filtering support to `/api/news`
 - `DONE` Replace digest mock generation with live backend-driven digest service
 
+### M5: Watchlists Phase 2 Backend
+
+- `DONE` Add persistent watchlist models (`TrackedEntity`, `UserWatchlist`, `AlertPreference`) in Prisma schema
+- `DONE` Add authenticated watchlist CRUD endpoint (`/api/watchlists`)
+- `DONE` Add watchlist alert preference endpoint (`/api/watchlists/preferences`)
+- `DONE` Add watchlist suggestion endpoint (`/api/watchlists/suggestions`)
+- `DONE` Replace `/watchlists` placeholder with real interactive manager for follows/removals/preferences
+
 ### M4: QA and Release Readiness
 
 - `IN_PROGRESS` Regression test core routes (`/`, `/learn`, `/news`, `/models`, `/companies`)

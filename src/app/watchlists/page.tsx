@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { BellRing, ArrowRight, Building2, Brain, Rocket } from 'lucide-react';
 import { authOptions } from '@/lib/auth';
 import TrackedLink from '@/components/TrackedLink';
+import WatchlistManager from '@/components/WatchlistManager';
 
 export const metadata: Metadata = {
   title: 'Watchlists | A2Z AI',
@@ -36,23 +36,7 @@ export default async function WatchlistsPage() {
         <div className="max-w-4xl mx-auto">
           <div className="p-6 rounded-xl bg-gray-900 border border-gray-800">
             {session ? (
-              <>
-                <h2 className="text-xl font-semibold text-white">Watchlist setup is the next milestone</h2>
-                <p className="text-gray-400 mt-2">
-                  Backend entity-follow logic is coming in Phase 2. Start by setting preference inputs so we can seed your initial view.
-                </p>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link href="/companies" className="px-4 py-2 rounded-lg bg-gray-800 text-gray-200 hover:bg-gray-700">
-                    Browse companies
-                  </Link>
-                  <Link href="/models" className="px-4 py-2 rounded-lg bg-gray-800 text-gray-200 hover:bg-gray-700">
-                    Browse models
-                  </Link>
-                  <Link href="/funding" className="px-4 py-2 rounded-lg bg-gray-800 text-gray-200 hover:bg-gray-700">
-                    Browse funding
-                  </Link>
-                </div>
-              </>
+              <WatchlistManager />
             ) : (
               <>
                 <h2 className="text-xl font-semibold text-white">Sign in to create your watchlist</h2>

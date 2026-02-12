@@ -58,6 +58,8 @@ model User {
   comments         Comment[]
   learningProgress LearningProgress[]
   preferences      UserPreferences?
+  watchlistItems   UserWatchlist[]
+  alertPreference  AlertPreference?
 }
 
 model VerificationToken {
@@ -251,4 +253,55 @@ model LearningProgress {
   @@unique([userId, contentType, contentId])
   @@index([userId])
   @@index([contentType])
+}
+
+// Trackable entities for user watchlists
+model TrackedEntity {
+  id         String   @id @default(cuid())
+  entityType String   // 'company' | 'model' | 'funding'
+  slug       String
+  name       String
+  url        String?
+  source     String?  // where entity was discovered from
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  watchlistItems UserWatchlist[]
+
+  @@unique([entityType, slug])
+  @@index([entityType])
+  @@index([name])
+}
+
+// User follow relation to tracked entities
+model UserWatchlist {
+  id         String   @id @default(cuid())
+  userId     String
+  entityId   String
+  createdAt  DateTime @default(now())
+
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entity TrackedEntity @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, entityId])
+  @@index([userId])
+  @@index([entityId])
+}
+
+// Alert delivery preferences for watchlist updates
+model AlertPreference {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  emailDailyBrief       Boolean  @default(true)
+  emailWeeklyBrief      Boolean  @default(true)
+  emailInstantAlerts    Boolean  @default(false)
+  inAppAlerts           Boolean  @default(true)
+  fundingAlerts         Boolean  @default(true)
+  modelReleaseAlerts    Boolean  @default(true)
+  companyNewsAlerts     Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

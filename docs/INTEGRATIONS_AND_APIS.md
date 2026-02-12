@@ -62,6 +62,9 @@
 - `/api/funding`
 - `/api/signals`
 - `/api/digest/preview`
+- `/api/watchlists`
+- `/api/watchlists/preferences`
+- `/api/watchlists/suggestions`
 - `/api/glossary`
 - `/api/search`
 - `/api/feed`
