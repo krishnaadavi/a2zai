@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Mail, Clock, ArrowRight } from 'lucide-react';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import BriefsPreviewPanel from '@/components/BriefsPreviewPanel';
 
 export const metadata: Metadata = {
   title: 'Briefs | A2Z AI',
@@ -55,6 +56,12 @@ export default function BriefsPage() {
               Browse digest archive <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="pb-10 px-4">
+        <div className="max-w-4xl mx-auto">
+          <BriefsPreviewPanel />
         </div>
       </section>
     </div>

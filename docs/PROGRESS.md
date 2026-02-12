@@ -55,6 +55,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Enhance `/api/signals` with personalized and watchlist-only modes
 - `DONE` Add `/api/briefs/personalized` endpoint for user-specific brief output
 - `DONE` Add personalized mode support to `/api/digest/preview`
+- `DONE` Wire `/briefs` page to auto-load personalized brief preview for signed-in users with generic digest fallback
 
 ### M4: QA and Release Readiness
 
