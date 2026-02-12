@@ -62,6 +62,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add Intelligence feed `Recommended` vs `Latest` toggle with personalized “why this signal” reason chips
 - `DONE` Backfill read-history tracking coverage across core click surfaces (`news`, `models`, `research`, `funding`, and `intelligence` signals)
 - `DONE` Unify preferences backend + UI flow via `/api/user/personalization` (content preferences + watchlist alert preferences in one save path)
+- `DONE` Implement alert trigger pipeline with channel-aware dedupe, in-app alert persistence, and admin run/status endpoint
 
 ### M4: QA and Release Readiness
 

@@ -67,10 +67,12 @@
 - `/api/watchlists/preferences`
 - `/api/watchlists/suggestions`
 - `/api/admin/personalization/signals` (temporary debug route, protected by `CRON_SECRET`)
+- `/api/admin/alerts/run` (protected by `CRON_SECRET`; triggers/statuses alert pipeline)
 - `/api/glossary`
 - `/api/search`
 - `/api/feed`
 - `/api/comments`
+- `/api/user/alerts`
 - `/api/user/personalization`
 - `/api/user/*`
 - `/api/newsletter/*`
