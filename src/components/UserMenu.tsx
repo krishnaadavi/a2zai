@@ -3,13 +3,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { User, Settings, Bookmark, Rss, LogOut, LogIn, ChevronDown } from 'lucide-react';
+import { User, Settings, Bookmark, Rss, LogOut, LogIn, ChevronDown, Bell } from 'lucide-react';
 
 export default function UserMenu() {
   const sessionData = useSession();
   const session = sessionData?.data;
   const status = sessionData?.status ?? 'loading';
   const [isOpen, setIsOpen] = useState(false);
+  const [unreadAlerts, setUnreadAlerts] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Close menu when clicking outside
@@ -31,6 +32,22 @@ export default function UserMenu() {
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, []);
+
+  useEffect(() => {
+    const loadUnread = async () => {
+      if (!session) return;
+      try {
+        const res = await fetch('/api/user/alerts?unreadOnly=true&limit=100', { cache: 'no-store' });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          setUnreadAlerts(data.count || 0);
+        }
+      } catch {
+        // noop
+      }
+    };
+    void loadUnread();
+  }, [session]);
 
   if (status === 'loading') {
     return (
@@ -109,6 +126,21 @@ export default function UserMenu() {
             >
               <Settings className="h-4 w-4" />
               Preferences
+            </Link>
+            <Link
+              href="/profile/alerts"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center justify-between px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+            >
+              <span className="flex items-center gap-3">
+                <Bell className="h-4 w-4" />
+                Alerts
+              </span>
+              {unreadAlerts > 0 && (
+                <span className="text-xs px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">
+                  {unreadAlerts}
+                </span>
+              )}
             </Link>
           </div>
 

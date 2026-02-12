@@ -58,11 +58,15 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Wire `/briefs` page to auto-load personalized brief preview for signed-in users with generic digest fallback
 - `DONE` Add signed-in/signed-out personalization state indicator on `/briefs` preview panel
 - `DONE` Add personalized ranking in `/api/signals` using watchlists, user preferences, and read history with transparent score breakdown metadata
-- `DONE` Add temporary admin debug endpoint to inspect personalized ranking payloads (`/api/admin/personalization/signals`)
+- `DONE` Add temporary admin debug endpoint to inspect personalized ranking payloads (`/api/admin/personalization/signals`) and retire it after calibration
 - `DONE` Add Intelligence feed `Recommended` vs `Latest` toggle with personalized “why this signal” reason chips
 - `DONE` Backfill read-history tracking coverage across core click surfaces (`news`, `models`, `research`, `funding`, and `intelligence` signals)
 - `DONE` Unify preferences backend + UI flow via `/api/user/personalization` (content preferences + watchlist alert preferences in one save path)
 - `DONE` Implement alert trigger pipeline with channel-aware dedupe, in-app alert persistence, and admin run/status endpoint
+- `DONE` Add cron-compatible trigger endpoint (`/api/cron/alerts`) and `vercel.json` schedule for daily alert runs
+- `DONE` Add in-app alerts UX (`/profile/alerts`) with unread count + mark-read controls
+- `DONE` Add pipeline run telemetry persistence (`AlertPipelineRun`) and expose recent runs in admin status endpoint
+- `DONE` Remove temporary admin personalization debug endpoint after operational handoff
 
 ### M4: QA and Release Readiness
 

@@ -66,8 +66,8 @@
 - `/api/watchlists`
 - `/api/watchlists/preferences`
 - `/api/watchlists/suggestions`
-- `/api/admin/personalization/signals` (temporary debug route, protected by `CRON_SECRET`)
 - `/api/admin/alerts/run` (protected by `CRON_SECRET`; triggers/statuses alert pipeline)
+- `/api/cron/alerts` (Vercel cron trigger; protected by `CRON_SECRET`)
 - `/api/glossary`
 - `/api/search`
 - `/api/feed`

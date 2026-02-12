@@ -76,18 +76,28 @@ async function sendEmailIfConfigured(input: {
     return true;
   }
 
-  try {
-    await resend.emails.send({
-      from: 'A2Z AI <alerts@a2zai.ai>',
-      to: input.email,
-      subject: input.subject,
-      html: input.html,
-    });
-    return true;
-  } catch (error) {
-    console.error(`Failed sending alert email to ${input.email}`, error);
-    return false;
+  const maxAttempts = 3;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      await resend.emails.send({
+        from: 'A2Z AI <alerts@a2zai.ai>',
+        to: input.email,
+        subject: input.subject,
+        html: input.html,
+      });
+      return true;
+    } catch (error) {
+      const isLast = attempt === maxAttempts;
+      console.error(
+        `Failed sending alert email to ${input.email} (attempt ${attempt}/${maxAttempts})`,
+        error
+      );
+      if (isLast) return false;
+      await new Promise((resolve) => setTimeout(resolve, attempt * 400));
+    }
   }
+
+  return false;
 }
 
 export async function runPersonalizedAlertPipeline(options?: {

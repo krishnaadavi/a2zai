@@ -11,6 +11,9 @@ function isAuthorized(request: Request): boolean {
 // POST /api/admin/alerts/run
 // Trigger watchlist alert pipeline (protected by CRON_SECRET).
 export async function POST(request: Request) {
+  const maxUsers = parseInt(new URL(request.url).searchParams.get('maxUsers') || '200', 10);
+  const threshold = parseInt(new URL(request.url).searchParams.get('threshold') || '60', 10);
+
   try {
     if (!isAuthorized(request)) {
       return NextResponse.json(
@@ -19,11 +22,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const { searchParams } = new URL(request.url);
-    const maxUsers = parseInt(searchParams.get('maxUsers') || '200', 10);
-    const threshold = parseInt(searchParams.get('threshold') || '52', 10);
-
     const result = await runPersonalizedAlertPipeline({ maxUsers, threshold });
+
+    await prisma.alertPipelineRun.create({
+      data: {
+        source: 'admin',
+        success: true,
+        maxUsers,
+        threshold,
+        consideredUsers: result.consideredUsers,
+        processedUsers: result.processedUsers,
+        inAppAlertsCreated: result.inAppAlertsCreated,
+        emailInstantSent: result.emailInstantSent,
+        emailDailySent: result.emailDailySent,
+        candidateSignalsEvaluated: result.candidateSignalsEvaluated,
+      },
+    });
 
     return NextResponse.json({
       success: true,
@@ -32,6 +46,15 @@ export async function POST(request: Request) {
       updatedAt: new Date().toISOString(),
     });
   } catch (error) {
+    await prisma.alertPipelineRun.create({
+      data: {
+        source: 'admin',
+        success: false,
+        maxUsers,
+        threshold,
+        errorMessage: error instanceof Error ? error.message : String(error),
+      },
+    });
     console.error('Error running alert pipeline:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to run alert pipeline' },
@@ -80,6 +103,10 @@ export async function GET(request: Request) {
         },
       }),
     ]);
+    const recentRuns = await prisma.alertPipelineRun.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+    });
 
     return NextResponse.json({
       success: true,
@@ -87,6 +114,7 @@ export async function GET(request: Request) {
         inAppCount24h,
         emailCount24h,
         latestInApp,
+        recentRuns,
       },
       updatedAt: new Date().toISOString(),
     });

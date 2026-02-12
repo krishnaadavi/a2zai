@@ -23,6 +23,17 @@ Smoke tests after deploy:
 - Core pages respond: `/news`, `/models`, `/companies`, `/learn`
 - API endpoints respond: `/api/news`, `/api/models`, `/api/research`
 
+### Scheduled Jobs (Vercel Cron)
+
+- Cron config is stored in `vercel.json`.
+- Daily alert pipeline runs via: `/api/cron/alerts`
+- Endpoint protection: `Authorization: Bearer <CRON_SECRET>`
+- Required env var: `CRON_SECRET` in all environments where cron should run
+
+Operational commands:
+- Manual run (admin): `POST /api/admin/alerts/run?maxUsers=200&threshold=60`
+- Status snapshot (admin): `GET /api/admin/alerts/run`
+
 ## Mobile Deployment (Expo / EAS)
 
 Build system:

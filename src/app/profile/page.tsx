@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Link from 'next/link';
-import { User, Settings, Bookmark, Rss, ArrowRight } from 'lucide-react';
+import { User, Settings, Bookmark, Rss, ArrowRight, Bell } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,6 +39,13 @@ export default async function ProfilePage() {
       label: 'Preferences',
       description: 'Content, topics, email notifications, and display settings',
       color: 'from-emerald-500 to-cyan-500',
+    },
+    {
+      href: '/profile/alerts',
+      icon: Bell,
+      label: 'Alerts',
+      description: 'In-app personalized alert feed and read state',
+      color: 'from-cyan-500 to-blue-500',
     },
   ];
 

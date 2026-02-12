@@ -342,3 +342,23 @@ model AlertDeliveryLog {
   @@unique([userId, signalId, channel])
   @@index([userId, channel, deliveredAt])
 }
+
+// Operational run log for alert pipeline observability
+model AlertPipelineRun {
+  id                     String   @id @default(cuid())
+  source                 String   // 'admin' | 'cron'
+  success                Boolean  @default(true)
+  maxUsers               Int
+  threshold              Int
+  consideredUsers        Int      @default(0)
+  processedUsers         Int      @default(0)
+  inAppAlertsCreated     Int      @default(0)
+  emailInstantSent       Int      @default(0)
+  emailDailySent         Int      @default(0)
+  candidateSignalsEvaluated Int   @default(0)
+  errorMessage           String?
+  createdAt              DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([success, createdAt])
+}
