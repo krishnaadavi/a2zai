@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { Metadata } from 'next';
+import { useState, useMemo, useEffect } from 'react';
 import {
   DollarSign,
   TrendingUp,
@@ -10,19 +9,12 @@ import {
   MapPin,
   ExternalLink,
   Filter,
-  ChevronDown,
   Search,
   Rocket,
   Users,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
-  FUNDING_ROUNDS,
-  FUNDING_CATEGORIES,
-  ROUND_TYPES,
-  getRecentRounds,
-  getTopRounds,
-  getTotalFundingByCategory,
   type FundingRound,
 } from '@/lib/funding-data';
 
@@ -39,26 +31,49 @@ function formatAmount(amountNum: number): string {
 }
 
 export default function FundingPage() {
+  const [rounds, setRounds] = useState<FundingRound[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [roundTypes, setRoundTypes] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedRoundType, setSelectedRoundType] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'amount'>('date');
 
+  useEffect(() => {
+    const loadFunding = async () => {
+      try {
+        const res = await fetch('/api/funding?limit=500', { cache: 'no-store' });
+        const data = await res.json();
+        if (data.success) {
+          setRounds(data.data || []);
+          setCategories(data.categories || []);
+          setRoundTypes(data.roundTypes || []);
+        }
+      } catch (error) {
+        console.error('Failed to load funding data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    void loadFunding();
+  }, []);
+
   // Filter and sort rounds
   const filteredRounds = useMemo(() => {
-    let rounds = [...FUNDING_ROUNDS];
+    let filtered = [...rounds];
 
     if (selectedCategory) {
-      rounds = rounds.filter((r) => r.category === selectedCategory);
+      filtered = filtered.filter((r) => r.category === selectedCategory);
     }
 
     if (selectedRoundType) {
-      rounds = rounds.filter((r) => r.round === selectedRoundType);
+      filtered = filtered.filter((r) => r.round === selectedRoundType);
     }
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      rounds = rounds.filter(
+      filtered = filtered.filter(
         (r) =>
           r.company.toLowerCase().includes(query) ||
           r.description.toLowerCase().includes(query) ||
@@ -68,22 +83,32 @@ export default function FundingPage() {
 
     // Sort
     if (sortBy === 'date') {
-      rounds.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     } else {
-      rounds.sort((a, b) => b.amountNum - a.amountNum);
+      filtered.sort((a, b) => b.amountNum - a.amountNum);
     }
 
-    return rounds;
-  }, [selectedCategory, selectedRoundType, searchQuery, sortBy]);
+    return filtered;
+  }, [rounds, selectedCategory, selectedRoundType, searchQuery, sortBy]);
 
   // Stats
   const totalFunding = useMemo(
-    () => FUNDING_ROUNDS.reduce((sum, r) => sum + r.amountNum, 0),
-    []
+    () => rounds.reduce((sum, r) => sum + r.amountNum, 0),
+    [rounds]
   );
-  const totalDeals = FUNDING_ROUNDS.length;
-  const avgDealSize = totalFunding / totalDeals;
-  const categoryTotals = getTotalFundingByCategory();
+  const totalDeals = rounds.length;
+  const avgDealSize = totalDeals > 0 ? totalFunding / totalDeals : 0;
+  const categoryTotals = useMemo(() => {
+    const totals: Record<string, number> = {};
+    rounds.forEach((round) => {
+      totals[round.category] = (totals[round.category] || 0) + round.amountNum;
+    });
+    return totals;
+  }, [rounds]);
+  const topRounds = useMemo(
+    () => [...rounds].sort((a, b) => b.amountNum - a.amountNum).slice(0, 5),
+    [rounds]
+  );
 
   const clearFilters = () => {
     setSelectedCategory(null);
@@ -137,7 +162,9 @@ export default function FundingPage() {
                 <Calendar className="h-4 w-4" />
                 Latest Round
               </div>
-              <div className="text-2xl font-bold text-white">Dec 2024</div>
+              <div className="text-2xl font-bold text-white">
+                {filteredRounds[0] ? formatDate(filteredRounds[0].date) : '-'}
+              </div>
             </div>
           </div>
         </div>
@@ -166,7 +193,7 @@ export default function FundingPage() {
               className="px-4 py-2 bg-gray-900 border border-gray-800 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500/50"
             >
               <option value="">All Categories</option>
-              {FUNDING_CATEGORIES.map((cat) => (
+              {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
@@ -180,7 +207,7 @@ export default function FundingPage() {
               className="px-4 py-2 bg-gray-900 border border-gray-800 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500/50"
             >
               <option value="">All Rounds</option>
-              {ROUND_TYPES.map((round) => (
+              {roundTypes.map((round) => (
                 <option key={round} value={round}>
                   {round}
                 </option>
@@ -218,7 +245,11 @@ export default function FundingPage() {
             <div className="lg:col-span-2">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-white">
-                  {hasActiveFilters ? `${filteredRounds.length} Results` : 'Recent Funding Rounds'}
+                  {loading
+                    ? 'Loading funding rounds...'
+                    : hasActiveFilters
+                    ? `${filteredRounds.length} Results`
+                    : 'Recent Funding Rounds'}
                 </h2>
               </div>
 
@@ -309,7 +340,7 @@ export default function FundingPage() {
                   Largest Rounds
                 </h3>
                 <div className="space-y-3">
-                  {getTopRounds(5).map((round, idx) => (
+                  {topRounds.map((round, idx) => (
                     <div
                       key={round.id}
                       className="flex items-center justify-between py-2 border-b border-gray-800 last:border-0"

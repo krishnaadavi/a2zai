@@ -59,6 +59,9 @@
 - `/api/news`
 - `/api/models`
 - `/api/research`
+- `/api/funding`
+- `/api/signals`
+- `/api/digest/preview`
 - `/api/glossary`
 - `/api/search`
 - `/api/feed`

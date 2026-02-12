@@ -36,6 +36,9 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add `/api/tools` endpoint for mobile parity
 - `DONE` Add signal normalization utility (event typing metadata)
 - `DONE` Add basic analytics events for key CTAs
+- `DONE` Add `/api/funding`, `/api/signals`, and `/api/digest/preview` endpoints for fresher intelligence pages
+- `DONE` Add category filtering support to `/api/news`
+- `DONE` Replace digest mock generation with live backend-driven digest service
 
 ### M4: QA and Release Readiness
 

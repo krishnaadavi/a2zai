@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import { Calendar, Mail, Clock, ArrowRight, Sparkles, TrendingUp, Brain, FileText } from 'lucide-react';
+import { Calendar, Mail, ArrowRight, Sparkles, TrendingUp, Brain } from 'lucide-react';
 import Link from 'next/link';
-import { prisma } from '@/lib/prisma';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import { formatDateRange, getDigestIssues } from '@/lib/digest-service';
 
 export const metadata: Metadata = {
   title: 'Weekly AI Digest | A2Z AI',
@@ -11,78 +11,8 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-// Helper to generate digest summaries (in production, these would come from the database)
-function generateMockDigests() {
-  const digests = [];
-  const now = new Date();
-
-  // Generate last 12 weeks of digests
-  for (let i = 0; i < 12; i++) {
-    const date = new Date(now);
-    date.setDate(date.getDate() - (i * 7));
-
-    // Skip future dates
-    if (date > now) continue;
-
-    const weekNumber = getWeekNumber(date);
-    const year = date.getFullYear();
-
-    digests.push({
-      id: `digest-${year}-w${weekNumber}`,
-      weekNumber,
-      year,
-      date: date.toISOString(),
-      title: `AI Weekly Digest #${52 - i}`,
-      highlights: getHighlightsForWeek(i),
-      stats: {
-        newsItems: Math.floor(Math.random() * 20) + 30,
-        modelsReleased: Math.floor(Math.random() * 5) + 2,
-        fundingRounds: Math.floor(Math.random() * 8) + 3,
-        researchPapers: Math.floor(Math.random() * 10) + 5,
-      },
-    });
-  }
-
-  return digests;
-}
-
-function getWeekNumber(date: Date): number {
-  const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-  const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
-  return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-}
-
-function getHighlightsForWeek(weeksAgo: number): string[] {
-  const allHighlights = [
-    ['OpenAI releases GPT-4o mini', 'Anthropic expands Claude 3.5 Sonnet', 'Google announces Gemini 2.0'],
-    ['Meta open-sources Llama 3.2', 'Microsoft Copilot gets major update', 'NVIDIA unveils new AI chips'],
-    ['xAI raises $6B at $50B valuation', 'Perplexity valued at $9B', 'Runway launches Gen-3 Alpha'],
-    ['DeepMind publishes AlphaFold 3', 'Mistral releases new model', 'Cohere raises $500M Series D'],
-    ['Apple Intelligence launches', 'Amazon Bedrock adds new models', 'Salesforce Einstein GPT update'],
-    ['Stability AI releases SD3.5', 'Hugging Face hits 1M models', 'Together AI raises $106M'],
-    ['OpenAI DevDay announcements', 'Claude 3 Opus released', 'Databricks valued at $62B'],
-    ['GPT Store launches', 'Gemini Pro available', 'Inflection pivots to enterprise'],
-    ['Sora preview released', 'Figure raises $675M', 'Cursor gains momentum'],
-    ['World Labs founded', 'Safe Superintelligence raises $1B', 'Physical Intelligence launches'],
-    ['Claude Code released', 'Windsurf IDE debuts', 'AI agents go mainstream'],
-    ['2024 AI recap', 'Model performance benchmarks', 'AI regulation updates'],
-  ];
-
-  return allHighlights[weeksAgo % allHighlights.length] || allHighlights[0];
-}
-
-function formatDateRange(date: Date): string {
-  const endDate = new Date(date);
-  const startDate = new Date(date);
-  startDate.setDate(startDate.getDate() - 6);
-
-  const formatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
-  return `${formatter.format(startDate)} - ${formatter.format(endDate)}`;
-}
-
 export default async function DigestPage() {
-  // In production, fetch from database
-  const digests = generateMockDigests();
+  const digests = await getDigestIssues(12);
   const latestDigest = digests[0];
 
   return (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo, use } from 'react';
-import { Newspaper, Clock, ExternalLink, Loader2, ArrowLeft, Tag } from 'lucide-react';
+import { Clock, ExternalLink, Loader2, ArrowLeft, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { NewsGridSkeleton } from '@/components/Skeleton';
 import ErrorState from '@/components/ErrorState';
@@ -77,7 +77,7 @@ export default function CategoryNewsPage({ params }: { params: Promise<{ categor
     setError(null);
 
     try {
-      const res = await fetch('/api/news?limit=100', {
+      const res = await fetch(`/api/news?limit=100&category=${encodeURIComponent(decodedCategory)}`, {
         cache: 'no-store',
       });
 
@@ -88,11 +88,7 @@ export default function CategoryNewsPage({ params }: { params: Promise<{ categor
       const data = await res.json();
 
       if (data.success && data.data) {
-        // Filter by category (case-insensitive)
-        const filtered = data.data.filter(
-          (item: AINewsItem) => item.category.toLowerCase() === decodedCategory.toLowerCase()
-        );
-        setNews(filtered);
+        setNews(data.data);
       } else {
         setError('Failed to load news');
       }
