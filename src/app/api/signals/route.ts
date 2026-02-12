@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { buildLiveSignals } from '@/lib/signals-service';
 import { getAuthUser } from '@/lib/auth-session';
 import { prisma } from '@/lib/prisma';
-import { annotateSignalsWithWatchlist, filterSignalsByWatchlist } from '@/lib/watchlist-matching';
+import { rankSignalsForUser } from '@/lib/signal-personalization';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,11 +13,13 @@ export async function GET(request: Request) {
     const watchlistOnly = searchParams.get('watchlistOnly') === 'true';
     const personalized = searchParams.get('personalized') === 'true';
 
-    const { signals, context } = await buildLiveSignals(limit);
+    const candidateLimit = personalized || watchlistOnly ? Math.max(limit * 3, 30) : limit;
+    const { signals, context } = await buildLiveSignals(candidateLimit);
 
     let data = signals;
     let matchedCount = 0;
     let userWatchlistCount = 0;
+    let scoringVersion: string | null = null;
 
     if (watchlistOnly || personalized) {
       const authUser = await getAuthUser();
@@ -34,15 +36,33 @@ export async function GET(request: Request) {
       });
       const entities = watchlistItems.map((item) => item.entity);
       userWatchlistCount = entities.length;
+      const [preferences, readHistory] = await Promise.all([
+        prisma.userPreferences.findUnique({ where: { userId: authUser.id } }),
+        prisma.readHistory.findMany({
+          where: { userId: authUser.id },
+          orderBy: { readAt: 'desc' },
+          take: 250,
+          select: {
+            articleType: true,
+            readAt: true,
+          },
+        }),
+      ]);
 
-      if (watchlistOnly) {
-        data = filterSignalsByWatchlist(signals, entities);
-        matchedCount = data.length;
-      } else {
-        const annotated = annotateSignalsWithWatchlist(signals, entities);
-        matchedCount = annotated.filter((signal) => signal.watchlistMatch).length;
-        data = annotated;
-      }
+      const ranked = rankSignalsForUser({
+        signals,
+        watchlistEntities: entities,
+        preferences,
+        readHistory,
+        limit,
+        watchlistOnly,
+      });
+
+      data = ranked.data;
+      matchedCount = ranked.matchedCount;
+      scoringVersion = ranked.scoringVersion;
+    } else {
+      data = signals.slice(0, Math.min(Math.max(limit, 1), 100));
     }
 
     return NextResponse.json({
@@ -55,6 +75,7 @@ export async function GET(request: Request) {
         watchlistOnly,
         userWatchlistCount,
         matchedCount,
+        scoringVersion,
       },
       updatedAt: new Date().toISOString(),
     });

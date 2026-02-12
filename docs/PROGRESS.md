@@ -57,6 +57,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add personalized mode support to `/api/digest/preview`
 - `DONE` Wire `/briefs` page to auto-load personalized brief preview for signed-in users with generic digest fallback
 - `DONE` Add signed-in/signed-out personalization state indicator on `/briefs` preview panel
+- `DONE` Add personalized ranking in `/api/signals` using watchlists, user preferences, and read history with transparent score breakdown metadata
 
 ### M4: QA and Release Readiness
 
