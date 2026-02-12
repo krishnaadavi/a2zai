@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
-import { Brain, TrendingUp, Download, ExternalLink, Search } from 'lucide-react';
+import { Brain, TrendingUp, Download } from 'lucide-react';
 import { fetchTrendingModels } from '@/lib/huggingface';
+import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
 
 export const metadata: Metadata = {
     title: 'AI Models | A2Z AI',
@@ -54,11 +55,11 @@ export default async function ModelsPage() {
                 <div className="max-w-6xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {models.map((model) => (
-                            <a
+                            <ReadTrackedExternalLink
                                 key={model.name}
                                 href={model.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                articleId={`model-${model.name.toLowerCase().replace(/\s+/g, '-')}`}
+                                articleType="model"
                                 className="group flex flex-col p-5 rounded-xl bg-gray-900 border border-gray-800 hover:border-cyan-500/50 transition-all hover:scale-[1.02]"
                             >
                                 {/* Type & Trend */}
@@ -87,7 +88,7 @@ export default async function ModelsPage() {
                                     <Download className="h-4 w-4" />
                                     <span>{model.downloads} downloads</span>
                                 </div>
-                            </a>
+                            </ReadTrackedExternalLink>
                         ))}
                     </div>
 

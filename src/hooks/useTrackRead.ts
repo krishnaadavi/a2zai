@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 
-type ArticleType = 'news' | 'glossary' | 'explainer' | 'research' | 'model';
+type ArticleType = 'news' | 'glossary' | 'explainer' | 'research' | 'model' | 'funding';
 
 export function useTrackRead(articleId: string, articleType: ArticleType) {
   const { status } = useSession();

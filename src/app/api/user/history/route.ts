@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     }
 
     // Validate articleType
-    const validTypes = ['news', 'glossary', 'explainer', 'research', 'model'];
+    const validTypes = ['news', 'glossary', 'explainer', 'research', 'model', 'funding'];
     if (!validTypes.includes(articleType)) {
       return NextResponse.json(
         { success: false, error: 'Invalid articleType' },

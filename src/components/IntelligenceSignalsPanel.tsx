@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Loader2, Newspaper, Sparkles } from 'lucide-react';
-import TrackedExternalLink from '@/components/TrackedExternalLink';
+import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
 
 type SignalItem = {
   id: string;
@@ -130,10 +130,15 @@ export default function IntelligenceSignalsPanel() {
         const reasons = item.personalizationScore?.reasons?.slice(0, 2) || [];
         const showReasons = view === 'recommended' && reasons.length > 0;
 
+        const articleType =
+          item.eventType === 'model_release' ? 'model' : item.eventType === 'funding' ? 'funding' : 'news';
+
         return (
-          <TrackedExternalLink
+          <ReadTrackedExternalLink
             key={item.id}
             href={item.url}
+            articleId={item.id}
+            articleType={articleType}
             eventName="intelligence_item_opened"
             eventParams={{ location: 'intelligence_feed', rank: idx + 1, view }}
             className="block p-4 rounded-xl bg-gray-900 border border-gray-800 hover:border-purple-500/50 transition-colors"
@@ -158,7 +163,7 @@ export default function IntelligenceSignalsPanel() {
                 ))}
               </div>
             )}
-          </TrackedExternalLink>
+          </ReadTrackedExternalLink>
         );
       })}
     </div>

@@ -17,6 +17,7 @@ import Link from 'next/link';
 import {
   type FundingRound,
 } from '@/lib/funding-data';
+import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -265,14 +266,14 @@ export default function FundingPage() {
                         <div className="flex items-center gap-3 mb-1">
                           <h3 className="text-lg font-bold text-white">{round.company}</h3>
                           {round.website && (
-                            <a
+                            <ReadTrackedExternalLink
                               href={round.website}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                              articleId={round.id}
+                              articleType="funding"
                               className="text-gray-500 hover:text-emerald-400 transition-colors"
                             >
                               <ExternalLink className="h-4 w-4" />
-                            </a>
+                            </ReadTrackedExternalLink>
                           )}
                         </div>
                         <p className="text-gray-400 text-sm">{round.description}</p>

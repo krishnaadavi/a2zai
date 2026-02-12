@@ -2,7 +2,7 @@
 
 import { useTrackRead } from '@/hooks/useTrackRead';
 
-type ArticleType = 'news' | 'glossary' | 'explainer' | 'research' | 'model';
+type ArticleType = 'news' | 'glossary' | 'explainer' | 'research' | 'model' | 'funding';
 
 interface ReadTrackerProps {
   articleId: string;

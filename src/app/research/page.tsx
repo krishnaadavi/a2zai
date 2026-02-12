@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
-import { BookOpen, FileText, Users, Calendar, ExternalLink } from 'lucide-react';
+import { BookOpen, FileText, Users, Calendar } from 'lucide-react';
 import { fetchLatestPapers } from '@/lib/arxiv';
+import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
 
 export const metadata: Metadata = {
     title: 'AI Research | A2Z AI',
@@ -45,27 +46,27 @@ export default async function ResearchPage() {
                                     <span className="flex-shrink-0 px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 text-xs">
                                         arXiv
                                     </span>
-                                    <a
+                                    <ReadTrackedExternalLink
                                         href={paper.arxivUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                        articleId={paper.id}
+                                        articleType="research"
                                         className="flex items-center gap-1 text-emerald-400 text-sm hover:underline"
                                     >
                                         <FileText className="h-4 w-4" />
                                         PDF
-                                    </a>
+                                    </ReadTrackedExternalLink>
                                 </div>
 
                                 {/* Title */}
-                                <a
+                                <ReadTrackedExternalLink
                                     href={paper.arxivUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    articleId={paper.id}
+                                    articleType="research"
                                 >
                                     <h2 className="text-xl font-semibold text-white group-hover:text-emerald-300 transition-colors mb-3">
                                         {paper.title}
                                     </h2>
-                                </a>
+                                </ReadTrackedExternalLink>
 
                                 {/* Summary */}
                                 <p className="text-gray-400 text-sm line-clamp-3 mb-4">

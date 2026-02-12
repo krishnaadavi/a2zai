@@ -6,6 +6,7 @@ import Link from 'next/link';
 import NewsFilters from '@/components/NewsFilters';
 import { NewsGridSkeleton } from '@/components/Skeleton';
 import ErrorState, { EmptyFilterState } from '@/components/ErrorState';
+import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
 
 interface AINewsItem {
   id: string;
@@ -230,11 +231,11 @@ export default function NewsPage() {
               {/* News Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {displayedNews.map((item) => (
-                  <a
+                  <ReadTrackedExternalLink
                     key={item.id}
                     href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    articleId={item.id}
+                    articleType="news"
                     className="group flex flex-col p-5 rounded-xl bg-gray-900 border border-gray-800 hover:border-purple-500/50 transition-all hover:shadow-lg hover:shadow-purple-500/10"
                   >
                     {/* Category */}
@@ -265,7 +266,7 @@ export default function NewsPage() {
                       </div>
                       <ExternalLink className="h-4 w-4 text-gray-600 group-hover:text-purple-400 transition-colors flex-shrink-0" />
                     </div>
-                  </a>
+                  </ReadTrackedExternalLink>
                 ))}
               </div>
 
