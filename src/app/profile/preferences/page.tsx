@@ -133,7 +133,7 @@ export default function PreferencesPage() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      redirect('/api/auth/signin');
+      redirect('/signin');
     }
   }, [status]);
 

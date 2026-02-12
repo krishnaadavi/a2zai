@@ -44,7 +44,7 @@ export default async function WatchlistsPage() {
                   Save companies, startups, and model ecosystems you want to monitor.
                 </p>
                 <TrackedLink
-                  href="/api/auth/signin"
+                  href="/signin"
                   eventName="hero_watchlist_cta_clicked"
                   eventParams={{ location: 'watchlists_page' }}
                   className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold"

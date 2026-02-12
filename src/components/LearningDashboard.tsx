@@ -27,7 +27,7 @@ export default function LearningDashboard({
           Sign in to track your learning progress across glossary terms and AI 101 lessons.
         </p>
         <Link
-          href="/api/auth/signin"
+          href="/signin"
           className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-sm font-medium transition-colors"
         >
           Sign in to start

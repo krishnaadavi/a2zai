@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <path d="M0 0.5H47.5V48" stroke="rgba(255,255,255,0.18)"/>
+  <path d="M0 12.5H47.5" stroke="rgba(255,255,255,0.12)"/>
+  <path d="M0 24.5H47.5" stroke="rgba(255,255,255,0.12)"/>
+  <path d="M0 36.5H47.5" stroke="rgba(255,255,255,0.12)"/>
+  <path d="M12.5 0V48" stroke="rgba(255,255,255,0.12)"/>
+  <path d="M24.5 0V48" stroke="rgba(255,255,255,0.12)"/>
+  <path d="M36.5 0V48" stroke="rgba(255,255,255,0.12)"/>
+</svg>

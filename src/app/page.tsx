@@ -220,7 +220,7 @@ export default async function Home() {
                     : 'Sign in to build your personalized watchlist and get entity-level alerts.'}
                 </p>
                 <TrackedLink
-                  href={session ? '/watchlists' : '/api/auth/signin'}
+                  href={session ? '/watchlists' : '/signin'}
                   eventName="hero_watchlist_cta_clicked"
                   eventParams={{ location: 'home_sidebar' }}
                   className="inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200 font-medium"

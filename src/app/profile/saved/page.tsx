@@ -47,7 +47,7 @@ export default function SavedArticlesPage() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      redirect('/api/auth/signin');
+      redirect('/signin');
     }
   }, [status]);
 

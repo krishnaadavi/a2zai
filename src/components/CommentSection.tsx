@@ -306,7 +306,7 @@ export default function CommentSection({ articleId, articleType }: CommentSectio
           <LogIn className="w-8 h-8 text-gray-500 mx-auto mb-2" />
           <p className="text-gray-400 mb-3">Sign in to join the discussion</p>
           <Link
-            href="/api/auth/signin"
+            href="/signin"
             className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
           >
             Sign In

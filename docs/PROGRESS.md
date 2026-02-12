@@ -71,8 +71,11 @@ Phase: Phase 1 (Reposition + IA foundation)
 ### M4: QA and Release Readiness
 
 - `IN_PROGRESS` Regression test core routes (`/`, `/learn`, `/news`, `/models`, `/companies`)
-- `PENDING` Validate responsive layouts
+- `IN_PROGRESS` Validate responsive layouts
 - `IN_PROGRESS` Smoke-test API endpoints with fallbacks
+- `DONE` Add dedicated `/signin` page with clear OAuth error messaging and callback-safe Google trigger
+- `DONE` Normalize auth entry links/redirects to `/signin` (replacing direct `/api/auth/signin` links)
+- `DONE` Add missing `public/grid.svg` hero background asset to remove recurring production 404
 
 ### Latest Session Update (2026-02-11)
 
