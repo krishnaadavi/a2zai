@@ -56,6 +56,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add `/api/briefs/personalized` endpoint for user-specific brief output
 - `DONE` Add personalized mode support to `/api/digest/preview`
 - `DONE` Wire `/briefs` page to auto-load personalized brief preview for signed-in users with generic digest fallback
+- `DONE` Add signed-in/signed-out personalization state indicator on `/briefs` preview panel
 
 ### M4: QA and Release Readiness
 
