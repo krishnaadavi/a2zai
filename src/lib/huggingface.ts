@@ -101,7 +101,7 @@ export async function fetchTrendingModelsDetailed(limit: number = 10): Promise<T
         return {
             data: models.map(model => ({
                 name: model.id.split('/').pop() || model.id,
-                provider: model.author,
+                provider: model.author || model.id.split('/')[0] || 'HuggingFace',
                 trend: calculateTrend(model.likes, model.downloads),
                 downloads: model.downloads,
                 type: getPipelineType(model.pipeline_tag),

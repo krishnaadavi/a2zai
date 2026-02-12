@@ -47,7 +47,6 @@ export async function fetchLiveFundingHeadlines(limit: number = 8): Promise<Fund
         };
         if (payload.status === 'success' && Array.isArray(payload.results)) {
           return payload.results
-            .filter((item) => isFundingStory(`${item.title} ${item.description || ''}`))
             .slice(0, Math.min(Math.max(limit, 1), 20))
             .map((item) => ({
               id: item.article_id,
