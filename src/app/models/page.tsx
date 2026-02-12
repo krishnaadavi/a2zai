@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Brain, TrendingUp, Download } from 'lucide-react';
-import { fetchTrendingModels } from '@/lib/huggingface';
+import { fetchTrendingModelsDetailed } from '@/lib/huggingface';
 import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
 
 export const metadata: Metadata = {
@@ -12,7 +12,8 @@ export const revalidate = 0;
 export const dynamic = 'force-dynamic';
 
 export default async function ModelsPage() {
-    const models = await fetchTrendingModels(20);
+    const modelsResult = await fetchTrendingModelsDetailed(20);
+    const models = modelsResult.data;
 
     // Group by type for stats
     const types = models.reduce((acc, model) => {
@@ -95,8 +96,13 @@ export default async function ModelsPage() {
                     {/* Source Attribution */}
                     <div className="text-center mt-12">
                         <p className="text-gray-500 text-sm">
-                            Data from <a href="https://huggingface.co" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">HuggingFace Hub</a> • Updated hourly
+                            Data from <a href="https://huggingface.co" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">HuggingFace Hub</a> • Updated live
                         </p>
+                        {modelsResult.source === 'fallback' && (
+                            <p className="text-amber-400 text-xs mt-2">
+                                Live model feed is temporarily unavailable. Showing fallback sample models.
+                            </p>
+                        )}
                     </div>
                 </div>
             </section>

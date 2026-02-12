@@ -23,6 +23,12 @@ export interface TrendingModel {
     url: string;
 }
 
+export type TrendingModelsResult = {
+    data: TrendingModel[];
+    source: 'huggingface' | 'fallback';
+    updatedAt: string;
+};
+
 interface HFAPIModel {
     _id: string;
     id: string;
@@ -61,53 +67,62 @@ function getPipelineType(pipelineTag?: string): string {
     return typeMap[pipelineTag || ''] || 'AI Model';
 }
 
-// Format download count
-function formatDownloads(downloads: number): string {
-    if (downloads >= 1_000_000) return `${(downloads / 1_000_000).toFixed(1)}M`;
-    if (downloads >= 1_000) return `${(downloads / 1_000).toFixed(1)}K`;
-    return downloads.toString();
-}
-
 // Calculate trend percentage (mock - based on likes)
 function calculateTrend(likes: number, downloads: number): string {
     const score = Math.min(30, Math.round((likes / Math.max(1, downloads)) * 1000));
     return `+${score}%`;
 }
 
-export async function fetchTrendingModels(limit: number = 10): Promise<TrendingModel[]> {
+export async function fetchTrendingModelsDetailed(limit: number = 10): Promise<TrendingModelsResult> {
     try {
-        // Fetch trending models from HuggingFace
-        // Sort by trending score (downloads in last 7 days)
-        const url = `https://huggingface.co/api/models?sort=trending&direction=-1&limit=${limit}&filter=text-generation`;
+        const safeLimit = Math.min(Math.max(limit, 1), 50);
+        // Use broad trending feed to avoid stale text-only filter.
+        const url = `https://huggingface.co/api/models?sort=trendingScore&direction=-1&limit=${safeLimit}`;
+        const headers: HeadersInit = process.env.HUGGINGFACE_API_KEY
+            ? { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` }
+            : {};
 
         const response = await fetch(url, {
-            headers: {
-                Authorization: process.env.HUGGINGFACE_API_KEY
-                    ? `Bearer ${process.env.HUGGINGFACE_API_KEY}`
-                    : '',
-            },
-            next: { revalidate: 3600 }, // Cache for 1 hour
+            headers,
+            cache: 'no-store',
         });
 
         if (!response.ok) {
             console.error('HuggingFace API error:', response.status);
-            return getMockModels();
+            return {
+                data: getMockModels(),
+                source: 'fallback',
+                updatedAt: new Date().toISOString(),
+            };
         }
 
         const models: HFAPIModel[] = await response.json();
 
-        return models.map(model => ({
-            name: model.id.split('/').pop() || model.id,
-            provider: model.author,
-            trend: calculateTrend(model.likes, model.downloads),
-            downloads: model.downloads,
-            type: getPipelineType(model.pipeline_tag),
-            url: `https://huggingface.co/${model.id}`,
-        }));
+        return {
+            data: models.map(model => ({
+                name: model.id.split('/').pop() || model.id,
+                provider: model.author,
+                trend: calculateTrend(model.likes, model.downloads),
+                downloads: model.downloads,
+                type: getPipelineType(model.pipeline_tag),
+                url: `https://huggingface.co/${model.id}`,
+            })),
+            source: 'huggingface',
+            updatedAt: new Date().toISOString(),
+        };
     } catch (error) {
         console.error('Error fetching HuggingFace models:', error);
-        return getMockModels();
+        return {
+            data: getMockModels(),
+            source: 'fallback',
+            updatedAt: new Date().toISOString(),
+        };
     }
+}
+
+export async function fetchTrendingModels(limit: number = 10): Promise<TrendingModel[]> {
+    const result = await fetchTrendingModelsDetailed(limit);
+    return result.data;
 }
 
 // Fetch specific categories of models

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { FUNDING_CATEGORIES, ROUND_TYPES } from '@/lib/funding-data';
+import { fetchLiveFundingHeadlines } from '@/lib/funding-headlines';
 import { getFundingStats, queryFundingRounds } from '@/lib/funding-service';
 
 export const dynamic = 'force-dynamic';
@@ -22,7 +23,12 @@ export async function GET(request: Request) {
       q,
       sortBy,
     });
+    const liveHeadlines = await fetchLiveFundingHeadlines(8);
     const stats = getFundingStats(rounds);
+    const latestCuratedDate = rounds[0]?.date ?? null;
+    const staleDays = latestCuratedDate
+      ? Math.floor((Date.now() - new Date(latestCuratedDate).getTime()) / (1000 * 60 * 60 * 24))
+      : null;
 
     return NextResponse.json({
       success: true,
@@ -31,6 +37,12 @@ export async function GET(request: Request) {
       stats,
       categories: FUNDING_CATEGORIES,
       roundTypes: ROUND_TYPES,
+      liveHeadlines,
+      freshness: {
+        latestCuratedDate,
+        staleDays,
+        hasLiveHeadlines: liveHeadlines.length > 0,
+      },
       source: 'curated',
       updatedAt: new Date().toISOString(),
     });

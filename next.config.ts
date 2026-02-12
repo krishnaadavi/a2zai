@@ -51,6 +51,24 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: '/funding',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, must-revalidate',
+          },
+        ],
+      },
+      {
+        source: '/intelligence',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, must-revalidate',
+          },
+        ],
+      },
     ];
   },
 };

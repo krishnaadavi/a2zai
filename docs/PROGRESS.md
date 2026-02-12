@@ -76,6 +76,9 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add dedicated `/signin` page with clear OAuth error messaging and callback-safe Google trigger
 - `DONE` Normalize auth entry links/redirects to `/signin` (replacing direct `/api/auth/signin` links)
 - `DONE` Add missing `public/grid.svg` hero background asset to remove recurring production 404
+- `DONE` Improve models freshness by switching HuggingFace fetch to live no-store mode, broad trending query, and explicit fallback source metadata
+- `DONE` Add live funding headline ingestion (NewsData-filtered) and surface alongside curated rounds for recency coverage
+- `DONE` Add funding/intelligence no-store cache headers and curated funding freshness indicators in funding API/page
 
 ### Latest Session Update (2026-02-11)
 

@@ -15,9 +15,11 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import {
+  FUNDING_ROUNDS,
   type FundingRound,
 } from '@/lib/funding-data';
 import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
+import type { FundingHeadline } from '@/lib/funding-headlines';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -33,9 +35,12 @@ function formatAmount(amountNum: number): string {
 
 export default function FundingPage() {
   const [rounds, setRounds] = useState<FundingRound[]>([]);
+  const [liveHeadlines, setLiveHeadlines] = useState<FundingHeadline[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [roundTypes, setRoundTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [staleDays, setStaleDays] = useState<number | null>(null);
+  const [apiSource, setApiSource] = useState<'curated' | 'fallback'>('curated');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedRoundType, setSelectedRoundType] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -46,13 +51,21 @@ export default function FundingPage() {
       try {
         const res = await fetch('/api/funding?limit=500', { cache: 'no-store' });
         const data = await res.json();
-        if (data.success) {
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
           setRounds(data.data || []);
           setCategories(data.categories || []);
           setRoundTypes(data.roundTypes || []);
+          setLiveHeadlines(data.liveHeadlines || []);
+          setStaleDays(data.freshness?.staleDays ?? null);
+          setApiSource(data.source === 'curated' ? 'curated' : 'fallback');
+        } else {
+          setRounds(FUNDING_ROUNDS);
+          setApiSource('fallback');
         }
       } catch (error) {
         console.error('Failed to load funding data:', error);
+        setRounds(FUNDING_ROUNDS);
+        setApiSource('fallback');
       } finally {
         setLoading(false);
       }
@@ -131,9 +144,19 @@ export default function FundingPage() {
             <h1 className="text-2xl md:text-4xl font-bold text-white">AI Startup Funding</h1>
           </div>
           <p className="text-gray-400 text-base md:text-lg max-w-2xl mb-8">
-            Track the latest funding rounds, valuations, and investors in the AI industry.
-            From seed to IPO, stay informed on where the money flows.
+            Track AI startup rounds from our curated database and scan live funding headlines.
+            Stay informed on where the money flows.
           </p>
+          {staleDays !== null && staleDays > 45 && (
+            <p className="text-xs text-amber-400 mb-4">
+              Curated rounds are {staleDays} days old. Check live funding headlines below for current activity.
+            </p>
+          )}
+          {apiSource === 'fallback' && (
+            <p className="text-xs text-amber-400 mb-4">
+              Funding API is unavailable. Showing bundled curated rounds.
+            </p>
+          )}
 
           {/* Stats Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -241,6 +264,28 @@ export default function FundingPage() {
       {/* Main Content */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto">
+          {liveHeadlines.length > 0 && (
+            <div className="mb-8 p-5 bg-gray-900/50 rounded-xl border border-gray-800">
+              <h2 className="text-lg font-semibold text-white mb-3">Live Funding Headlines</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {liveHeadlines.map((item) => (
+                  <ReadTrackedExternalLink
+                    key={item.id}
+                    href={item.url}
+                    articleId={`funding-headline-${item.id}`}
+                    articleType="funding"
+                    className="p-3 rounded-lg bg-gray-950 border border-gray-800 hover:border-emerald-500/40 transition-colors"
+                  >
+                    <p className="text-sm text-white line-clamp-2">{item.title}</p>
+                    <p className="text-xs text-gray-500 mt-2">
+                      {item.source} • {formatDate(item.publishedAt)}
+                    </p>
+                  </ReadTrackedExternalLink>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Funding Rounds List */}
             <div className="lg:col-span-2">
@@ -250,7 +295,7 @@ export default function FundingPage() {
                     ? 'Loading funding rounds...'
                     : hasActiveFilters
                     ? `${filteredRounds.length} Results`
-                    : 'Recent Funding Rounds'}
+                    : 'Curated Funding Rounds'}
                 </h2>
               </div>
 
