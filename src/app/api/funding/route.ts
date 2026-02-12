@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { FUNDING_CATEGORIES, ROUND_TYPES } from '@/lib/funding-data';
 import { fetchLiveFundingHeadlines } from '@/lib/funding-headlines';
 import { fetchLiveFundingSignals } from '@/lib/funding-live-service';
+import { getFundingProviderStatus } from '@/lib/funding-provider';
 import { getFundingStats, queryFundingRounds } from '@/lib/funding-service';
 
 export const dynamic = 'force-dynamic';
@@ -24,6 +25,7 @@ export async function GET(request: Request) {
       q,
       sortBy,
     });
+    const provider = getFundingProviderStatus();
     const [liveHeadlines, liveSignals] = await Promise.all([
       fetchLiveFundingHeadlines(8),
       fetchLiveFundingSignals(10),
@@ -49,6 +51,7 @@ export async function GET(request: Request) {
         hasLiveSignals: liveSignals.length > 0,
       },
       source: 'curated',
+      provider,
       liveSignals,
       updatedAt: new Date().toISOString(),
     });

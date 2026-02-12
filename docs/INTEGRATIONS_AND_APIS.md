@@ -100,6 +100,11 @@ Required for full production parity:
 - `RESEND_API_KEY`
 - `CRON_SECRET`
 
+Optional for live funding provider integration:
+- `FUNDING_PROVIDER` (`dealroom` or `crunchbase`)
+- `DEALROOM_API_KEY` (when `FUNDING_PROVIDER=dealroom`)
+- `CRUNCHBASE_API_KEY` (when `FUNDING_PROVIDER=crunchbase`)
+
 ## Security Notes
 
 - Never commit `.env` files.

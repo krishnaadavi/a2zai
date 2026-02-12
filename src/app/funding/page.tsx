@@ -21,6 +21,7 @@ import {
 import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
 import type { FundingHeadline } from '@/lib/funding-headlines';
 import type { LiveFundingSignal } from '@/lib/funding-live-service';
+import type { FundingProviderStatus } from '@/lib/funding-provider';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -38,6 +39,7 @@ export default function FundingPage() {
   const [rounds, setRounds] = useState<FundingRound[]>([]);
   const [liveHeadlines, setLiveHeadlines] = useState<FundingHeadline[]>([]);
   const [liveSignals, setLiveSignals] = useState<LiveFundingSignal[]>([]);
+  const [providerStatus, setProviderStatus] = useState<FundingProviderStatus | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
   const [roundTypes, setRoundTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,6 +61,7 @@ export default function FundingPage() {
           setRoundTypes(data.roundTypes || []);
           setLiveHeadlines(data.liveHeadlines || []);
           setLiveSignals(data.liveSignals || []);
+          setProviderStatus(data.provider || null);
           setStaleDays(data.freshness?.staleDays ?? null);
           setApiSource(data.source === 'curated' ? 'curated' : 'fallback');
         } else {
@@ -153,6 +156,11 @@ export default function FundingPage() {
           {staleDays !== null && staleDays > 45 && (
             <p className="text-xs text-amber-400 mb-4">
               Curated rounds are {staleDays} days old. Check live funding headlines below for current activity.
+            </p>
+          )}
+          {providerStatus?.enabled === false && providerStatus?.configuredProvider === 'none' && (
+            <p className="text-xs text-cyan-300 mb-4">
+              Live funding provider not connected yet. Using curated rounds + live news-derived signals.
             </p>
           )}
           {apiSource === 'fallback' && (
