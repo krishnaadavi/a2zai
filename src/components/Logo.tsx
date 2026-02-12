@@ -57,7 +57,7 @@ export default function Logo({ size = 'md', showTagline = false, className = '' 
           </span>
           {showTagline && (
             <span className="text-[10px] text-gray-500 tracking-wide mt-0.5">
-              Stay AI-current
+              AI intelligence platform
             </span>
           )}
         </div>

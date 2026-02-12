@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
 
-export const alt = 'A2Z AI - Your A-to-Z Guide to AI';
+export const alt = 'A2Z AI - AI Intelligence for Builders and Investors';
 export const size = {
   width: 1200,
   height: 630,
@@ -104,7 +104,7 @@ export default async function Image() {
             marginBottom: 30,
           }}
         >
-          Your A-to-Z Guide to AI
+          AI Intelligence for Builders and Investors
         </div>
 
         {/* Value prop */}
@@ -120,7 +120,7 @@ export default async function Image() {
           }}
         >
           <span style={{ fontSize: 24, color: '#d8b4fe' }}>
-            Stay AI-current in 5 minutes a day
+            Track companies, funding, and model releases
           </span>
         </div>
       </div>

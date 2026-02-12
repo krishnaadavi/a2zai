@@ -84,8 +84,8 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h3 className="text-white font-bold text-lg">Stay AI-current in 5 minutes</h3>
-              <p className="text-gray-400 text-sm mt-1">Free daily digest. No spam, unsubscribe anytime.</p>
+              <h3 className="text-white font-bold text-lg">Get AI intelligence briefs fast</h3>
+              <p className="text-gray-400 text-sm mt-1">Daily and weekly briefs. No spam, unsubscribe anytime.</p>
             </div>
             {subscribed ? (
               <div className="flex items-center gap-2 text-green-400">

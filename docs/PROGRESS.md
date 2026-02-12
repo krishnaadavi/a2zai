@@ -54,6 +54,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Basic analytics event wiring added for watchlist, intelligence, briefs, and learn CTA clicks
 - `DONE` Targeted lint validation passed for all modified files
 - `DONE` Deployment access verified (GitHub auth, Vercel auth, project inspect, production alias check)
+- `DONE` Phase 1.6 copy consistency sweep on key branded surfaces (logo tagline, footer/newsletter copy, About page, JSON-LD, Open Graph image text)
 
 ## Open Decisions
 

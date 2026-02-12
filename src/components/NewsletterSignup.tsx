@@ -114,7 +114,7 @@ export default function NewsletterSignup({ variant = 'hero', className = '' }: N
                 )}
 
                 <p className="text-gray-500 text-sm mt-2 text-center">
-                    Free daily digest. No spam, unsubscribe anytime.
+                    Free intelligence briefs. No spam, unsubscribe anytime.
                 </p>
             </div>
         );
@@ -123,8 +123,8 @@ export default function NewsletterSignup({ variant = 'hero', className = '' }: N
     // Sidebar variant - more compact
     return (
         <div className={`bg-gray-800 rounded-xl p-6 ${className}`}>
-            <h3 className="text-white font-bold text-lg mb-2">Stay AI-current</h3>
-            <p className="text-gray-400 text-sm mb-4">Get the top 5 AI stories in your inbox daily.</p>
+            <h3 className="text-white font-bold text-lg mb-2">Get AI intelligence briefs</h3>
+            <p className="text-gray-400 text-sm mb-4">Receive high-signal updates on companies, funding, and models.</p>
 
             <form onSubmit={handleSubmit}>
                 <input
@@ -140,7 +140,7 @@ export default function NewsletterSignup({ variant = 'hero', className = '' }: N
                     disabled={loading || !email}
                     className="w-full py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transition-all disabled:opacity-50"
                 >
-                    {loading ? 'Subscribing...' : 'Subscribe Free'}
+                    {loading ? 'Subscribing...' : 'Get Briefs Free'}
                 </button>
             </form>
 

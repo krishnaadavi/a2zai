@@ -116,9 +116,9 @@ export function WebsiteJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'A2Z AI',
-    alternateName: 'A2Z AI - Your A-to-Z Guide to AI',
+    alternateName: 'A2Z AI - AI Intelligence for Builders and Investors',
     url: 'https://a2zai.ai',
-    description: 'Your A-to-Z guide to AI. Byte-sized AI news, model updates, and learning resources.',
+    description: 'Track AI companies, funding, model releases, and market signals in one intelligence feed.',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
