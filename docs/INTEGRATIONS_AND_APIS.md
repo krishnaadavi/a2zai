@@ -103,7 +103,7 @@ Required for full production parity:
 - `CRON_SECRET`
 
 Optional for live funding provider integration:
-- `FUNDING_PROVIDER` (`dealroom`, `crunchbase`, or `thenewsapi`)
+- `FUNDING_PROVIDER` (`dealroom`, `crunchbase`, `thenewsapi`, or `newsdata`)
 - `DEALROOM_API_KEY` (when `FUNDING_PROVIDER=dealroom`)
 - `CRUNCHBASE_API_KEY` (when `FUNDING_PROVIDER=crunchbase`)
 - `THE_NEWS_API_TOKEN` (when `FUNDING_PROVIDER=thenewsapi`)
