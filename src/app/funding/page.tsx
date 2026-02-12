@@ -20,6 +20,7 @@ import {
 } from '@/lib/funding-data';
 import ReadTrackedExternalLink from '@/components/ReadTrackedExternalLink';
 import type { FundingHeadline } from '@/lib/funding-headlines';
+import type { LiveFundingSignal } from '@/lib/funding-live-service';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -36,6 +37,7 @@ function formatAmount(amountNum: number): string {
 export default function FundingPage() {
   const [rounds, setRounds] = useState<FundingRound[]>([]);
   const [liveHeadlines, setLiveHeadlines] = useState<FundingHeadline[]>([]);
+  const [liveSignals, setLiveSignals] = useState<LiveFundingSignal[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [roundTypes, setRoundTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,6 +58,7 @@ export default function FundingPage() {
           setCategories(data.categories || []);
           setRoundTypes(data.roundTypes || []);
           setLiveHeadlines(data.liveHeadlines || []);
+          setLiveSignals(data.liveSignals || []);
           setStaleDays(data.freshness?.staleDays ?? null);
           setApiSource(data.source === 'curated' ? 'curated' : 'fallback');
         } else {
@@ -280,6 +283,31 @@ export default function FundingPage() {
                     <p className="text-xs text-gray-500 mt-2">
                       {item.source} • {formatDate(item.publishedAt)}
                     </p>
+                  </ReadTrackedExternalLink>
+                ))}
+              </div>
+            </div>
+          )}
+          {liveSignals.length > 0 && (
+            <div className="mb-8 p-5 bg-gray-900/50 rounded-xl border border-emerald-500/20">
+              <h2 className="text-lg font-semibold text-white mb-3">Live Deal Signals (news-derived)</h2>
+              <div className="space-y-3">
+                {liveSignals.map((signal) => (
+                  <ReadTrackedExternalLink
+                    key={signal.id}
+                    href={signal.url}
+                    articleId={`funding-signal-${signal.id}`}
+                    articleType="funding"
+                    className="block p-3 rounded-lg bg-gray-950 border border-gray-800 hover:border-emerald-500/40 transition-colors"
+                  >
+                    <div className="flex flex-wrap items-center gap-2 text-xs">
+                      <span className="text-emerald-300 font-semibold">{signal.company}</span>
+                      {signal.amount && <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300">{signal.amount}</span>}
+                      {signal.round && <span className="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 uppercase">{signal.round}</span>}
+                      <span className="text-gray-500">Confidence {signal.confidence}</span>
+                    </div>
+                    <p className="text-sm text-white mt-1 line-clamp-2">{signal.title}</p>
+                    <p className="text-xs text-gray-500 mt-1">{signal.source} • {formatDate(signal.publishedAt)}</p>
                   </ReadTrackedExternalLink>
                 ))}
               </div>

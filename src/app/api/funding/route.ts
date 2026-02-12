@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { FUNDING_CATEGORIES, ROUND_TYPES } from '@/lib/funding-data';
 import { fetchLiveFundingHeadlines } from '@/lib/funding-headlines';
+import { fetchLiveFundingSignals } from '@/lib/funding-live-service';
 import { getFundingStats, queryFundingRounds } from '@/lib/funding-service';
 
 export const dynamic = 'force-dynamic';
@@ -23,7 +24,10 @@ export async function GET(request: Request) {
       q,
       sortBy,
     });
-    const liveHeadlines = await fetchLiveFundingHeadlines(8);
+    const [liveHeadlines, liveSignals] = await Promise.all([
+      fetchLiveFundingHeadlines(8),
+      fetchLiveFundingSignals(10),
+    ]);
     const stats = getFundingStats(rounds);
     const latestCuratedDate = rounds[0]?.date ?? null;
     const staleDays = latestCuratedDate
@@ -42,8 +46,10 @@ export async function GET(request: Request) {
         latestCuratedDate,
         staleDays,
         hasLiveHeadlines: liveHeadlines.length > 0,
+        hasLiveSignals: liveSignals.length > 0,
       },
       source: 'curated',
+      liveSignals,
       updatedAt: new Date().toISOString(),
     });
   } catch (error) {
