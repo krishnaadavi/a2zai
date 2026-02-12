@@ -59,6 +59,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add signed-in/signed-out personalization state indicator on `/briefs` preview panel
 - `DONE` Add personalized ranking in `/api/signals` using watchlists, user preferences, and read history with transparent score breakdown metadata
 - `DONE` Add temporary admin debug endpoint to inspect personalized ranking payloads (`/api/admin/personalization/signals`)
+- `DONE` Add Intelligence feed `Recommended` vs `Latest` toggle with personalized “why this signal” reason chips
 
 ### M4: QA and Release Readiness
 

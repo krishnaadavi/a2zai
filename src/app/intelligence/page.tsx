@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Newspaper, Brain, Rocket, Building2 } from 'lucide-react';
-import { fetchAINews } from '@/lib/newsdata';
+import { ArrowRight, Brain, Rocket, Building2 } from 'lucide-react';
 import { fetchTrendingModels } from '@/lib/huggingface';
 import { FUNDING_ROUNDS } from '@/lib/funding-data';
-import TrackedExternalLink from '@/components/TrackedExternalLink';
-import { buildSignalFeed } from '@/lib/signal-normalizer';
+import IntelligenceSignalsPanel from '@/components/IntelligenceSignalsPanel';
 
 export const metadata: Metadata = {
   title: 'Intelligence | A2Z AI',
@@ -19,21 +17,11 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function IntelligencePage() {
-  const [news, models] = await Promise.all([
-    fetchAINews(8),
-    fetchTrendingModels(6),
-  ]);
+  const models = await fetchTrendingModels(6);
 
   const recentFunding = [...FUNDING_ROUNDS]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 6);
-  const signals = buildSignalFeed({
-    news,
-    models,
-    funding: recentFunding,
-    limit: 14,
-  });
-
   return (
     <div className="min-h-screen bg-gray-950">
       <section className="bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 py-10 px-4 border-b border-gray-800">
@@ -48,25 +36,7 @@ export default async function IntelligencePage() {
       <section className="py-10 px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
-            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-              <Newspaper className="h-5 w-5 text-purple-300" />
-              Latest Signals
-            </h2>
-            {signals.map((item, idx) => (
-              <TrackedExternalLink
-                key={item.id}
-                href={item.url}
-                eventName="intelligence_item_opened"
-                eventParams={{ location: 'intelligence_feed', rank: idx + 1 }}
-                className="block p-4 rounded-xl bg-gray-900 border border-gray-800 hover:border-purple-500/50 transition-colors"
-              >
-                <span className="text-xs px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 uppercase">
-                  {item.eventType.replace('_', ' ')}
-                </span>
-                <h3 className="text-white font-semibold mt-2">{item.title}</h3>
-                <p className="text-sm text-gray-500 mt-2 line-clamp-1">{item.source} • {item.entityName}</p>
-              </TrackedExternalLink>
-            ))}
+            <IntelligenceSignalsPanel />
           </div>
 
           <div className="space-y-6">

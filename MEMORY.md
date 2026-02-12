@@ -75,3 +75,4 @@ Last updated: 2026-02-11
 - 2026-02-11 (Briefs personalization UX): Added signed-in/signed-out indicator and contextual guidance on `/briefs` preview panel, including prompts to sign in or add watchlist entities when personalization is unavailable.
 - 2026-02-11 (Signal ranking personalization): Implemented `/api/signals` ranking for authenticated users based on watchlist matches, topic preferences, and recent read behavior, and exposed per-signal `personalizationScore` breakdown metadata for explainability.
 - 2026-02-11 (Admin personalization debug): Added temporary protected endpoint `/api/admin/personalization/signals` (guarded by `CRON_SECRET`) to inspect ranked signal outputs and scoring behavior for a selected user.
+- 2026-02-11 (Intelligence UI personalization): Reworked `/intelligence` feed list into a client-side panel with `Recommended` vs `Latest` toggle and user-facing “why this signal” chips sourced from personalized ranking reasons.
