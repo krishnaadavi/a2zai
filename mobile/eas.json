@@ -37,7 +37,7 @@
         "appleTeamId": "T5TA38CZB4"
       },
       "android": {
-        "serviceAccountKeyPath": ""
+        "track": "internal"
       }
     }
   }

@@ -48,7 +48,10 @@
               "pathPrefix": "/news"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
@@ -76,8 +79,10 @@
     "extra": {
       "apiBaseUrl": "https://a2zai.ai",
       "eas": {
-        "projectId": ""
-      }
-    }
+        "projectId": "a64628c5-5d65-423e-a86b-c5f9da6b6277"
+      },
+      "router": {}
+    },
+    "owner": "adavi"
   }
 }
