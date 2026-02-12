@@ -84,6 +84,7 @@ Phase: Phase 1 (Reposition + IA foundation)
 - `DONE` Add persistent funding snapshot storage models + ingest telemetry (`FundingSignalSnapshot`, `FundingSnapshotRun`)
 - `DONE` Add funding snapshot service and serve cached live signals/headlines from DB in `/api/funding`
 - `DONE` Add funding ingest admin + cron endpoints (`/api/admin/funding/ingest`, `/api/cron/funding/ingest`) and 6-hour cron schedule
+- `DONE` Tune funding ingest heuristics (broader keywords/queries + lower confidence threshold + baseline fallback) to improve non-zero snapshot fill rates under low-signal conditions
 
 ### Latest Session Update (2026-02-11)
 
