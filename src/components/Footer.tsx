@@ -34,11 +34,13 @@ export default function Footer() {
   };
 
   const footerLinks = {
-    discover: [
-      { label: 'News', href: '/news' },
+    intelligence: [
+      { label: 'Intelligence Feed', href: '/intelligence' },
       { label: 'Models', href: '/models' },
-      { label: 'Research', href: '/research' },
       { label: 'Companies', href: '/companies' },
+      { label: 'Funding', href: '/funding' },
+      { label: 'Watchlists', href: '/watchlists' },
+      { label: 'Briefs', href: '/briefs' },
     ],
     learn: [
       { label: 'Learning Hub', href: '/learn' },
@@ -48,6 +50,7 @@ export default function Footer() {
     company: [
       { label: 'About', href: '/about' },
       { label: 'Newsletter', href: '/#newsletter' },
+      { label: 'Privacy Policy', href: '/privacy' },
     ],
   };
 
@@ -127,8 +130,8 @@ export default function Footer() {
               <Logo size="md" showTagline />
             </Link>
             <p className="text-gray-500 text-sm max-w-xs mb-6">
-              Your A-to-Z guide to AI. Curated news, models, research, and byte-sized learning for
-              busy professionals.
+              Intelligence-first AI tracking for builders and investors, with education and learning tools
+              built in.
             </p>
             {/* Social Links */}
             <div className="flex gap-3">
@@ -147,13 +150,13 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Discover Links */}
+          {/* Intelligence Links */}
           <div>
             <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              Discover
+              Intelligence
             </h3>
             <ul className="space-y-3">
-              {footerLinks.discover.map((link) => (
+              {footerLinks.intelligence.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Zap,
-  Newspaper,
   Brain,
   BookOpen,
   Building2,
@@ -23,6 +22,8 @@ import {
   GitCompare,
   Search,
   MessageSquare,
+  BellRing,
+  Radar,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import UserMenu from './UserMenu';
@@ -50,30 +51,32 @@ export default function AppHeader() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchModal = useSearchModal();
 
-  // Navigation structure with dropdowns
+  const trackEvent = (eventName: string, params?: Record<string, string>) => {
+    if (typeof window === 'undefined') return;
+    const gtagFn = (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
+    if (typeof gtagFn === 'function') {
+      gtagFn('event', eventName, params || {});
+    }
+  };
+
+  // Intelligence-first navigation structure
   const navItems: NavItem[] = [
-    { href: '/', label: 'Home', icon: Zap },
+    { href: '/intelligence', label: 'Intelligence', icon: Radar },
+    { href: '/companies', label: 'Companies', icon: Building2 },
+    { href: '/funding', label: 'Funding', icon: Rocket },
+    { href: '/models', label: 'Models', icon: Brain },
+    { href: '/watchlists', label: 'Watchlists', icon: BellRing },
+    { href: '/briefs', label: 'Briefs', icon: Mail },
     {
-      label: 'Discover',
+      label: 'Build',
       icon: TrendingUp,
       dropdown: [
-        { href: '/news', label: 'AI News', description: 'Latest headlines & updates', icon: Newspaper },
-        { href: '/digest', label: 'Weekly Digest', description: 'Curated weekly roundup', icon: Mail },
-        { href: '/models', label: 'Models', description: 'Trending AI models', icon: Brain },
-        { href: '/research', label: 'Research', description: 'Academic papers', icon: FileText },
-        { href: '/companies', label: 'Companies', description: 'AI industry leaders', icon: Building2 },
-        { href: '/funding', label: 'Funding', description: 'Startup investments', icon: Rocket },
-      ],
-    },
-    {
-      label: 'Tools',
-      icon: Wrench,
-      dropdown: [
+        { href: '/news', label: 'News Stream', description: 'Latest AI headlines and sources', icon: FileText },
+        { href: '/research', label: 'Research', description: 'Academic papers and breakthroughs', icon: BookOpen },
         { href: '/tools', label: 'AI Tools', description: 'Directory of 60+ tools', icon: Wrench },
         { href: '/compare', label: 'Compare Models', description: 'GPT-4 vs Claude vs Gemini', icon: GitCompare },
         { href: '/prompts', label: 'Prompt Library', description: 'Ready-to-use prompts', icon: MessageSquare },
         { href: '/use-cases', label: 'Use Cases', description: 'Practical AI applications', icon: Lightbulb },
-        { href: '/courses', label: 'Courses', description: 'Learn AI/ML online', icon: GraduationCap },
       ],
     },
     {
@@ -83,14 +86,18 @@ export default function AppHeader() {
         { href: '/learn', label: 'Learning Hub', description: 'Start your AI journey', icon: BookOpen },
         { href: '/learn/101', label: 'AI 101', description: '15-lesson curriculum', icon: GraduationCap },
         { href: '/learn/glossary', label: 'Glossary', description: '130+ AI terms', icon: BookMarked },
+        { href: '/courses', label: 'Courses', description: 'Learn AI/ML online', icon: Zap },
       ],
     },
   ];
 
   // Close mobile menu on route change
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setActiveDropdown(null);
+    const frameId = requestAnimationFrame(() => {
+      setMobileMenuOpen(false);
+      setActiveDropdown(null);
+    });
+    return () => cancelAnimationFrame(frameId);
   }, [pathname]);
 
   // Close dropdown when clicking outside
@@ -201,6 +208,11 @@ export default function AppHeader() {
                 <Link
                   key={item.href}
                   href={item.href!}
+                  onClick={() => {
+                    if (item.href === '/watchlists') {
+                      trackEvent('hero_watchlist_cta_clicked', { location: 'header_nav' });
+                    }
+                  }}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive(item.href!)
                       ? 'text-purple-300 bg-purple-500/10'
@@ -228,11 +240,12 @@ export default function AppHeader() {
               </kbd>
             </button>
             <Link
-              href="/#newsletter"
+              href="/briefs"
+              onClick={() => trackEvent('brief_subscribe_clicked', { location: 'header' })}
               className="hidden md:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg hover:from-purple-500 hover:to-cyan-500 transition-all shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 font-semibold text-sm"
             >
               <Sparkles className="h-4 w-4" />
-              Subscribe
+              Get Brief
             </Link>
             <UserMenu />
           </div>
@@ -268,7 +281,7 @@ export default function AppHeader() {
                 className="flex items-center gap-3 w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-400"
               >
                 <Search className="h-5 w-5" />
-                <span>Search glossary, lessons...</span>
+                <span>Search signals, companies, learn...</span>
               </button>
             </div>
 
@@ -324,11 +337,12 @@ export default function AppHeader() {
               {/* Mobile Subscribe Button */}
               <div className="mt-6 pt-6 border-t border-gray-800">
                 <Link
-                  href="/#newsletter"
+                  href="/briefs"
+                  onClick={() => trackEvent('brief_subscribe_clicked', { location: 'mobile_menu' })}
                   className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg font-semibold"
                 >
                   <Sparkles className="h-4 w-4" />
-                  Subscribe to Newsletter
+                  Get Daily Brief
                 </Link>
               </div>
             </nav>
