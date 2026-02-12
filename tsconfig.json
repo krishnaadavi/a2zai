@@ -37,7 +37,9 @@
     "**/*.mts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "mobile",
+    "mobile/**/*"
   ],
   "extends": "expo/tsconfig.base"
 }
