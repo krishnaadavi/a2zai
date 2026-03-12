@@ -43,3 +43,4 @@ npx expo start
 - Mobile app is in `mobile/`
 - API routes are in `src/app/api/`
 - DB schema is in `prisma/schema.prisma`
+- small update 03122026 1:56pm
